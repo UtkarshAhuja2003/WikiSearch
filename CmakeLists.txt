@@ -10,13 +10,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB_RECURSE SRC_FILES "src/*.cpp")
 
-set(ENABLE_CXX, ON)
+add_subdirectory(dependencies/libexpat/expat)
 
 add_executable(WikiSearch ${SRC_FILES})
 
-# Set include directories.
-target_include_directories(WikiSearch PRIVATE src/include)
+# Link against expat library
+target_link_libraries(WikiSearch PRIVATE expat)
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+# Set include directories.
+target_include_directories(WikiSearch PRIVATE dependencies/libexpat)
