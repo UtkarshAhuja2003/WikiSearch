@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.29.0)
+project(WikiSearch VERSION 0.1.0 LANGUAGES C CXX)
+
+set(EXEC_NAME WikiSearch)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+file(GLOB_RECURSE SRC_FILES "src/*.cpp")
+
+set(ENABLE_CXX, ON)
+
+add_executable(WikiSearch ${SRC_FILES})
+
+# Set include directories.
+target_include_directories(WikiSearch PRIVATE src/include)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)

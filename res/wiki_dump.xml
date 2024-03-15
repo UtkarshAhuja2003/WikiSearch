@@ -1,0 +1,939 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.10/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.10/ http://www.mediawiki.org/xml/export-0.10.xsd" version="0.10" xml:lang="en">
+  <siteinfo>
+    <sitename>Wikipedia</sitename>
+    <dbname>enwiki</dbname>
+    <base>https://en.wikipedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.42.0-wmf.18</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Wikipedia</namespace>
+      <namespace key="5" case="first-letter">Wikipedia talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="100" case="first-letter">Portal</namespace>
+      <namespace key="101" case="first-letter">Portal talk</namespace>
+      <namespace key="118" case="first-letter">Draft</namespace>
+      <namespace key="119" case="first-letter">Draft talk</namespace>
+      <namespace key="710" case="first-letter">TimedText</namespace>
+      <namespace key="711" case="first-letter">TimedText talk</namespace>
+      <namespace key="828" case="first-letter">Module</namespace>
+      <namespace key="829" case="first-letter">Module talk</namespace>
+      <namespace key="2300" case="case-sensitive">Gadget</namespace>
+      <namespace key="2301" case="case-sensitive">Gadget talk</namespace>
+      <namespace key="2302" case="case-sensitive">Gadget definition</namespace>
+      <namespace key="2303" case="case-sensitive">Gadget definition talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Mondovì, Italy</title>
+    <ns>0</ns>
+    <id>76145953</id>
+    <redirect title="Mondovì" />
+    <revision>
+      <id>1209199742</id>
+      <timestamp>2024-02-20T19:46:05Z</timestamp>
+      <contributor>
+        <username>Habst</username>
+        <id>12317794</id>
+      </contributor>
+      <comment>#REDIRECT [[Mondovì]] {{RCS|{{R undis}}}}</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="42" xml:space="preserve">#REDIRECT [[Mondovì]]
+{{RCS|{{R undis}}}}</text>
+      <sha1>seugxjtkyefrnc5utxf3xgrei1g4yoo</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Agropoli, Italy</title>
+    <ns>0</ns>
+    <id>76145955</id>
+    <redirect title="Agropoli" />
+    <revision>
+      <id>1209199843</id>
+      <timestamp>2024-02-20T19:46:28Z</timestamp>
+      <contributor>
+        <username>Habst</username>
+        <id>12317794</id>
+      </contributor>
+      <comment>#REDIRECT [[Agropoli]] {{RCS|{{R undis}}}}</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="42" xml:space="preserve">#REDIRECT [[Agropoli]]
+{{RCS|{{R undis}}}}</text>
+      <sha1>eqzjx21et3qsw2uc3r6ufosyssq42ys</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Me Pongo Loca</title>
+    <ns>0</ns>
+    <id>76145956</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209199857</id>
+      <timestamp>2024-02-20T19:46:33Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Cinisello Balsamo, Italy</title>
+    <ns>0</ns>
+    <id>76145958</id>
+    <redirect title="Cinisello Balsamo" />
+    <revision>
+      <id>1209199920</id>
+      <timestamp>2024-02-20T19:46:53Z</timestamp>
+      <contributor>
+        <username>Habst</username>
+        <id>12317794</id>
+      </contributor>
+      <comment>#REDIRECT [[Cinisello Balsamo]] {{RCS|{{R undis}}}}</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="51" xml:space="preserve">#REDIRECT [[Cinisello Balsamo]]
+{{RCS|{{R undis}}}}</text>
+      <sha1>7k0vjwnl7r3g9bnaknkkz2lg92l2fjw</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Franz Pfeiffer (disambiguation)</title>
+    <ns>0</ns>
+    <id>76145959</id>
+    <redirect title="Franz Pfeiffer" />
+    <revision>
+      <id>1209199930</id>
+      <timestamp>2024-02-20T19:46:55Z</timestamp>
+      <contributor>
+        <username>Rodw</username>
+        <id>125972</id>
+      </contributor>
+      <comment>Creating redirect to [[Franz Pfeiffer]] using [[User:Qwertyytrewqqwerty/DisamAssist|DisamAssist]].</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="57" xml:space="preserve">#REDIRECT [[Franz Pfeiffer]] {{R to disambiguation page}}</text>
+      <sha1>r9ohwx859dg6epugeolxda26co3mvfn</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Beddington bus garage</title>
+    <ns>0</ns>
+    <id>76145960</id>
+    <redirect title="Abellio London" />
+    <revision>
+      <id>1209199939</id>
+      <timestamp>2024-02-20T19:46:59Z</timestamp>
+      <contributor>
+        <username>Pedroperezhumberto</username>
+        <id>36317025</id>
+      </contributor>
+      <comment>add redirect</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="43" xml:space="preserve">#REDIRECT[[Abellio London#Beddington (BC)]]</text>
+      <sha1>hszu8ck6sbhlpyv0znsu7tibw6qwqs2</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Renfrew County Road 514</title>
+    <ns>0</ns>
+    <id>76145961</id>
+    <redirect title="List of numbered roads in Renfrew County" />
+    <revision>
+      <id>1209199955</id>
+      <timestamp>2024-02-20T19:47:04Z</timestamp>
+      <contributor>
+        <username>MuzikMachine</username>
+        <id>27673057</id>
+      </contributor>
+      <comment>Created redirect.</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="54" xml:space="preserve">#REDIRECT [[List of numbered roads in Renfrew County]]</text>
+      <sha1>s41h2tmi3t2jic3w7bi3vt3lf9ks2st</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Pensamientos Intrusivos</title>
+    <ns>0</ns>
+    <id>76145962</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209199960</id>
+      <timestamp>2024-02-20T19:47:05Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Elisabeth Djouka</title>
+    <ns>0</ns>
+    <id>76145963</id>
+    <revision>
+      <id>1209235398</id>
+      <parentid>1209202707</parentid>
+      <timestamp>2024-02-20T23:00:55Z</timestamp>
+      <contributor>
+        <username>Jkaharper</username>
+        <id>913893</id>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="3730" xml:space="preserve">{{Short description|Cameroonian nationalist militant (died 2024)}}
+{{Infobox person
+| name          = Elisabeth Djouka
+| image         = &lt;!-- filename only, no &quot;File:&quot; or &quot;Image:&quot; prefix, and no enclosing [[brackets]] --&gt;
+| alt           = &lt;!-- descriptive text for use by speech synthesis (text-to-speech) software --&gt;
+| caption       = 
+| birth_name    = &lt;!-- only use if different from name --&gt;
+| birth_date    = 
+| birth_place   = 
+| death_date    = 11 February 2024
+| death_place   = 
+| nationality   = Cameroonian
+| other_names   = 
+| occupation    = Militant
+| years_active  = 
+| known_for     = 
+| notable_works = 
+}}
+
+'''Elisabeth Djouka''' (died 11 February 2024) was a Cameroonian nationalist militant.&lt;ref&gt;{{cite news |last= |first= |date=12 February 2024|title=Cameroun :: La Combattante Maman Djouka Elisabeth Alias La Douce Est Morte :: Cameroon|trans-title= |url=https://www.camer.be/84383/11:1/cameroun-la-combattante-maman-djouka-elisabeth-alias-la-douce-est-morte-cameroon.html|language=French|work=Camber.be|location= |access-date=20 February 2024}}&lt;/ref&gt; She was known for her incarceration in [[Bafoussam]] Prison and her mugshot captioned &quot;outlaw&quot;.&lt;ref name=&quot;Outlaw&quot;&gt;{{cite news |last= |first= |date=8 March 2024|title=Martin Singap et Djouka Elisabeth|trans-title= |url=https://lvslcam.wordpress.com/2018/03/08/page/2/|language=French|work=La vérité sur le Cameroun|location= |access-date=20 February 2024}}&lt;/ref&gt;
+
+==Biography==
+Djouka was originally from [[Bamendjou]]&lt;ref&gt;{{cite news |last=Ketch|first=Arol|date=6 December 2021|title=Soutenons maman Djouka Elisabeth, une combattante oubliée|trans-title= |url=https://www.arolketchraconte.com/2021/12/06/soutenons-maman-djouka-elisabeth-une-combattante-oubliee/|language=French|work=Arol Ketch Raconte|location= |access-date=20 February 2024}}&lt;/ref&gt; and took on arms training in [[Batié, Cameroon|Batié]] while she was only a teenager.&lt;ref&gt;{{cite news |last= |first= |date=12 February 2024|title=Le Cameroun pleure la perte d'Elisabeth Djouka, nationaliste engagée|trans-title= |url=https://www.scoopernews.com/2024/02/12/le-cameroun-pleure-la-perte-d-elisabeth-djouka-nationaliste-engag-e/53338568|language=French|work=Scooper|location= |access-date=20 February 2024}}&lt;/ref&gt; She was nicknamed &quot;la douce&quot;, or &quot;the sweet one&quot; because she cooked food for her fellow militants.
+
+A committed nationalist, Djouka was a young bride and her family believed she had died following her first arrest. She was thrown into Bafoussam Prison&lt;ref&gt;{{cite news |last= |first= |date=2 January 2020|title=Rappel mémoire: 1er janvier 1960, proclamation de l'indépendance du Cameroun|trans-title= |url=http://audanet.afrikblog.com/archives/2020/01/02/37907713.html|language=French|work=Afrikblog|location= |access-date=20 February 2024}}&lt;/ref&gt; and became famous from her mugshot, taken in February 1969.&lt;ref name=&quot;Outlaw&quot;/&gt; Several sources alleged that she suffered extensive sexual assault, rendering her infertile.&lt;ref&gt;{{cite web|url=https://www.facebook.com/watch/?v=919866385320538|title=Maman Djouka Elisabeth vous remercie !!|date=22 December 2021|work=Facebook|language=French}}&lt;/ref&gt;
+
+Elisabeth Djouka died on 11 February 2024. Her funeral was organised for 2 March 2024.&lt;ref&gt;{{cite news |last=Jackson|first=Joseph|date=20 February 2024|title=Maman Djouka Elisabeth Obituary A Tribute to a Brave Woman in Cameroon|trans-title= |url=https://erldc.org/obituary/maman-djouka-elisabeth-obituary/|language= |work=Entertainment Regional Lifestyle Digital Corner|location= |access-date=20 February 2024}}&lt;/ref&gt;
+
+==References==
+{{reflist}}
+
+{{DEFAULTSORT:Djouka, Elisabeth}}
+[[Category:20th-century births]]
+[[Category:Year of birth missing]]
+[[Category:2024 deaths]]</text>
+      <sha1>sgih8svrdbldto7so4zdxncvfhxymwx</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Gabatha (disambiguation)</title>
+    <ns>0</ns>
+    <id>76145966</id>
+    <redirect title="Gabatha" />
+    <revision>
+      <id>1209200112</id>
+      <timestamp>2024-02-20T19:47:50Z</timestamp>
+      <contributor>
+        <username>Rodw</username>
+        <id>125972</id>
+      </contributor>
+      <comment>Creating redirect to [[Gabatha]] using [[User:Qwertyytrewqqwerty/DisamAssist|DisamAssist]].</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="50" xml:space="preserve">#REDIRECT [[Gabatha]] {{R to disambiguation page}}</text>
+      <sha1>bghg69j11cdfpfpf2cxls4e5pfps3v3</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Wikipedia:Good article reassessment/1915 Singapore Mutiny/1</title>
+    <ns>4</ns>
+    <id>76145969</id>
+    <revision>
+      <id>1209200129</id>
+      <timestamp>2024-02-20T19:47:54Z</timestamp>
+      <contributor>
+        <username>Z1720</username>
+        <id>1612380</id>
+      </contributor>
+      <comment>Creating GAR nomination page ([[User:SD0001/GAR-helper|GAR-helper]])</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="562" xml:space="preserve">===[[Wikipedia:Good article reassessment/1915 Singapore Mutiny/1|1915 Singapore Mutiny]]===
+
+: {{al|1915 Singapore Mutiny|noname=yes}} • &lt;span class=&quot;plainlinksneverexpand&quot;&gt;[//en.wikipedia.org/w/index.php?title=Wikipedia:Good_article_reassessment/1915_Singapore_Mutiny/1&amp;action=watch Watch article reassessment page]&lt;/span&gt; • [[Talk:1915 Singapore Mutiny/GA1|Most recent review]]
+: {{GAR/current}}&lt;br/&gt;
+Several uncited passages throughout the article, including entire paragraphs. [[User:Z1720|Z1720]] ([[User talk:Z1720|talk]]) 19:47, 20 February 2024 (UTC)</text>
+      <sha1>0f8i1wl436ovopnoda6mj5qtiek10fz</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Mariano Comense, Italy</title>
+    <ns>0</ns>
+    <id>76145970</id>
+    <redirect title="Mariano Comense" />
+    <revision>
+      <id>1209200188</id>
+      <timestamp>2024-02-20T19:48:10Z</timestamp>
+      <contributor>
+        <username>Habst</username>
+        <id>12317794</id>
+      </contributor>
+      <comment>#REDIRECT [[Mariano Comense]] {{RCS|{{R undis}}}}</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="49" xml:space="preserve">#REDIRECT [[Mariano Comense]]
+{{RCS|{{R undis}}}}</text>
+      <sha1>2en5072mqv1sbddnem8iy5th5l0blkr</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Diosa (Kali Uchis song)</title>
+    <ns>0</ns>
+    <id>76145971</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209200223</id>
+      <timestamp>2024-02-20T19:48:20Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Category:Unsolved deaths in China</title>
+    <ns>14</ns>
+    <id>76145972</id>
+    <revision>
+      <id>1209200229</id>
+      <timestamp>2024-02-20T19:48:22Z</timestamp>
+      <contributor>
+        <username>Smasongarrison</username>
+        <id>16185737</id>
+      </contributor>
+      <comment>[[Category:Deaths in China]] [[Category:Unsolved deaths|China]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="63" xml:space="preserve">[[Category:Deaths in China]]
+[[Category:Unsolved deaths|China]]</text>
+      <sha1>ksp0gof86ig80cy57rn7nr4mnja0975</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Perdiste</title>
+    <ns>0</ns>
+    <id>76145973</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209200296</id>
+      <timestamp>2024-02-20T19:48:41Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Young Rich &amp; in Love</title>
+    <ns>0</ns>
+    <id>76145978</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209200512</id>
+      <timestamp>2024-02-20T19:49:47Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Wikipedia:Sockpuppet investigations/Siddharthmenon2121</title>
+    <ns>4</ns>
+    <id>76145979</id>
+    <revision>
+      <id>1209207075</id>
+      <parentid>1209206198</parentid>
+      <timestamp>2024-02-20T20:24:54Z</timestamp>
+      <contributor>
+        <username>NJZombie</username>
+        <id>796079</id>
+      </contributor>
+      <comment>/* Suspected sockpuppets */</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="4329" xml:space="preserve">&lt;noinclude&gt;__TOC__&lt;/noinclude&gt;
+{{SPIarchive notice|Siddharthmenon2121}}
+{{SPIpriorcases}}
+===20 February 2024===
+{{SPI case status|}}
+====Suspected sockpuppets====
+{{sock list|1=202.191.65.246|2=Vidhyasuja|tools_link=yes}}&lt;!-- Add more accounts or IPs to this template as needed --&gt;
+
+The first two accounts were both active at [[Siddharth Menon (singer)]] on November 20, adding similar information within 20 minutes or so.[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_(singer)&amp;diff=next&amp;oldid=1186008649][https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1186010298&amp;oldid=1186008649] On February 19, the IP address made a large amount of changes to the subject's film credits and awards.[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208913818&amp;oldid=1186075992] Moments later, the sockmaster account began making edits to the infobox photo, claiming to be the subject.[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208916229&amp;oldid=1208915554] After I fixed some header info that had been damaged in a previous edit, and having to restore a previous version to do so, the sockmaster account again stated in an edit summary that they themselves were the subject.[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208925705&amp;oldid=1208919882] Despite a [[WP:COI]] warning from [[User:Czello]],[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208926244&amp;oldid=1208925705] the user continued to edit the article.[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208926367&amp;oldid=1208926244] Minutes later, the IP address began editing again, now claiming to be part of the subject's team.[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208927914&amp;oldid=1208926545] Both accounts received COI warnings from myself and other editors. I opened a case at [[Wikipedia:Conflict of interest/Noticeboard]][https://en.wikipedia.org/w/index.php?title=Wikipedia%3AConflict_of_interest%2FNoticeboard&amp;diff=1208930572&amp;oldid=1208858806] where [[User:Scope creep]] agreed there was a conflict of interest with both accounts.[https://en.wikipedia.org/w/index.php?title=Wikipedia%3AConflict_of_interest%2FNoticeboard&amp;diff=1208947828&amp;oldid=1208939022] They were then warned again[https://en.wikipedia.org/w/index.php?title=User_talk%3ASiddharthmenon2121&amp;diff=1208947520&amp;oldid=1208933090][https://en.wikipedia.org/w/index.php?title=User_talk%3A202.191.65.246&amp;diff=1208941946&amp;oldid=1208932217] and the editing seemed to stop. In the meantime, edits were made to the article, removing all of the unsourced information.[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208933057&amp;oldid=1208932317][https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208940035&amp;oldid=1208933057][https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1208968206&amp;oldid=1208940035] Today, a third account has returned and re-inserted much, if not all, of the previous deleted unsourced information and instructing editors not to remove it.[https://en.wikipedia.org/w/index.php?title=Siddharth_Menon_%28singer%29&amp;diff=1209175682&amp;oldid=1208968206] [[User:NJZombie|NJZombie]] ([[User talk:NJZombie|talk]]) 19:49, 20 February 2024 (UTC) UPDATE: Since filing this report, the current account has made the same claim as the IP account, stating on my talk page that they know the subject personally.[https://en.wikipedia.org/w/index.php?title=User_talk%3ANJZombie&amp;diff=1209203661&amp;oldid=1209203228] Sockmaster account is now asking for editors' phone numbers[https://en.wikipedia.org/w/index.php?title=User_talk:Aadirulez8&amp;diff=prev&amp;oldid=1209165598] and while the newest account is asking me for an e-mail address.[https://en.wikipedia.org/w/index.php?title=User_talk:Vidhyasuja&amp;diff=prev&amp;oldid=1209205819]
+
+====&lt;big&gt;Comments by other users&lt;/big&gt;====
+:&lt;small&gt;''Accused parties may also comment/discuss in this section below. See [[Wikipedia:Sockpuppet investigations/SPI/Guidance#Defending yourself against claims|Defending yourself against claims]].''&lt;/small&gt;
+
+====&lt;big&gt;Clerk, CheckUser, and/or patrolling admin comments&lt;/big&gt;====
+
+
+----&lt;!--- All comments go ABOVE this line, please. --&gt;</text>
+      <sha1>a38tud3l2dd958sg09omjqrcnq1jgnc</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Alpowa Creek</title>
+    <ns>0</ns>
+    <id>76145981</id>
+    <revision>
+      <id>1209200837</id>
+      <parentid>1209200647</parentid>
+      <timestamp>2024-02-20T19:51:26Z</timestamp>
+      <contributor>
+        <username>Shannon1</username>
+        <id>12118640</id>
+      </contributor>
+      <comment>/* See also */</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="5667" xml:space="preserve">{{Infobox river
+| name               = Alpowa Creek
+| native_name        = &lt;!-- {{native name|&lt;tag&gt;|&lt;name&gt;}} or {{native name list |tag1=&lt;tag&gt;|name1=&lt;name&gt; |tag2=&lt;tag&gt;|name2=&lt;name&gt; ... }} --&gt;
+| name_other         = 
+| name_etymology     = 
+| nickname           = 
+&lt;!---------------------- IMAGE--&gt;
+| image              = 
+| image_size         = 
+| image_caption      = 
+| image_alt          = 
+&lt;!---------------------- MAPS --&gt;
+| map                = 
+| map_size           = 
+| map_caption        = 
+| map_alt            = 
+| pushpin_map        = Washington
+| pushpin_map_size   = 
+| pushpin_map_caption= Location of the mouth of Alpowa Creek in Washington
+| pushpin_map_alt    = 
+&lt;!---------------------- LOCATION --&gt;
+| subdivision_type1  = Country
+| subdivision_name1  = [[United States]]
+| subdivision_type2  = State
+| subdivision_name2  = [[Washington (state)|Washington]]
+| subdivision_type3  = County
+| subdivision_name3  = [[Garfield County, Washington|Garfield]], [[Asotin County, Washington|Asotin]]
+| subdivision_type4  = 
+| subdivision_name4  = 
+| subdivision_type5  = 
+| subdivision_name5  = 
+&lt;!---------------------- PHYSICAL CHARACTERISTICS --&gt;
+| length             = {{convert|25.1|mi|km|abbr=on}}&lt;ref name=&quot;NHD&quot;&gt;United States Geological Survey. National Hydrography Dataset high-resolution flowline data. [http://viewer.nationalmap.gov/viewer/ The National Map], accessed February 18, 2024&lt;/ref&gt;
+| width_min          = 
+| width_avg          = 
+| width_max          = 
+| depth_min          = 
+| depth_avg          = 
+| depth_max          = 
+| discharge1_location= 
+| discharge1_min     = 
+| discharge1_avg     = 
+| discharge1_max     = 
+&lt;!---------------------- BASIN FEATURES --&gt;
+| source1            = [[Blue Mountains (Pacific Northwest)|Blue Mountains]]
+| source1_location   = near [[Peola, Washington|Peola]]
+| source1_coordinates= {{coord|46|17|49|N|117|29|37|W}}&lt;ref name=&quot;GNIS&quot;&gt;{{cite gnis|id=1533429|name=Alpowa Creek|entrydate=September 10, 1979|accessdate=February 19, 2024}}&lt;/ref&gt;
+| source1_elevation  = 
+| mouth              = [[Snake River]]
+| mouth_location     = West of [[Lewiston, Idaho|Lewiston]]/[[Clarkston, Washington|Clarkston]]
+| mouth_coordinates  = {{coord|46|25|16|N|117|12|15|W|display=inline,title}}&lt;ref name=&quot;GNIS&quot;/&gt;
+| mouth_elevation    = {{convert|738|ft|m|abbr=on}}&lt;ref name=&quot;GNIS&quot;/&gt;
+| progression        = 
+| river_system       = 
+| basin_size         = 
+| basin_landmarks    = 
+| basin_population   = 
+| tributaries_left   = 
+| tributaries_right  = 
+| waterbodies        = 
+| waterfalls         = 
+| bridges            = 
+| ports              = 
+| custom_label       = 
+| custom_data        = 
+| extra              = 
+}}
+'''Alpowa Creek''' is a stream in [[Garfield County, Washington|Garfield]] and [[Asotin County, Washington|Asotin Counties]], southeastern [[Washington (state)|Washington]]. It starts near [[Peola, Washington|Peola]], about {{convert|10|mi|km}} south of [[Pomeroy, Washington|Pomeroy]], in the foothills of the northern [[Blue Mountains (Pacific Northwest)|Blue Mountains]] just outside the [[Umatilla National Forest]].&lt;ref name=&quot;USGS Peola&quot;&gt;{{Cite web |url=https://topoquest.com/map-detail.php?usgs_cell_id=34750|title=U.S. Geological Survey Topographic Map: Peola, Washington quad |author=U.S. Geological Survey |publisher=TopoQuest |access-date=February 18, 2024}}&lt;/ref&gt; It initially flows north through farmland before descending northeast into a canyon, flanked to the north by Alpowa Ridge and to the south by Knotgrass Ridge.&lt;ref name=&quot;USGS Alpowa Ridge&quot;&gt;{{Cite web |url=https://topoquest.com/map-detail.php?usgs_cell_id=710|title=U.S. Geological Survey Topographic Map: Alpowa Ridge, Washington quad |author=U.S. Geological Survey |publisher=TopoQuest |access-date=February 18, 2024}}&lt;/ref&gt; It receives Stember Creek from the left; downstream of there, [[U.S. Highway 12]] runs parallel to it.&lt;ref name=&quot;USGS Stember Creek&quot;&gt;{{Cite web |url=https://topoquest.com/map-detail.php?usgs_cell_id=43086|title=U.S. Geological Survey Topographic Map: Stember Creek, Washington quad |author=U.S. Geological Survey |publisher=TopoQuest |access-date=February 18, 2024}}&lt;/ref&gt; It empties into the Snake River at [[Lower Granite Lake]], the impoundment formed by [[Lower Granite Dam]], about {{convert|8|mi|km}} to the west of [[Clarkston, Washington|Clarkston]].&lt;ref name=&quot;USGS Silcott Island&quot;&gt;{{Cite web |url=https://topoquest.com/map-detail.php?usgs_cell_id=41326|title=U.S. Geological Survey Topographic Map: Silcott Island, Washington quad |author=U.S. Geological Survey |publisher=TopoQuest |access-date=February 18, 2024}}&lt;/ref&gt;
+
+The creek's name derives from the [[Nez Perce language|Nez Perce]] ''Alpahwah'' or ''Elpawawe'' meaning &quot;a spring forming a creek&quot;, which was the name of a Nez Perce village that once stood at the confluence of Alpowa Creek and the Snake River.&lt;ref&gt;{{cite book|title=Origin of Washington Geographic Names|author=Meany, Edmond Stephen|publisher=University of Washington Press|isbn=9780598974808}}&lt;/ref&gt;{{rp|6}} The creek supports a minor population of Snake River [[steelhead trout]]. Due to the impacts of livestock grazing and water diversion for agriculture, it has been designated a priority restoration reach by the Snake River Salmon Recovery Board.&lt;ref&gt;{{cite web|url=https://srp.rco.wa.gov/project/320/14896|title=MSA Alpowa Creek|publisher=Salmon Recovery Portal|date=|accessdate=February 20, 2024}}&lt;/ref&gt;
+
+==See also==
+*[[List of rivers of Washington (state)|List of rivers of Washington]]
+*[[Indian Timothy Memorial Bridge]]
+
+==References==
+{{reflist}}
+
+[[Category:Rivers of Garfield County, Washington]]
+[[Category:Rivers of Asotin County, Washington]]</text>
+      <sha1>4itodub9wje7m82y7w88ukjrst81oe7</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Radom confederation</title>
+    <ns>0</ns>
+    <id>76145987</id>
+    <redirect title="Radom Confederation" />
+    <revision>
+      <id>1209200779</id>
+      <timestamp>2024-02-20T19:51:07Z</timestamp>
+      <contributor>
+        <username>Elli</username>
+        <id>20842734</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Radom Confederation]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="89" xml:space="preserve">#REDIRECT [[Radom Confederation]]
+
+{{rcat shell|
+{{R from alternative capitalization}}
+}}</text>
+      <sha1>64k8108djex1495n655tuuyn48kr0ox</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Gosses Bluff crater</title>
+    <ns>0</ns>
+    <id>76145989</id>
+    <redirect title="Gosses Bluff impact structure" />
+    <revision>
+      <id>1209200845</id>
+      <timestamp>2024-02-20T19:51:29Z</timestamp>
+      <contributor>
+        <username>Mikenorton</username>
+        <id>1720909</id>
+      </contributor>
+      <comment>Mikenorton moved page [[Gosses Bluff crater]] to [[Gosses Bluff impact structure]]: Generally referred  to as an &quot;impact structure&quot; rather than a crater in scholarly sources</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="90" xml:space="preserve">#REDIRECT [[Gosses Bluff impact structure]]
+
+{{Redirect category shell|
+{{R from move}}
+}}</text>
+      <sha1>fqsgzxsirmyri60m4jc4vuphhckfgfj</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Draft:Justina Wamae</title>
+    <ns>118</ns>
+    <id>76145993</id>
+    <redirect title="Justina Wamae" />
+    <revision>
+      <id>1209200962</id>
+      <timestamp>2024-02-20T19:52:04Z</timestamp>
+      <contributor>
+        <username>Cambalachero</username>
+        <id>6927073</id>
+      </contributor>
+      <comment>Cambalachero moved page [[Draft:Justina Wamae]] to [[Justina Wamae]]: Publishing accepted [[Wikipedia:Articles for creation|Articles for creation]] submission ([[WP:AFCH|AFCH]])</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="74" xml:space="preserve">#REDIRECT [[Justina Wamae]]
+
+{{Redirect category shell|
+{{R from move}}
+}}</text>
+      <sha1>gnd3ajw3ivb5wmtp51eu9vvtku7uerr</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Tu Corazón Es Mío...</title>
+    <ns>0</ns>
+    <id>76145997</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209201047</id>
+      <timestamp>2024-02-20T19:52:29Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Lee Medical Building</title>
+    <ns>0</ns>
+    <id>76146001</id>
+    <revision>
+      <id>1209207510</id>
+      <parentid>1209204130</parentid>
+      <timestamp>2024-02-20T20:27:34Z</timestamp>
+      <contributor>
+        <username>DrOrinScrivello</username>
+        <id>45620980</id>
+      </contributor>
+      <comment>More history</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="3678" xml:space="preserve">{{Infobox NRHP
+| name                           = Lee Medical Building
+| nrhp_type                      =
+| designated_other1              = Virginia Landmarks Register
+| designated_other1_date         = December 14, 2017&lt;ref name=register&gt;{{cite web|title=Virginia Landmarks Register|url=https://www.dhr.virginia.gov/historic-registers/127-0174-0393/|publisher=Virginia Department of Historic Resources|access-date=February 19, 2024}}&lt;/ref&gt;
+| designated_other1_number       = 127-0174-0393
+| designated_other1_num_position = bottom
+| image                          = Lee Medical Building, view of front.jpg
+| caption                        = Lee Medical Building in 2018
+| location                       = 1805 Monument Avenue, [[Richmond, Virginia]]
+| coordinates                    = {{coord|37|33|14|N|77|27|39|W|format=dms|display=inline,title}}
+| locmapin                       = Virginia#USA
+| built                          = {{Start date|1952}}
+| architect                      = W. Harrison Pringle
+| architecture                   = [[Colonial Revival]]
+| added                          = April 17, 2018
+| area                           = {{cvt|0.3979|acre}}
+| refnum                         = 100002356&lt;ref name=&quot;nris&quot;&gt;{{NRISref|version=2010a}}&lt;/ref&gt;
+}}
+
+The '''Lee Medical Building''' is a historic office building located in [[Richmond, Virginia]]. It was constructed in 1952, and is a six-story, {{convert|40,000|sqft|sqm|adj=mid}} building designed in the [[Colonial Revival]] style. The building occupies a prominent site on [[Monument Avenue]] in the city, located on a corner lot across from and facing the since-removed [[Robert E. Lee Monument (Richmond, Virginia)|Robert E. Lee Monument]], and was the only office building in that primarily residential neighborhood.
+
+It resides within the [[Monument Avenue Historic District]], but was built outside of that area's period of significance and so is not a contributing structure. The office building itself was listed to the [[National Register of Historic Places]] in 2018.&lt;ref name=VAnom&gt;{{cite web |last=Friedberg |first=Dara A. |date=July 2017 |title=Lee Medical Building Final Nomination |url=https://www.dhr.virginia.gov/wp-content/uploads/2018/09/127-0174-0393_Lee_Medical_Building_2017_NRHP_nomination_FINAL.pdf |publisher=Virginia Department of Historic Resources |access-date=February 19, 2024}}&lt;/ref&gt;
+
+==History==
+The history of [[Monument Avenue]] dates to 1887, when it was decided to place a monument to [[Robert E. Lee]] in a field west of the city of Richmond.&lt;ref name=VAnom/&gt; The area surrounding the monument was [[Plat|platted]] and sold to [[Speculation|speculators]], and city services were extended to the vicinity, but the [[panic of 1893]] cooled the real estate market.&lt;ref name=VAnom/&gt; Though the [[Robert E. Lee Monument (Richmond, Virginia)|monument to Lee]] was dedicated in 1890, it was 1903 before the first house was built on Monument Avenue.&lt;ref name=VAnom/&gt;&lt;ref name=Monument&gt;{{cite web|url=https://www.dhr.virginia.gov/VLR_to_transfer/PDFNoms/127-0181_LeeMonument_2006_nomination_final.pdf|title=National Register of Historic Places Inventory/Nomination: Robert E. Lee Monument|author=Carter, Robert A.|author2=Murdock, Jennifer W.|date=August 2006|publisher=Virginia Department of Historic Resources|access-date=February 20, 2024}}&lt;/ref&gt;
+
+==References==
+{{reflist}}
+
+{{National Register of Historic Places}}
+
+[[Category:National Register of Historic Places in Richmond, Virginia]]
+[[Category:Colonial Revival architecture in Virginia]]
+[[Category:1952 establishments in Virginia]]
+[[Category:Commercial buildings on the National Register of Historic Places in Virginia]]</text>
+      <sha1>qs0sdg4xgrbd13jyf9fnr2z0sxad7tr</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>No Hay Ley Parte 2</title>
+    <ns>0</ns>
+    <id>76146002</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209201184</id>
+      <timestamp>2024-02-20T19:53:09Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Heladito</title>
+    <ns>0</ns>
+    <id>76146003</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209201253</id>
+      <timestamp>2024-02-20T19:53:28Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Category:Lifeboat stations in British Crown Dependencies</title>
+    <ns>14</ns>
+    <id>76146004</id>
+    <revision>
+      <id>1209203991</id>
+      <parentid>1209203826</parentid>
+      <timestamp>2024-02-20T20:07:55Z</timestamp>
+      <contributor>
+        <username>The joy of all things</username>
+        <id>26442336</id>
+      </contributor>
+      <comment>amended cat</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="107" xml:space="preserve">
+[[Category:Royal National Lifeboat Institution]]
+[[Category:Royal National Lifeboat Institution|Stations]]</text>
+      <sha1>1hqsoslqc7tts9wc15oub42hd2nghai</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Frankie O'Connor</title>
+    <ns>0</ns>
+    <id>76146005</id>
+    <redirect title="Frank O&#039;Connor (disambiguation)" />
+    <revision>
+      <id>1209201305</id>
+      <timestamp>2024-02-20T19:53:47Z</timestamp>
+      <contributor>
+        <username>Roman Spinner</username>
+        <id>786437</id>
+      </contributor>
+      <comment>Redirecting main title header delineating the appellation, [[Frankie O'Connor]], to the [[Frank O'Connor (disambiguation)]] page which lists men who bear this name in all its variations and permutations</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="74" xml:space="preserve">#REDIRECT [[Frank O'Connor (disambiguation)]]
+
+{{R from alternative name}}</text>
+      <sha1>snhe8j9n7ve9oua33y2g01lg4kqzoei</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Uma (1941 film)</title>
+    <ns>0</ns>
+    <id>76146008</id>
+    <redirect title="Horse (1941 film)" />
+    <revision>
+      <id>1209201350</id>
+      <timestamp>2024-02-20T19:53:59Z</timestamp>
+      <contributor>
+        <username>Joy</username>
+        <id>20318</id>
+      </contributor>
+      <comment>described over there</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="31" xml:space="preserve">#REDIRECT [[Horse (1941 film)]]</text>
+      <sha1>pzaioq7jeufh340lyp9kqe93psc6udb</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Dame Beso // Muévete</title>
+    <ns>0</ns>
+    <id>76146012</id>
+    <redirect title="Orquídeas" />
+    <revision>
+      <id>1209201444</id>
+      <timestamp>2024-02-20T19:54:27Z</timestamp>
+      <contributor>
+        <username>Floppykart</username>
+        <id>44866262</id>
+      </contributor>
+      <comment>[[WP:AES|←]]Redirected page to [[Orquídeas]]</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="71" xml:space="preserve">#REDIRECT [[Orquídeas]]
+
+{{Redirect category shell|
+{{R from song}}
+}}</text>
+      <sha1>kemd9gy6bgvl9py08xazjfujuwv87bd</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Dhala crater</title>
+    <ns>0</ns>
+    <id>76146015</id>
+    <redirect title="Dhala impact structure" />
+    <revision>
+      <id>1209201503</id>
+      <timestamp>2024-02-20T19:54:45Z</timestamp>
+      <contributor>
+        <username>Mikenorton</username>
+        <id>1720909</id>
+      </contributor>
+      <comment>Mikenorton moved page [[Dhala crater]] to [[Dhala impact structure]]: Generally referred  to as an &quot;impact structure&quot; rather than a crater in scholarly sources</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="83" xml:space="preserve">#REDIRECT [[Dhala impact structure]]
+
+{{Redirect category shell|
+{{R from move}}
+}}</text>
+      <sha1>b3mqsnl5ihdxzkk9djezczsh2z97yk1</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Did you know nominations/Robert H. Brooks (soldier)</title>
+    <ns>10</ns>
+    <id>76146017</id>
+    <revision>
+      <id>1209237805</id>
+      <parentid>1209201667</parentid>
+      <timestamp>2024-02-20T23:16:20Z</timestamp>
+      <contributor>
+        <username>HickoryOughtShirt?4</username>
+        <id>32314202</id>
+      </contributor>
+      <comment>Review</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="2955" xml:space="preserve">{{DYKsubpage
+|monthyear=February 2024 
+|passed=&lt;!--When closing discussion, enter yes, no, or withdrawn --&gt;
+|2=
+{{DYK conditions}}
+{{DYK header|Robert H. Brooks (soldier)}}
+{{DYK nompage links|nompage=Robert H. Brooks (soldier)|Robert H. Brooks (soldier)}}
+&lt;!--
+
+                   Please do not edit above this line unless you are a DYK volunteer who is closing the discussion.
+
+--&gt;
+* ... that the Army only learned that '''[[Robert H. Brooks (soldier)|Robert H. Brooks]]''' was African-American after his death? &lt;small&gt;Source: [https://www.wtvq.com/a-heros-legacy-80th-anniversary-of-first-armored-forces-casualty-in-world-war-two/]&lt;/small&gt;
+** '''ALT1''': ... that '''[[Robert H. Brooks (soldier)|Robert H. Brooks]]''' [[Passing (racial identity)|passed]] as a white man to join an all-white unit? &lt;small&gt;Source: [https://books.google.com/books?id=MPiACgAAQBAJ&amp;newbks=0&amp;printsec=frontcover&amp;pg=PT141&amp;hl=en]&lt;/small&gt;
+** '''ALT2''': ... that '''[[Robert H. Brooks (soldier)|Robert H. Brooks]]''' was the first American tanker killed in [[World War II]]? &lt;small&gt;Source: [https://www.amnews.com/2019/12/13/brooks-was-first-u-s-armored-forces-casualty-in-wwii/]&lt;/small&gt;
+** ''Reviewed'': [[Template:Did you know nominations/Tan Kue Kim]]
+&lt;small&gt;Created by {{user0|Lettler}}. Self-nominated at 19:54, 20 February 2024 (UTC). Post-promotion hook changes for this nom [[User:GalliumBot#darn|will be logged]] at [[Template talk:Did you know nominations/Robert H. Brooks (soldier)]]; consider [[Help:Watchlist|watching]] this nomination, if it is successful, until the hook appears on the Main Page.&lt;/small&gt;
+&lt;!--
+* {{DYKmake|Robert H. Brooks (soldier)|Lettler|subpage=Robert H. Brooks (soldier)}}
+--&gt;
+* {{DYK checklist
+|newness          = y
+|length           = y
+|sourced          = y
+|neutral          = y
+|plagiarismfree   = y
+|hookcited        = y
+|hookinterest     = y
+|picfree          = NA
+|picused          = NA
+|picclear         = NA
+|qpq              = y
+|status           = y
+|comments         = While Earwig shows a 20% similarity with [https://www.amnews.com/2019/12/13/brooks-was-first-u-s-armored-forces-casualty-in-wwii/ this source], it is mostly because of a properly cited and appropriately used quotation. No issue.
+|sign             = [[User:HickoryOughtShirt?4|HickoryOughtShirt?4]] ([[User talk:HickoryOughtShirt?4|talk]]) 23:15, 20 February 2024 (UTC)
+}}
+}}
+: Really interesting article {{U|Lettler}}, I have just a minor comment about sourcing. Ref #1 and #2 differ on where he was born. Ref #2 says {{tq|Brooks was born in MacFarland in 1915, and grew up in Sadieville}} while Ref #1 says Sadieville. Just something that should be rectified but not something that will deter this DYK from passing. [[User:HickoryOughtShirt?4|HickoryOughtShirt?4]] ([[User talk:HickoryOughtShirt?4|talk]]) 23:15, 20 February 2024 (UTC)
+&lt;!--Please do not write below this line or remove this line. Place comments above this line.--&gt;
+{{Pending DYK biographies}}</text>
+      <sha1>94cuk2j1oai16wxucvbjzt6zb7wyzj5</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Dean Turnbull</title>
+    <ns>0</ns>
+    <id>76146020</id>
+    <redirect title="List of Coronation Street characters (2022)" />
+    <revision>
+      <id>1209201692</id>
+      <timestamp>2024-02-20T19:55:36Z</timestamp>
+      <contributor>
+        <username>Raintheone</username>
+        <id>1983027</id>
+      </contributor>
+      <comment>Created redirect to list entry</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="153" xml:space="preserve">#REDIRECT [[List of Coronation Street characters (2022)#Dean Turnbull]]
+
+{{R from fictional character|Coronation Street}}
+
+{{DEFAULTSORT:Turnbull, Dean}}</text>
+      <sha1>cr37cx6o5f8a5ef67kruo51ixip87xj</sha1>
+    </revision>
+  </page>
+  <page>
+    <title>Franklyn O'Connor</title>
+    <ns>0</ns>
+    <id>76146021</id>
+    <redirect title="Frank O&#039;Connor (disambiguation)" />
+    <revision>
+      <id>1209201693</id>
+      <timestamp>2024-02-20T19:55:36Z</timestamp>
+      <contributor>
+        <username>Roman Spinner</username>
+        <id>786437</id>
+      </contributor>
+      <comment>Redirecting main title header delineating the appellation, [[Franklyn O'Connor]], to the [[Frank O'Connor (disambiguation)]] page which lists men who bear this name in all its variations and permutations</comment>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="74" xml:space="preserve">#REDIRECT [[Frank O'Connor (disambiguation)]]
+
+{{R from alternative name}}</text>
+      <sha1>snhe8j9n7ve9oua33y2g01lg4kqzoei</sha1>
+    </revision>
+  </page>
+</mediawiki>
