@@ -24,6 +24,8 @@ jobs:
       - name: Build
         working-directory: ./build
         run: cmake --build . --config Release
+      - name: Debug
+        run: dir /s /b ./build
       - name: Upload executable
         uses: actions/upload-artifact@v2
         with:
