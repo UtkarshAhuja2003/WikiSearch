@@ -1,6 +1,8 @@
 #ifndef PARSE_INDEX_H
 
 #include <expat/lib/expat.h>
+#include <map>
+#include "WikiPage.h"
 
 #define PARSE_INDEX_H
 #define ASSERT(x) if(!(x)) throw std::runtime_error("Error in parsing XML");
@@ -27,6 +29,40 @@ static bool XMLLogCall(XML_Parser parser, const char* functionName, const char* 
     return false;
 }
 
-void build_index(const std::string& wikiDump);
+
+class ParseIndex
+{
+    private:
+        std::string wikiDump;
+        std::map<std::string, long> wikiIndexes;
+
+    public:
+        void buildIndex();
+        void parseWikiPage(const WikiPage& wikiPage);
+        ParseIndex(const std::string& wikiFilePath);
+        const std::map<std::string, long>& getWikiIndexes() const;
+        const std::string& getWikiDump() const;
+        void setWikiDump(const std::string& wikiDump);
+
+};
+
+const std::map<std::string, long>& ParseIndex::getWikiIndexes() const {
+    return wikiIndexes;
+}
+
+ParseIndex::ParseIndex(const std::string& wikiFilePath)
+{
+    this->wikiDump = wikiFilePath;
+}
+
+const std::string& ParseIndex::getWikiDump() const {
+    return wikiDump;
+}
+
+void ParseIndex::setWikiDump(const std::string& wikiDump) {
+    this->wikiDump = wikiDump;
+}
+
+
 
 #endif

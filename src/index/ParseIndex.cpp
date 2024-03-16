@@ -15,8 +15,12 @@ void end(void *userData, const char *name){
 
 }
 
+void ParseIndex::parseWikiPage(const WikiPage& wikiPage)
+{
+    
+}
 
-void build_index(const std::string& wikiDump)
+void ParseIndex::buildIndex()
 {
     XML_Parser parser = XML_ParserCreate(NULL);
     if(!parser)
