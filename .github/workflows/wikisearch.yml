@@ -31,4 +31,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: wikisearch
-          path: build/WikiSearch.exe
+          path: ./build/x64
+      - name: Upload exe
+        uses: actions/upload-artifact@v2
+        with:
+            name: wikisearch
+            path: ./build/Release
