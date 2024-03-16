@@ -1,29 +1,50 @@
-# Workflow for building the project and publishing executable file.
 name: WikiSearch Workflow
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: windows-latest
-    
-    defaults:
-      run:
-        shell: bash
-
+  Build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {
+            name: "Windows/Static/X86/Release",
+            os: windows-2019,
+            config: Release,
+            args: "-G Visual Studio 16 2019 -A Win32"
+          }
+          - {
+            name: "Windows/Static/X64/Release",
+            os: windows-2019,
+            config: Release,
+            args: "-G Visual Studio 16 2019 -A x64"
+          }
+          - {
+            name: "Ubuntu/18.04/Static/X64/Release",
+            os: ubuntu-18.04,
+            config: Release,
+            args: "-DCMAKE_C_COMPILER=/usr/bin/gcc-10 -DCMAKE_CXX_COMPILER=/usr/bin/g++-10"
+          }
+          - {
+            name: "MacOSX/Static/X64/Release",
+            os: macos-10.15,
+            config: Release,
+            args: ""
+          }
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Build directory
-      run: mkdir build && cd build
-
-    - name: Configure CMake
-      run: cmake -G "MinGW Makefiles" ../
-
-    - name: Build
-      run: cmake --build .
+      - uses: actions/checkout@v2
+      - name: Create Work Dir
+        run: mkdir build
+      - name: Configure
+        working-directory: ./build
+        run: |
+          cmake .. ${{ matrix.config.args }} -DCMAKE_BUILD_TYPE=${{ matrix.config.config }}
+      - name: Build
+        working-directory: ./build
+        run: cmake --build . -j --config ${{ matrix.config.config }}
+      - name: Test
+        working-directory: ./build
+        run: ctest -j -C ${{ matrix.config.config }}
