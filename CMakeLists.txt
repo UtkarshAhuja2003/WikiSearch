@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29.0)
+cmake_minimum_required(VERSION 3.28.0)
 project(WikiSearch VERSION 0.1.0 LANGUAGES C CXX)
 
 set(EXEC_NAME WikiSearch)
