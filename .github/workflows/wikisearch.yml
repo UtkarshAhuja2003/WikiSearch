@@ -24,3 +24,8 @@ jobs:
       - name: Build
         working-directory: ./build
         run: cmake --build . --config Release
+      - name: Upload executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: wikisearch
+          path: ./build/WikiSearch.exe
