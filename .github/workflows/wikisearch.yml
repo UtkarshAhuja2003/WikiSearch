@@ -1,5 +1,4 @@
-# Workflow for building the project and publish executable file.
-name: WikiSearch Worklow
+name: WikiSearch Workflow
 
 on:
   push:
@@ -17,9 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: List directory contents
+      run: ls -R
+
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -S ${{github.workspace}}/WikiSearch -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/build -S ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
