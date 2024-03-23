@@ -1,8 +1,6 @@
 #ifndef WikiPage_H
 #define WikiPage_H
 
-#include <string>
-
 class WikiPage
 {
     private:
@@ -11,8 +9,7 @@ class WikiPage
         std::string pageText = "";
 
     public:
-        WikiPage(const std::string& id);
-        ~WikiPage();
+        void clear();
 
         std::string getPageId() const;
         void setPageId(const std::string& id);
@@ -24,16 +21,11 @@ class WikiPage
         void setPageText(const std::string& text);
 };
 
-WikiPage::WikiPage(const std::string& id)
+inline void WikiPage::clear()
 {
-    this->pageId = id;
-}
-
-WikiPage::~WikiPage()
-{
-    this->pageId = "";
-    this->pageText = "";
-    this->pageTitle = "";
+    pageId = "";
+    pageTitle = "";
+    pageText = "";
 }
 
 inline std::string WikiPage::getPageId() const {

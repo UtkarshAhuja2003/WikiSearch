@@ -8,7 +8,7 @@ int main()
     {
         auto start = std::chrono::high_resolution_clock::now();
 
-        std::string wikiDump = "";
+        std::string wikiDump = "../../../wiki/data.xml";
         ParseIndex parseIndex(wikiDump);
         parseIndex.buildIndex();
 
