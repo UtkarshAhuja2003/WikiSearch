@@ -12,15 +12,15 @@ void ParseIndex::value(void *userData, const char *val, int len)
     WikiPage& currentPage = this->currentWikiPage;
     if(currentTag == "id" && currentPage.getPageId() == "")
     {
-        currentPage.setPageId(val);
+        currentPage.setPageId(std::string(val,len));
     }
     else if(currentTag == "title")
     {
-        currentPage.setPageTitle(val);
+        currentPage.setPageTitle(std::string(val,len));
     }
     else if(currentTag == "text")
     {
-        currentPage.setPageText(val);
+        currentPage.setPageText(std::string(val,len));
         this->parseWikiPage();
     }
 }
@@ -38,7 +38,24 @@ void ParseIndex::end(void *userData, const char *name)
 
 void ParseIndex::parseWikiPage()
 {
+    const std::string& text = this->currentWikiPage.getPageText();
+    std::string word = "";
     
+    for(char c : text)
+    {
+        if ((c > 64 && c < 91) || (c > 96 && c < 123))
+        {
+            word += std::tolower(c);
+        }
+        else
+        {
+            if(!this->classifiers.isStopWord(word) && word.length() > 1)
+            {
+                this->wikiIndexes[word].insert(this->currentWikiPage.getPageId());
+            }
+            word = "";
+        }
+    }
 }
 
 
@@ -92,7 +109,7 @@ void ParseIndex::buildIndex()
 }
 
 
-const std::map<std::string, long>& ParseIndex::getWikiIndexes() const {
+const std::map<std::string, std::set<std::string>>& ParseIndex::getWikiIndexes() const {
     return wikiIndexes;
 }
 
