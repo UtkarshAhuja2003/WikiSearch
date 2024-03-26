@@ -39,21 +39,22 @@ void ParseIndex::end(void *userData, const char *name)
 void ParseIndex::parseWikiPage()
 {
     const std::string& text = this->currentWikiPage.getPageText();
-    std::string word = "";
+    std::vector<char> word;
     
     for(char c : text)
     {
-        if ((c > 64 && c < 91) || (c > 96 && c < 123))
+        if (isalpha(c))
         {
-            word += std::tolower(c);
+            word.emplace_back(static_cast<char>(std::tolower(c)));
         }
         else
         {
-            if(!this->classifiers.isStopWord(word) && word.length() > 1)
+            std::string wordString(word.begin(), word.end());
+            if(!this->classifiers.isStopWord(wordString) && word.size() > 1)
             {
-                this->wikiIndexes[word].insert(this->currentWikiPage.getPageId());
+                this->wikiIndexes[wordString].insert(this->currentWikiPage.getPageId());
             }
-            word = "";
+            word.clear();
         }
     }
 }

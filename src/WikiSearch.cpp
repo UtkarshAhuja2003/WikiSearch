@@ -8,13 +8,13 @@ int main()
     {
         auto start = std::chrono::high_resolution_clock::now();
 
-        std::string wikiDump = "../../../wiki/data.xml";
+        std::string wikiDump = "../../../wiki/temp.xml";
         ParseIndex parseIndex(wikiDump);
         parseIndex.buildIndex();
 
         auto end = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-        std::cout << "Success: Index built in " << duration << " milliseconds." << std::endl;
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
+        std::cout << "Success: Index built in " << duration << " seconds." << std::endl;
     }
     catch(const std::exception& e)
     {

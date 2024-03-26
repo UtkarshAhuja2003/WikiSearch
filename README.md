@@ -1,17 +1,45 @@
 # WikiSearch
 
-In memory indexing with set and map
+## Stats
 
-Only a-z and A-Z are in words
+### Configuration 1
 
-Removed StopWords
+- **Indexing Method**: In memory indexing with set and map
+- **Word Filtering**: Only a-z and A-Z in words
+- **Lowercasing**: No
+- **Stopwords Removal**: Yes
 
-## Current Stats
+#### Stats
 
-Wiki Dump = 1 GB
+- **Wiki Dump**: 1 GB
+- **Time Taken**: 642 seconds
+- **CPU Usage**: 25%
+- **Memory Usage**: 2.5 GB
 
-Time Taken - 627 seconds
+### Configuration 2
 
-CPU - 30 %
+- **Indexing Method**: In memory indexing with set and map
+- **Word Filtering**: Only a-z and A-Z in words
+- **Lowercasing**: No
+- **Stopwords Removal**: No
 
-Memory - 2 GB
+#### Stats
+
+- **Wiki Dump**: 1 GB
+- **Time Taken**: 786 seconds
+- **CPU Usage**: 25%
+- **Memory Usage**: 2.8 GB
+
+### Configuration 3
+
+- **Indexing Method**: In memory indexing with set and map
+- **Word Filtering**: Only a-z and A-Z in words
+- **Lowercasing**: Yes
+- **Stopwords Removal**: Yes
+
+#### Stats
+
+- **Wiki Dump**: 1 GB
+- **Time Taken**: 555 seconds
+- **CPU Usage**: 25%
+- **Memory Usage**: 2.2 GB

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include <map>
+#include <vector>
 #include <set>
 #include <stack>
 #include "../utils/ErrorHandler.h"
