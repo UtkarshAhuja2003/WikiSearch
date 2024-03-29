@@ -8,9 +8,12 @@
 #include <vector>
 #include <set>
 #include <stack>
-#include "../utils/ErrorHandler.h"
 #include "WikiPage.h"
 #include "../utils/Classifiers.h"
+#include "../utils/ErrorHandler.h"
+extern "C" {
+    #include "../utils/Stemmer.h"
+}
 
 #define BUFFER_SIZE (1024)
 
@@ -22,6 +25,7 @@ class ParseIndex
         std::stack<std::string> tagStack;
         WikiPage currentWikiPage;
         Classifiers classifiers;
+        struct stemmer *stemmer;
 
     public:
         void buildIndex();
@@ -33,6 +37,9 @@ class ParseIndex
         void start(void *userData, const char *name, const char **args);
         void value(void *userData, const char *val, int len);
         void end(void *userData, const char *name);
+        void initializeStemmer();
+        void stemWord(char word[]);
+        void freeStemmer();
 };
 
 

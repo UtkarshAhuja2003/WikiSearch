@@ -91,6 +91,8 @@ void ParseIndex::buildIndex()
     FILE *wikiData = fopen(this->wikiDump.c_str(),"r");
     if(!wikiData) throw std::runtime_error("Error Opening Wiki Dump");
 
+    this->initializeStemmer();
+
     int done;
     do {
         void *buff = XMLCall(parser, XML_GetBuffer(parser, BUFFER_SIZE));
@@ -104,6 +106,8 @@ void ParseIndex::buildIndex()
     } while (!done);
 
     fclose(wikiData);
+
+    this->freeStemmer();
 
     XMLCall(parser, XML_ParserFree(parser));
 
@@ -125,4 +129,19 @@ const std::string& ParseIndex::getWikiDump() const {
 
 void ParseIndex::setWikiDump(const std::string& wikiDump) {
     this->wikiDump = wikiDump;
+}
+
+void ParseIndex::initializeStemmer()
+{
+    this->stemmer = create_stemmer();
+}
+
+void ParseIndex::stemWord(char word[])
+{
+    word[stem(this->stemmer, word, strlen(word) - 1) + 1] = '\0';
+}
+
+void ParseIndex::freeStemmer()
+{
+    free_stemmer(this->stemmer);
 }
