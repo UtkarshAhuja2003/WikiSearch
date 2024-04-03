@@ -54,10 +54,12 @@ void ParseIndex::parseWikiPage()
         else
         {
             this->stemWord(word);
-            std::string wordString(word);
-            if(wordString.size() > 1 && !this->classifiers.isStopWord(wordString))
+            std::string data(word);
+            if(data.size() > 1 && !this->classifiers.isStopWord(data))
             {
-                this->wikiIndexes[wordString].insert(this->currentWikiPage.getPageId());
+                std::string index = ":" + this->currentWikiPage.getPageId() + '\n';
+                data.append(index);
+                file.writeDataToTemporaryFile(data,data[0]);
             }
             word[0] = '\0';
         }
@@ -100,6 +102,7 @@ void ParseIndex::buildIndex()
     if(!wikiData) throw std::runtime_error("Error Opening Wiki Dump");
 
     this->initializeStemmer();
+    file.initialise();
 
     int done;
     do {
@@ -115,16 +118,14 @@ void ParseIndex::buildIndex()
 
     wikiData->close();
 
+    file.dumpTemporaryFileToDisk();
+
     this->freeStemmer();
 
     XMLCall(parser, XML_ParserFree(parser));
 
 }
 
-
-const std::map<std::string, std::set<std::string>>& ParseIndex::getWikiIndexes() const {
-    return wikiIndexes;
-}
 
 ParseIndex::ParseIndex(const std::string& wikiFilePath)
 {

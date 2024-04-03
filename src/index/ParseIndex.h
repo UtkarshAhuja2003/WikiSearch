@@ -4,12 +4,11 @@
 #include <expat/lib/expat.h>
 #include <iostream>
 #include <cstring>
-#include <map>
 #include <fstream>
 #include <vector>
-#include <set>
 #include <stack>
 #include "WikiPage.h"
+#include "../utils/FileIO.h"
 #include "../utils/Classifiers.h"
 #include "../utils/ErrorHandler.h"
 extern "C" {
@@ -22,17 +21,16 @@ class ParseIndex
 {
     private:
         std::string wikiDump;
-        std::map<std::string, std::set<std::string>> wikiIndexes;
         std::stack<std::string> tagStack;
         WikiPage currentWikiPage;
         Classifiers classifiers;
         struct stemmer *stemmer;
+        FileIO file{"../res"};
 
     public:
         void buildIndex();
         void parseWikiPage();
         ParseIndex(const std::string& wikiFilePath);
-        const std::map<std::string, std::set<std::string>>& getWikiIndexes() const;
         const std::string& getWikiDump() const;
         void setWikiDump(const std::string& wikiDump);
         void start(void *userData, const char *name, const char **args);

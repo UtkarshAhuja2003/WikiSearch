@@ -58,3 +58,18 @@
 - **Time Taken**: 500 seconds
 - **CPU Usage**: 25%
 - **Memory Usage**: 2 GB
+
+### Configuration 5
+
+- **Indexing Method**: File Buffer, all indexes in single file
+- **Word Filtering**: Only a-z and A-Z in words
+- **Lowercasing**: Yes
+- **Stopwords Removal**: Yes
+- **Stemmed Words**: Yes
+
+#### Stats
+
+- **Wiki Dump**: 1 GB
+- **Time Taken**: 119 seconds
+- **CPU Usage**: 25%
+- **Index File Size**: 1 GB
