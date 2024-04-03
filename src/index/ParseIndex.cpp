@@ -20,8 +20,7 @@ void ParseIndex::value(void *userData, const char *val, int len)
     }
     else if(currentTag == "text")
     {
-        currentPage.setPageText(std::string(val,len));
-        this->parseWikiPage();
+        currentPage.getPageText().append(std::string(val,len));
     }
 }
 
@@ -33,28 +32,34 @@ void ParseIndex::end(void *userData, const char *name)
     {
         this->currentWikiPage.clear();
     }
+    if(endTag == "text")
+    {
+        this->parseWikiPage();
+    }
 }
 
 
 void ParseIndex::parseWikiPage()
 {
     const std::string& text = this->currentWikiPage.getPageText();
-    std::vector<char> word;
+    char word[1000] = "";
     
     for(char c : text)
     {
         if (isalpha(c))
         {
-            word.emplace_back(static_cast<char>(std::tolower(c)));
+            c = tolower(c);
+            strncat(word, &c, 1);
         }
         else
         {
-            std::string wordString(word.begin(), word.end());
-            if(!this->classifiers.isStopWord(wordString) && word.size() > 1)
+            this->stemWord(word);
+            std::string wordString(word);
+            if(wordString.size() > 1 && !this->classifiers.isStopWord(wordString))
             {
                 this->wikiIndexes[wordString].insert(this->currentWikiPage.getPageId());
             }
-            word.clear();
+            word[0] = '\0';
         }
     }
 }
@@ -88,7 +93,10 @@ void ParseIndex::buildIndex()
 
     XMLCall(parser, XML_SetUserData(parser, this));
 
-    FILE *wikiData = fopen(this->wikiDump.c_str(),"r");
+    std::ifstream stream;
+    std::filebuf *wikiData = stream.rdbuf();
+    wikiData->open(this->wikiDump, std::ios::in);
+    
     if(!wikiData) throw std::runtime_error("Error Opening Wiki Dump");
 
     this->initializeStemmer();
@@ -98,14 +106,14 @@ void ParseIndex::buildIndex()
         void *buff = XMLCall(parser, XML_GetBuffer(parser, BUFFER_SIZE));
         if(buff == NULL) throw std::runtime_error("Error: Empty Buffer");
 
-        int len = (int)fread(buff, 1, BUFFER_SIZE, wikiData);
+        int len = (int)wikiData->sgetn((char*)buff, BUFFER_SIZE);
         if(len < 0) throw std::runtime_error("Error Reading Wiki Dump");
         done = len < BUFFER_SIZE;
 
         XMLCall(parser, XML_ParseBuffer(parser, len, done));
     } while (!done);
 
-    fclose(wikiData);
+    wikiData->close();
 
     this->freeStemmer();
 

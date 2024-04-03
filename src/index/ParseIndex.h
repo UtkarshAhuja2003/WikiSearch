@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include <map>
+#include <fstream>
 #include <vector>
 #include <set>
 #include <stack>

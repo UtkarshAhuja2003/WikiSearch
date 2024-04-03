@@ -17,7 +17,7 @@ class WikiPage
         std::string getPageTitle() const;
         void setPageTitle(const std::string& title);
 
-        std::string getPageText() const;
+        std::string& getPageText();
         void setPageText(const std::string& text);
 };
 
@@ -44,7 +44,7 @@ inline void WikiPage::setPageTitle(const std::string& title) {
     this->pageTitle = title;
 }
 
-inline std::string WikiPage::getPageText() const {
+inline std::string& WikiPage::getPageText() {
     return pageText;
 }
 
