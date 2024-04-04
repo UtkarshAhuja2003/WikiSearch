@@ -7,6 +7,8 @@
 #include <fstream>
 #include <vector>
 #include <stack>
+#include <map>
+#include <set>
 #include "WikiPage.h"
 #include "../utils/FileIO.h"
 #include "../utils/Classifiers.h"
@@ -23,6 +25,7 @@ class ParseIndex
         std::string wikiDump;
         int tempFileNumber = 0;
         int numberOfPages = 0;
+        std::map<std::string,std::set<std::string>> invertedIndex;
         std::stack<std::string> tagStack;
         WikiPage currentWikiPage;
         Classifiers classifiers;
@@ -32,6 +35,8 @@ class ParseIndex
     public:
         void buildIndex();
         void parseWikiPage();
+        void dumpInvertedIndexToDisk();
+        std::map<std::string,std::set<std::string>>& getInvertedIndex();
         ParseIndex(const std::string& wikiFilePath);
         const std::string& getWikiDump() const;
         void setWikiDump(const std::string& wikiDump);

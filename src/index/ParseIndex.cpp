@@ -57,20 +57,36 @@ void ParseIndex::parseWikiPage()
             std::string data(word);
             if(data.size() > 1 && !this->classifiers.isStopWord(data))
             {
-                std::string index = ":" + this->currentWikiPage.getPageId() + '\n';
-                data.append(index);
                 if(numberOfPages == 1000)
                 {
+                    dumpInvertedIndexToDisk();
                     tempFileNumber++;
                     numberOfPages = 0;
-                    file.dumpTemporaryFileToDisk();
+                    invertedIndex.clear();
                 }
-                file.writeDataToTemporaryFile(data, tempFileNumber);
+                invertedIndex[data].insert(currentWikiPage.getPageId());
             }
             word[0] = '\0';
         }
     }
     numberOfPages++;
+}
+
+void ParseIndex::dumpInvertedIndexToDisk()
+{
+    std::map<std::string, std::set<std::string>> &invertedIndex = getInvertedIndex();
+    for(auto &index : invertedIndex)
+    {
+        std::string data = index.first + ':';
+        for(std::string docID : index.second)
+        {
+            data.append(docID);
+            data.append(";");
+        }
+        data.append("\n");
+        file.writeDataToTemporaryFile(data, tempFileNumber);
+    }
+    file.dumpTemporaryFileToDisk();
 }
 
 
@@ -125,7 +141,7 @@ void ParseIndex::buildIndex()
 
     wikiData->close();
 
-    file.dumpTemporaryFileToDisk();
+    this->dumpInvertedIndexToDisk();
 
     this->freeStemmer();
 
@@ -145,6 +161,11 @@ const std::string& ParseIndex::getWikiDump() const {
 
 void ParseIndex::setWikiDump(const std::string& wikiDump) {
     this->wikiDump = wikiDump;
+}
+
+std::map<std::string,std::set<std::string>>& ParseIndex::getInvertedIndex()
+{
+    return this->invertedIndex;
 }
 
 void ParseIndex::initializeStemmer()
