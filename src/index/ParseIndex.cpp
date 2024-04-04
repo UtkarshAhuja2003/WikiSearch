@@ -57,17 +57,17 @@ void ParseIndex::parseWikiPage()
             std::string data(word);
             if(data.size() > 1 && !this->classifiers.isStopWord(data))
             {
-                if(numberOfPages == 1000)
-                {
-                    dumpInvertedIndexToDisk();
-                    tempFileNumber++;
-                    numberOfPages = 0;
-                    invertedIndex.clear();
-                }
                 invertedIndex[data].insert(currentWikiPage.getPageId());
             }
             word[0] = '\0';
         }
+    }
+    if(numberOfPages == 1000)
+    {
+                    dumpInvertedIndexToDisk();
+                    tempFileNumber++;
+                    numberOfPages = 0;
+                    invertedIndex.clear();
     }
     numberOfPages++;
 }
