@@ -103,3 +103,18 @@
 - **Time Taken**: 465 seconds
 - **CPU Usage**: 25%
 - **Index File Size**: 162 MB
+
+### Configuration 8
+
+- **Indexing Method**: SPMI using map and unordered set with 1000 pages per file 
+- **Word Filtering**: Only a-z and A-Z in words
+- **Lowercasing**: Yes
+- **Stopwords Removal**: Yes
+- **Stemmed Words**: Yes
+
+#### Stats
+
+- **Wiki Dump**: 1 GB
+- **Time Taken**: 343 seconds
+- **CPU Usage**: 25%
+- **Index File Size**: 162 MB

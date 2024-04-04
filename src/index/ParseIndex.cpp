@@ -74,7 +74,7 @@ void ParseIndex::parseWikiPage()
 
 void ParseIndex::dumpInvertedIndexToDisk()
 {
-    std::map<std::string, std::set<std::string>> &invertedIndex = getInvertedIndex();
+    std::map<std::string, std::unordered_set<std::string>> &invertedIndex = getInvertedIndex();
     for(auto &index : invertedIndex)
     {
         std::string data = index.first + ':';
@@ -163,7 +163,7 @@ void ParseIndex::setWikiDump(const std::string& wikiDump) {
     this->wikiDump = wikiDump;
 }
 
-std::map<std::string,std::set<std::string>>& ParseIndex::getInvertedIndex()
+std::map<std::string,std::unordered_set<std::string>>& ParseIndex::getInvertedIndex()
 {
     return this->invertedIndex;
 }
