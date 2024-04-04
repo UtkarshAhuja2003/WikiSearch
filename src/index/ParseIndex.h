@@ -21,6 +21,8 @@ class ParseIndex
 {
     private:
         std::string wikiDump;
+        int tempFileNumber = 0;
+        int numberOfPages = 0;
         std::stack<std::string> tagStack;
         WikiPage currentWikiPage;
         Classifiers classifiers;

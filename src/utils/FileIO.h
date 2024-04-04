@@ -13,8 +13,9 @@ class FileIO
         FileIO(std::string indexFolderPath);
         void initialise();
         void close();
-        void writeDataToTemporaryFile(std::string &data, char fileChar);
+        void writeDataToTemporaryFile(std::string &data, int tempFileNumber);
         void dumpTemporaryFileToDisk();
+        void mergeTemporaryFiles();
 };
 
 #endif

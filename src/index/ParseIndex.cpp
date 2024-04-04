@@ -59,11 +59,18 @@ void ParseIndex::parseWikiPage()
             {
                 std::string index = ":" + this->currentWikiPage.getPageId() + '\n';
                 data.append(index);
-                file.writeDataToTemporaryFile(data,data[0]);
+                if(numberOfPages == 1000)
+                {
+                    tempFileNumber++;
+                    numberOfPages = 0;
+                    file.dumpTemporaryFileToDisk();
+                }
+                file.writeDataToTemporaryFile(data, tempFileNumber);
             }
             word[0] = '\0';
         }
     }
+    numberOfPages++;
 }
 
 
