@@ -13,10 +13,67 @@ class Classifiers
     private:
         // Contains stop words in unordered_set
         // Search in unordered set - O(1), set - O(logn)
-        std::unordered_set<std::string> stopWords = 
-        {
-            "able", "about", "above", "accordance", "according", "accordingly", "across", "act", "actually", "added", "affected", "affecting", "affects", "after", "afterwards", "again", "against", "ain't", "all", "allow", "allows", "almost", "alone", "along", "already", "also", "although", "always", "am", "among", "amongst", "amount", "an", "and", "announce", "another", "any", "anybody", "anyhow", "anymore", "anyone", "anything", "anyway", "anyways", "anywhere", "apart", "apparently", "appear", "appreciate", "appropriate", "approximately", "are", "aren't", "arise", "around", "as", "aside", "ask", "asking", "associated", "at", "available", "away", "awfully", "back", "be", "became", "because", "become", "becomes", "becoming", "been", "before", "beforehand", "begin", "beginning", "beginnings", "begins", "behind", "being", "believe", "below", "beside", "besides", "best", "better", "between", "beyond", "both", "bottom", "brief", "briefly", "but", "call", "came", "can", "cannot", "cant", "can't", "cause", "causes", "certain", "certainly", "changes", "clearly", "c'mon", "com", "come", "comes", "concerning", "consequently", "consider", "considering", "contain", "containing", "contains", "corresponding", "could", "couldnt", "couldn't", "course", "currently", "date", "definitely", "describe", "described", "despite", "detail", "did", "didn't", "different", "do", "does", "doesn't", "doing", "done", "don't", "down", "downwards", "due", "during", "each", "effect", "either", "else", "elsewhere", "em", "empty", "end", "ending", "enough", "entirely", "especially", "etc", "even", "ever", "every", "everybody", "everyone", "everything", "everywhere", "exactly", "example", "except", "few", "fill", "find", "followed", "following", "follows", "for", "former", "formerly", "forth", "forty", "found",  "from", "front", "full", "further", "furthermore", "gave", "get", "gets", "getting", "give", "given", "gives", "giving", "go", "goes", "going", "gone", "got", "gotten", "greetings", "had", "hadn't", "happens", "hardly", "has", "hasn't", "have", "haven't", "having", "he", "he'd", "he'll", "hello", "help", "hence", "her", "here", "hereafter", "hereby", "herein", "heres", "here's", "hereupon", "hers", "herself", "hes", "he's", "hi", "him", "himself", "his",  "hopefully", "how", "howbeit", "however", "how's", "http", "i'll", "i'm", "immediate", "immediately", "importance", "important", "in", "inc", "indeed", "indicate", "indicated", "indicates", "instead", "into", "inward", "is","isn't", "it", "it'll", "its", "it's", "itself",  "i've", "just", "keep", "keeps", "kept", "know", "known", "knows", "last", "lately", "later", "latter", "latterly", "least", "less", "let", "lets", "let's", "like", "liked", "likely", "line", "look", "looking", "looks", "made", "mainly", "make", "makes", "many", "may", "maybe", "me", "mean", "means", "meantime", "meanwhile", "merely", "might", "mightn't", "mill", "million", "mine", "miss", "more", "moreover", "most", "mostly", "move", "mr", "mrs", "ms", "much", "must",  "mustn't", "my", "myself", "name", "namely", "near", "nearly", "necessarily", "necessary", "need", "needn't", "needs", "neither", "never", "nevertheless", "new", "next", "no", "nobody", "none", "nonetheless", "noone", "nor", "normally", "not", "noted", "nothing", "now", "nowhere", "obtain", "obtained", "obviously", "of", "off", "often", "ok", "okay", "omitted", "on", "once", "one", "ones", "only", "onto", "or", "other", "others", "otherwise", "ought", "our", "ours", "ourselves", "out", "outside", "over", "overall", "owing", "own", "part", "particular", "particularly", "past", "per", "perhaps", "placed", "please", "possible", "possibly", "potentially", "predominantly", "present", "presumably", "previously", "primarily", "probably", "promptly", "proud", "provides", "put", "quickly", "quite", "ran", "rather", "readily", "really", "reasonably", "recent", "recently", "ref", "refs", "regarding", "regardless", "regards", "related", "relatively", "respectively", "resulted", "resulting", "results", "right", "said", "same", "saw", "say", "saying", "says", "second", "see", "seeing", "seem", "seemed", "seeming", "seems", "seen", "self", "selves", "sensible", "sent", "serious", "seriously",  "several", "shall", "shan't", "she", "she'd", "she'll", "she's", "should", "shouldn't", "should've", "show", "showed", "shown",  "shows", "side", "significant", "significantly", "similar", "similarly", "since", "sincere",  "sixty", "slightly", "so", "some", "somebody", "somehow", "someone", "something", "sometime", "sometimes", "somewhat", "somewhere", "soon", "sorry", "specifically", "specified", "specify","specifying", "still", "stop", "strongly", "sub", "substantially", "successfully", "such", "sufficiently", "suggest", "sure", "take", "taken", "taking", "tell", "tends", "than", "thank", "thanks", "thanx", "that", "that'll", "thats", "that's", "that've", "the", "their", "theirs", "them", "themselves", "then", "there", "thereafter", "thereby", "therefore", "therein", "there'll", "thereof", "theres", "there's", "thereto", "thereupon", "there've", "these", "they", "theyd", "they'd", "they'll", "theyre", "they're", "they've", "thin", "think", "this", "thorough", "thoroughly", "those", "though", "through", "throughout", "thus", "tip", "to", "together", "too", "took", "top", "toward", "towards", "tried", "tries", "truly", "try", "trying", "twice", "two",  "under", "unfortunately", "unless", "unlike", "unlikely", "until", "unto", "up", "upon", "ups", "use", "used", "useful", "usefully", "usefulness", "uses", "using", "usually", "various", "very", "via", "viz", "want", "wants", "was", "wasn't", "way", "we", "we'd", "welcome", "well", "we'll", "went", "were", "we're", "weren't", "we've", "what", "whatever", "what'll", "what's", "when", "whenever", "when's", "where", "whereafter", "whereas", "whereby", "wherein", "where's", "whereupon", "wherever", "whether", "which", "while", "whim", "who", "whoever", "whole", "who'll", "whom", "whomever", "who's", "whose", "why", "widely", "will", "willing", "wish", "with", "within", "without", "won", "wonder", "wont", "won't", "words", "would", "wouldn't", "www", "yes", "yet", "you", "you'd", "you'll", "your", "you're", "yours", "yourself", "yourselves", "you've"
-        };
+        std::unordered_set<std::string> stopWords = {
+        "yourself", "your", "you'll", "you", "word", "won't", "wont", "without", "within", "with",
+        "wish", "will", "will", "why", "whose", "whomev", "who'll", "whole", "whoever", "whim", "your",
+        "while", "whether", "whereupon", "where'", "wherein", "wherea", "whereaft", "when'", "whenev",
+        "what'", "what'll", "what", "we'v", "we'll", "welcom", "we'd", "we", "wai", "wa", "want", "via",
+        "veri", "which", "variou", "usual", "us", "us", "usefulli", "us", "up", "up", "until", "unto",
+        "unlik", "unlik", "unless", "wonder", "unfortun", "two", "twice", "just", "should", "appar",
+        "anyon", "befor", "is", "import", "instead", "seriou", "indic", "avail", "serious", "sorri",
+        "inde", "isn't", "you'r", "needn't", "their", "howev", "hopefulli", "thanx", "would", "her",
+        "hereupon", "concern", "noth", "here", "onli", "henc", "want", "follow", "when", "that", "help",
+        "often", "hasn't", "hardli", "go", "given", "further", "front", "signific", "later", "side",
+        "give", "exactli", "fill", "accordingli", "except", "exampl", "who", "actual", "get", "someon",
+        "have", "he", "had", "same", "everyon", "somebodi", "weren't", "greet", "enough", "gave", "empti",
+        "do", "forth", "might", "show", "promptli", "end", "elsewher", "mere", "i'll", "downward", "describ",
+        "down", "don't", "again", "nearli", "follow", "differ", "follow", "the", "chang", "he'd", "did",
+        "somehow", "doe", "can't", "ow", "alon", "let'", "there'l", "aris", "much", "beyond", "immedi",
+        "seem", "caus", "ar", "between", "she", "here", "otherwis", "result", "ani", "moreov", "becam",
+        "our", "describ", "aren't", "amongst", "possibl", "herself", "out", "allow", "em", "apart", "i'm",
+        "make", "anywher", "thu", "http", "goe", "few", "anymor", "act", "it", "awai", "get", "against",
+        "c'mon", "nobodi", "everi", "alreadi", "neither", "and", "entir", "right", "anyhow", "but", "becom",
+        "give", "cant", "affect", "end", "ain't", "inward", "her", "never", "near", "affect", "mainli",
+        "asid", "consid", "call", "in", "mostli", "itself", "must", "either", "ref", "sai", "self", "us",
+        "almost", "anoth", "he", "presum", "begin", "ad", "everywher", "mr", "previous", "furthermor", "becom",
+        "abl", "across", "certain", "begin", "sure", "consid", "second", "due", "upon", "approxim", "i'v",
+        "meanwhil", "abov", "also", "into", "haven't", "mustn't", "place", "thoroughli", "get", "wherev",
+        "etc", "begin", "am", "soon", "should'v", "go", "somewher", "after", "how", "along", "potenti",
+        "definit", "sai", "amount", "from", "himself", "former", "she'll", "for", "besid", "went", "announc",
+        "com", "respect", "accord", "briefli", "indic", "there", "ask", "begin", "forti", "els", "both",
+        "around", "myself", "wasn't", "associ", "find", "shall", "at", "whatev", "no", "it'", "accord",
+        "although", "current", "well", "give", "seem", "awfulli", "believ", "back", "be", "he'", "they'r",
+        "therein", "becaus", "tri", "becom", "present", "won", "top", "certainli", "been", "everyth", "do",
+        "indic", "about", "it'll", "most", "noon", "besid", "best", "hereaft", "us", "that'v", "result",
+        "though", "better", "happen", "detail", "him", "that'll", "here'", "there'v", "pleas", "brief",
+        "own", "effect", "especi", "take", "as", "came", "have", "can", "move", "cannot", "behind", "caus",
+        "correspond", "all", "mill", "beforehand", "on", "viz", "anywai", "ref", "herein", "come", "hello",
+        "anywai", "that'", "alwai", "sometim", "where", "we'r", "tell", "consequ", "name", "contain", "known",
+        "sub", "contain", "of", "inc", "appear", "strongli", "still", "got", "could", "readili", "me", "tri",
+        "couldn't", "sixti", "cours", "hi", "each", "even", "an", "despit", "thereupon", "try", "keep",
+        "thank", "yet", "outsid", "thei", "kept", "less", "specifi", "anybodi", "know", "proud", "doesn't",
+        "know", "last", "late", "latter", "keep", "next", "wouldn't", "ran", "latterli", "let", "like",
+        "like", "import", "saw", "toward", "immedi", "like", "line", "yourselv", "clearli", "look", "done",
+        "thereaft", "gone", "look", "slightli", "look", "made", "make", "mani", "were", "mai", "mayb", "she'",
+        "mean", "seem", "mean", "specifi", "who'", "meantim", "afterward", "mightn't", "million", "gotten",
+        "onc", "selv", "mine", "it", "result", "more", "anyth", "stop", "mr", "contain", "nevertheless",
+        "allow", "howbeit", "possibl", "suffici", "ms", "my", "formerli", "name", "us", "significantli",
+        "thank", "necessarili", "wherebi", "necessari", "need", "new", "none", "nonetheless", "www", "they'd",
+        "nor", "sent", "found", "normal", "not", "too", "predominantli", "ever", "take", "appreci", "nowher",
+        "miss", "obtain", "obtain", "whom", "obvious", "off", "ok", "okai", "omit", "you'd", "on", "tend",
+        "bottom", "on", "onto", "come", "reason", "other", "other", "our", "least", "them", "ourselv", "over",
+        "recent", "overal", "those", "part", "particularli", "past", "they'v", "dure", "per", "that", "how'",
+        "now", "perhap", "primarili", "themselv", "probabl", "under", "provid", "everybodi", "put", "ought",
+        "quickli", "rel", "quit", "rather", "herebi", "realli", "recent", "regardless", "regard", "regard",
+        "relat", "there", "said", "sai", "see", "ask", "see", "seem", "he'll", "seen", "sensibl", "taken",
+        "couldnt", "sever", "let", "shan't", "thi", "thereof", "below", "she'd", "shouldn't", "full", "show",
+        "wide", "their", "show", "shown", "similarli", "togeth", "sinc", "sincer", "hi", "so", "ye", "some",
+        "hadn't", "someth", "sometim", "than", "somewhat", "specif", "specifi", "substanti", "note",
+        "successfulli", "particular", "date", "such", "thin", "then", "therebi", "didn't", "affect", "therefor",
+        "there'", "thereto", "these", "you'v", "theyd", "they'll", "theyr", "similar", "think", "among",
+        "thorough", "through", "throughout", "tip", "appropri", "to", "ha", "took", "suggest", "need",
+        "toward", "or", "be", "truli", "try"
+    };
 
     public:
         /**
