@@ -46,6 +46,7 @@ class ParseIndex
         void initializeStemmer();
         void stemWord(char word[]);
         void freeStemmer();
+        int getNumberOfTempFiles();
 };
 
 

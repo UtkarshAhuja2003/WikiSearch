@@ -64,10 +64,10 @@ void ParseIndex::parseWikiPage()
     }
     if(numberOfPages == 1000)
     {
-                    dumpInvertedIndexToDisk();
-                    tempFileNumber++;
-                    numberOfPages = 0;
-                    invertedIndex.clear();
+        dumpInvertedIndexToDisk();
+        tempFileNumber++;
+        numberOfPages = 0;
+        invertedIndex.clear();
     }
     numberOfPages++;
 }
@@ -181,4 +181,9 @@ void ParseIndex::stemWord(char word[])
 void ParseIndex::freeStemmer()
 {
     free_stemmer(this->stemmer);
+}
+
+int ParseIndex::getNumberOfTempFiles()
+{
+    return tempFileNumber;
 }

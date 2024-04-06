@@ -2,6 +2,8 @@
 #define FileIO_H
 
 #include <fstream>
+#include <queue>
+#include <iostream>
 
 class FileIO
 {
@@ -15,7 +17,8 @@ class FileIO
         void close();
         void writeDataToTemporaryFile(std::string &data, int tempFileNumber);
         void dumpTemporaryFileToDisk();
-        void mergeTemporaryFiles();
+        void mergeTemporaryFiles(int tempFileCount);
+        std::string getCurrentIndex(std::priority_queue<std::string, std::vector<std::string>, std::greater<std::string>> &invertedIndexList);
 };
 
 #endif
