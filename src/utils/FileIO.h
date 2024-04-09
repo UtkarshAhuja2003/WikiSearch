@@ -18,7 +18,7 @@ class FileIO
         void writeDataToTemporaryFile(std::string &data, int tempFileNumber);
         void dumpTemporaryFileToDisk();
         void mergeTemporaryFiles(int tempFileCount);
-        std::string getCurrentIndex(std::priority_queue<std::string, std::vector<std::string>, std::greater<std::string>> &invertedIndexList);
+        std::pair<std::string, std::string> getPostingList(std::priority_queue<std::string, std::vector<std::string>, std::greater<std::string>> &invertedIndexList);
 };
 
 #endif
