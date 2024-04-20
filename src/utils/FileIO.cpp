@@ -103,7 +103,7 @@ void FileIO::mergeTemporaryFiles(int tempFileCount)
         std::pair<std::string, std::string> dict = getPostingList(invertedIndexList);
         std::string word = dict.first;
         std::string postingList = dict.second;
-        std::string invertedIndex = word + std::to_string(postingListsStreams[word[0] - 'a'].tellp());
+        std::string invertedIndex = word + ":" + std::to_string(postingListsStreams[word[0] - 'a'].tellp()) + "\n";
         dictBuffer[word[0] - 'a']->sputn(invertedIndex.c_str(), invertedIndex.length());
         postingListsBuffer[word[0] - 'a']->sputn(postingList.c_str(), postingList.length());
     }

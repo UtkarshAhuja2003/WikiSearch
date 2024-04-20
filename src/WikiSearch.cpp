@@ -1,15 +1,16 @@
 #include <iostream>
 #include <chrono>
 #include <fstream>
-#include "index/ParseIndex.h"
+// #include "index/ParseIndex.h"
+#include "search/Search.h"
 
 int main()
 {
     try
     {
-        auto start = std::chrono::high_resolution_clock::now();
+        // auto start = std::chrono::high_resolution_clock::now();
         
-        // std::string wikiDump = "../../../wiki/data.xml";
+        // std::string wikiDump = "../../../wiki/temp.xml";
         // ParseIndex parseIndex(wikiDump);
         // std::cout << "Starting Indexing\n";
         // parseIndex.buildIndex();
@@ -22,6 +23,10 @@ int main()
         // FileIO file("../res");
         // file.mergeTemporaryFiles(parseIndex.getNumberOfTempFiles() + 1);
         // std::cout << "Merged Temporary Indexes\n";
+
+        Search search;
+        search.loadInvertedIndex();
+        search.search();
 
     }
     catch(const std::exception& e)

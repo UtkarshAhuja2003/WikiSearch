@@ -3,6 +3,7 @@
 std::vector<std::string> Search::getPostingListForSingleTerm(std::string word)
 {
     std::vector<std::string> postingList;
+    if(invertedIndex.find(word) == invertedIndex.end()) return postingList;
     int offset = invertedIndex[word];
     int startChar = word[0] - 'a';
     postingListsBuffer[startChar]->pubseekpos(offset);
@@ -29,36 +30,114 @@ std::vector<std::string> Search::getPostingListForSingleTerm(std::string word)
     return postingList;
 }
 
-// std::vector<std::string> Search::getPostingList(std::string query)
-// {
-//     std::vector<std::string> postingList;
-//     char word[1000] = "";
+void Search::getPostingList(std::unordered_map<std::string, int> &searchTerms, std::unordered_map<std::string, double> &docTfidfMap)
+{
+    for(auto currentTerm : searchTerms)
+    {
+        std::vector<std::string> currentPosting = getPostingListForSingleTerm(currentTerm.first);
+        for(std::string docId : currentPosting)
+        {
+            // TODO: Take original termfrequency
+            int termFrequency = 1;
+            double prevTfidf = (docTfidfMap.find(docId) == docTfidfMap.end()) ? 0 : docTfidfMap[docId];
+            double currTfidf = tfidf(termFrequency, currentPosting.size());
+            docTfidfMap[docId] = (prevTfidf + currTfidf);
+        }
+    }
+}
 
-//     for(char c : query)
-//     {
-//         if (isalpha(c))
-//         {
-//             c = tolower(c);
-//             strncat(word, &c, 1);
-//         }
-//         else
-//         {
-//             this->stemWord(word);
-//             std::string data(word);
-//             if(data.size() > 1 && !this->classifiers.isStopWord(data))
-//             {
-//                 std::vector<std::string> t = getPostingListForSingleTerm(data);
-//                 postingList.insert(postingList.end(), t.begin(), t.end());
-//             }
-//             word[0] = '\0';
-//         }
-//     }
-//     return postingList;
-// }
+void Search::calculateTopKDocs(std::unordered_map<std::string, double> &docTfidfMap, std::vector<std::string> &topKDocIds)
+{
+
+    std::priority_queue<std::pair<double, std::string>> tempQueue;
+
+    for(auto currDocTfidf : docTfidfMap)
+    {
+        tempQueue.push({currDocTfidf.second, currDocTfidf.first});
+    }
+    for(int i = 0; (!tempQueue.empty() && i < K); i++)
+    {
+        topKDocIds.push_back(tempQueue.top().second);
+        tempQueue.pop();
+    }
+}
+
+void Search::processSearchQuery(std::string query, std::unordered_map<std::string, int> &searchTerms)
+{
+    char word[1000] = "";
+
+    for(char c : query)
+    {
+        if (isalpha(c))
+        {
+            c = tolower(c);
+            strncat(word, &c, 1);
+        }
+        else
+        {
+            this->stemWord(word);
+            std::string data(word);
+            if(data.size() > 2 && !this->classifiers.isStopWord(data))
+            {
+                searchTerms[data]++;
+            }
+            word[0] = '\0';
+        }
+    }
+
+    if(word[0] != '\0')
+    {
+        this->stemWord(word);
+        std::string data(word);
+        if(data.size() > 2 && !this->classifiers.isStopWord(data))
+        {
+            searchTerms[data]++;
+        }
+        word[0] = '\0';
+    }
+}
 
 void Search::search()
 {
     std::string searchQuery;
+    std::unordered_map<std::string, int> searchTerms;
+    std::unordered_map<std::string, double> docTfidfMap;
+    std::vector<std::string> topKDocIds;
+    while(searchQuery != "q" || searchQuery != "exit")
+    {
+        std::cout << "\n\nEnter the query to search: ";
+        std::getline(std::cin, searchQuery);
+        if (searchQuery == "q" || searchQuery == "exit")
+            break;
+        
+        std::cout << "Search results for query: " << searchQuery << "\n";
+
+        processSearchQuery(searchQuery, searchTerms);
+        getPostingList(searchTerms, docTfidfMap);
+        if(docTfidfMap.empty())
+        {
+            std::cout << "\nNo results found\n";
+            continue;
+        }
+        calculateTopKDocs(docTfidfMap, topKDocIds);
+        for(const std::string& docId : topKDocIds)
+        {
+            std::cout << docId << " ";
+        }
+
+        searchTerms.clear();
+        docTfidfMap.clear();
+        topKDocIds.clear();
+        
+    }
+
+    this->freeStemmer();
+}
+
+void Search::loadInvertedIndex()
+{
+    std::cout << "Loading Search Engine...\n";
+    std::cout << "Enter q or exit to quit search\n\n";
 
     FileIO file("../../res");
     file.initialiseDictFiles(std::ios::in);
@@ -67,38 +146,8 @@ void Search::search()
     postingListsBuffer = file.getPostingListBuffer();
 
     this->initializeStemmer();
-    loadInvertedIndex();
-    std::vector<std::string> res = getPostingListForSingleTerm("famili");
-    std::cout << "Result: ";
-    for(const std::string& item : res)
-    {
-        std::cout << item << " ";
-    }
 
-    // while(searchQuery != "q" || searchQuery != "exit")
-    // {
-    //     std::cout << "Enter the query to search: ";
-    //     std::cin >> searchQuery;
-    //     if (searchQuery == "q" || searchQuery == "exit")
-    //         break;
-        
-    //     std::cout << "Search results for query: " << searchQuery << "\n";
-
-    //     std::vector<std::string> results = getPostingList(searchQuery);
-    //     for(std::string index : results)
-    //     {
-    //         std::cout << index << " ";
-    //     }
-        
-    //     std::cout << "\nEnter q or exit to quit search\n";
-    // }
-
-    this->freeStemmer();
-}
-
-void Search::loadInvertedIndex()
-{
-    for(int i = 0; i < 14; i++)
+    for(int i = 0; i < 26; i++)
     {
         int lineNumber = 0;
         while(dictBuffer[i]->sgetc() != EOF)
@@ -118,6 +167,11 @@ void Search::loadInvertedIndex()
             lineNumber++;
         }
     }
+}
+
+double Search::tfidf(int tf, int df)
+{
+    return (1+std::log10(tf)) * std::log10(14128976/(float)df);
 }
 
 void Search::initializeStemmer()
