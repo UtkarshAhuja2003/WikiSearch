@@ -1,7 +1,6 @@
 [submodule "dependencies/libexpat"]
 	path = dependencies/libexpat
 	url = https://github.com/libexpat/libexpat.git
-
 [submodule "dependencies/boost"]
 	path = dependencies/boost
 	url = https://github.com/boostorg/boost.git
