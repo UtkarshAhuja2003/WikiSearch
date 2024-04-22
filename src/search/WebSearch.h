@@ -15,9 +15,7 @@ using tcp = boost::asio::ip::tcp;
 class WebSearch : public std::enable_shared_from_this<WebSearch>
 {
     private:
-        Search searchEngine;
-
-        static std::size_t count = 0;
+        std::size_t count = 0;
         
         // The socket for the currently connected client.
         tcp::socket socket_;
@@ -35,11 +33,25 @@ class WebSearch : public std::enable_shared_from_this<WebSearch>
         net::steady_timer deadline_{
             socket_.get_executor(), std::chrono::days(60)};
     public:
-        WebSearch(Search searchEngine);
-        void createServer();
-        std::size_t request_count();
-        std::time_t now();
-        void http_server(tcp::acceptor& acceptor, tcp::socket& socket);
+        WebSearch(tcp::socket socket)
+            : socket_(std::move(socket))
+        {
+        }
+        // Initiate the asynchronous operations associated with the connection.
+        void
+        start()
+        {
+            read_request();
+            check_deadline();
+        }
+        std::size_t request_count()
+        {
+            return ++count;
+        }
+        std::time_t now()
+        {
+            return time(0);
+        }
         void read_request();
         void check_deadline();
 

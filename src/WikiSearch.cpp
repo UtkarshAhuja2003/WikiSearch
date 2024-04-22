@@ -8,6 +8,18 @@
 #define BuildIndex 0
 #define SearchWeb 1
 
+// "Loop" forever accepting new connections.
+void http_server(tcp::acceptor& acceptor, tcp::socket& socket)
+{
+    acceptor.async_accept(socket,
+      [&](beast::error_code ec)
+      {
+          if(!ec)
+            std::make_shared<WebSearch>(std::move(socket))->start();
+          http_server(acceptor, socket);
+      });
+}
+
 int main()
 {
     if(BuildIndex)
@@ -38,24 +50,39 @@ int main()
         
     }
 
-    Search searchEngine;
-    try
-    {
-        searchEngine.loadInvertedIndex();
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << "Error loading Search Engine:" << e.what() << '\n';
-    }
-
     if(SearchWeb)
     {
-        WebSearch webSearch(searchEngine);
-        webSearch.createServer();
+        try
+        {
+            auto const address = net::ip::make_address("127.0.0.1");
+            unsigned short port = static_cast<unsigned short>(8080);
+
+            net::io_context ioc{1};
+
+            tcp::acceptor acceptor{ioc, {address, port}};
+            tcp::socket socket{ioc};
+            http_server(acceptor, socket);
+
+            ioc.run();
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Error starting the server: " << e.what() << std::endl;
+            return EXIT_FAILURE;
+        }
     }
     else
     {
-        searchEngine.search();
+        Search searchEngine;
+        try
+        {
+            searchEngine.loadInvertedIndex();
+            searchEngine.search();
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Error loading Search Engine:" << e.what() << '\n';
+        }
     }
     
     return 0;

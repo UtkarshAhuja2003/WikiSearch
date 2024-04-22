@@ -48,19 +48,7 @@ void WebSearch::process_request()
 
 void WebSearch::create_response()
 {
-    if(request_.target() == "/search")
-    {
-        response_.set(http::field::content_type, "text/html");
-        beast::ostream(response_.body())
-            << "<html>\n"
-            <<  "<head><title>Search Results</title></head>\n"
-            <<  "<body>\n"
-            <<  "<h1>Search Result</h1>\n"
-            <<  request_count()
-            <<  "</body>\n"
-            <<  "</html>\n";
-    }
-    else if(request_.target() == "/count")
+    if(request_.target() == "/count")
     {
         response_.set(http::field::content_type, "text/html");
         beast::ostream(response_.body())
@@ -125,47 +113,4 @@ void WebSearch::check_deadline()
                 self->socket_.close(ec);
             }
         });
-}
-
-// "Loop" forever accepting new connections.
-void WebSearch::http_server(tcp::acceptor& acceptor, tcp::socket& socket)
-{
-    acceptor.async_accept(socket,
-      [&](beast::error_code ec)
-      {
-          if(!ec)
-          {
-            this->socket_ = socket;
-            read_request();
-            check_deadline();
-          }
-          http_server(acceptor, socket);
-      });
-}
-
-void WebSearch::createServer()
-{
-    try
-    {
-        auto const address = net::ip::make_address("127.0.0.1");
-        unsigned short port = static_cast<unsigned short>(8080);
-
-        net::io_context ioc{1};
-
-        tcp::acceptor acceptor{ioc, {address, port}};
-        tcp::socket socket{ioc};
-        http_server(acceptor, socket);
-
-        ioc.run();
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << "Error starting the server: " << e.what() << std::endl;
-        return EXIT_FAILURE;
-    }
-}
-
-WebSearch::WebSearch(Search searchEngine)
-{
-    this->searchEngine = searchEngine;
 }
