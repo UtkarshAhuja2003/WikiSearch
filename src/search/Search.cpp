@@ -134,6 +134,23 @@ void Search::search()
     this->freeStemmer();
 }
 
+std::vector<std::string> Search::search(std::string searchQuery)
+{
+    std::unordered_map<std::string, int> searchTerms;
+    std::unordered_map<std::string, double> docTfidfMap;
+    std::vector<std::string> topKDocIds;
+
+    processSearchQuery(searchQuery, searchTerms);
+    getPostingList(searchTerms, docTfidfMap);
+
+    if(!docTfidfMap.empty())
+    {
+       calculateTopKDocs(docTfidfMap, topKDocIds);
+    }
+
+    return topKDocIds;
+}
+
 void Search::loadInvertedIndex()
 {
     std::cout << "Loading Search Engine...\n";

@@ -24,6 +24,7 @@ class Search
         std::unordered_map<std::string, int> invertedIndex;
     public:
         void search();
+        std::vector<std::string> search(std::string searchQuery);
         std::vector<std::string> getPostingListForSingleTerm(std::string word);
         void getPostingList(std::unordered_map<std::string, int> &searchTerms, std::unordered_map<std::string, double> &docTfidfMap);
         void processSearchQuery(std::string query, std::unordered_map<std::string, int> &searchTerms);
