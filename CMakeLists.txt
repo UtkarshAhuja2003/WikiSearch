@@ -11,11 +11,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 file(GLOB_RECURSE SRC_FILES "src/*.cpp" "src/*.c")
 
 add_subdirectory(dependencies/libexpat/expat)
+add_subdirectory(dependencies/boost EXCLUDE_FROM_ALL)
+
 
 add_executable(WikiSearch ${SRC_FILES})
 
 # Link against expat library
-target_link_libraries(WikiSearch PRIVATE expat)
+target_link_libraries(WikiSearch PRIVATE expat Boost::beast)
 
 # Set include directories.
 target_include_directories(WikiSearch PRIVATE dependencies/libexpat)
