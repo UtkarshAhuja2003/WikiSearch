@@ -55,7 +55,7 @@ void Search::calculateTopKDocs(std::unordered_map<std::string, double> &docTfidf
     {
         tempQueue.push({currDocTfidf.second, currDocTfidf.first});
     }
-    for(int i = 0; (!tempQueue.empty() && i < K); i++)
+    for(int i = 0; (!tempQueue.empty() && i < maxDocsLimit); i++)
     {
         topKDocIds.push_back(tempQueue.top().second);
         tempQueue.pop();

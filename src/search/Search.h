@@ -12,7 +12,7 @@ extern "C" {
     #include "../utils/Stemmer.h"
 }
 
-#define K 4
+#define maxDocsLimit 4
 
 class Search
 {

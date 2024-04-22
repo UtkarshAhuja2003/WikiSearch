@@ -14,7 +14,7 @@ void WebSearch::read_request()
         {
             boost::ignore_unused(bytes_transferred);
             if(!ec)
-                process_request();
+                self->process_request();
         });
 }
 
