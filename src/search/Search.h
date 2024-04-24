@@ -29,7 +29,7 @@ class Search
         void getPostingList(std::unordered_map<std::string, int> &searchTerms, std::unordered_map<std::string, double> &docTfidfMap);
         void processSearchQuery(std::string query, std::unordered_map<std::string, int> &searchTerms);
         void calculateTopKDocs(std::unordered_map<std::string, double> &docTfidfMap, std::vector<std::string> &topKDocIds);
-        void loadInvertedIndex();
+        void loadInvertedIndex(FileIO &file);
         double tfidf(int tf, int df);
         void initializeStemmer();
         void stemWord(char word[]);

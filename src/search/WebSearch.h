@@ -15,6 +15,7 @@ using tcp = boost::asio::ip::tcp;
 class WebSearch : public std::enable_shared_from_this<WebSearch>
 {
     private:
+        Search searchEngine;
         std::size_t count = 0;
         
         // The socket for the currently connected client.
@@ -39,8 +40,9 @@ class WebSearch : public std::enable_shared_from_this<WebSearch>
         }
         // Initiate the asynchronous operations associated with the connection.
         void
-        start()
+        start(Search searchEngine)
         {
+            this->searchEngine = searchEngine;
             read_request();
             check_deadline();
         }

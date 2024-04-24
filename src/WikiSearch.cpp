@@ -8,6 +8,8 @@
 #define BuildIndex 0
 #define SearchWeb 1
 
+Search searchEngine;
+
 // "Loop" forever accepting new connections.
 void http_server(tcp::acceptor& acceptor, tcp::socket& socket)
 {
@@ -15,7 +17,7 @@ void http_server(tcp::acceptor& acceptor, tcp::socket& socket)
       [&](beast::error_code ec)
       {
           if(!ec)
-            std::make_shared<WebSearch>(std::move(socket))->start();
+            std::make_shared<WebSearch>(std::move(socket))->start(searchEngine);
           http_server(acceptor, socket);
       });
 }
@@ -50,6 +52,16 @@ int main()
         
     }
 
+    FileIO file("../res");
+    try
+    {
+        searchEngine.loadInvertedIndex(file);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error Loading Search Engine:" << e.what() << '\n';
+    }
+
     if(SearchWeb)
     {
         try
@@ -73,15 +85,13 @@ int main()
     }
     else
     {
-        Search searchEngine;
         try
         {
-            searchEngine.loadInvertedIndex();
             searchEngine.search();
         }
         catch(const std::exception& e)
         {
-            std::cerr << "Error loading Search Engine:" << e.what() << '\n';
+            std::cerr << "Error Search Engine:" << e.what() << '\n';
         }
     }
     

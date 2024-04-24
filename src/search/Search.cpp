@@ -151,12 +151,11 @@ std::vector<std::string> Search::search(std::string searchQuery)
     return topKDocIds;
 }
 
-void Search::loadInvertedIndex()
+void Search::loadInvertedIndex(FileIO &file)
 {
     std::cout << "Loading Search Engine...\n";
     std::cout << "Enter q or exit to quit search\n\n";
 
-    FileIO file("../../res");
     file.initialiseDictFiles(std::ios::in);
     file.initialisePostingLists(std::ios::in);
     dictBuffer = file.getDictBuffer();
