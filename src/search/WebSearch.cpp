@@ -48,7 +48,30 @@ void WebSearch::process_request()
 
 void WebSearch::create_response()
 {
-    if(request_.target() == "/count")
+    if(request_.target() == "/search")
+    {
+        std::vector<std::string> docIds = searchEngine.search("access");
+        std::stringstream jsonStream;
+        response_.set( http::field::content_type, "application/json" );
+        response_.prepare_payload();
+        if (docIds.empty()) {
+            jsonStream << "[]";
+        } else {
+            jsonStream << "{ \"results\": [";
+            bool isFirst = true;
+            for (const std::string& docId : docIds) {
+            if (!isFirst) {
+                jsonStream << ",";
+            }
+            jsonStream << "\"" << docId << "\"";
+            isFirst = false;
+            }
+            jsonStream << "] }";
+        }
+        beast::ostream(response_.body())
+            << jsonStream.str();
+    }
+    else if(request_.target() == "/count")
     {
         response_.set(http::field::content_type, "text/html");
         beast::ostream(response_.body())
@@ -80,7 +103,7 @@ void WebSearch::create_response()
     {
         response_.result(http::status::not_found);
         response_.set(http::field::content_type, "text/plain");
-        beast::ostream(response_.body()) << "File not found\r\n";
+        beast::ostream(response_.body()) << "Route not found\r\n";
     }
 }
 
