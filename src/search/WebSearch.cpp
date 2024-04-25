@@ -48,9 +48,11 @@ void WebSearch::process_request()
 
 void WebSearch::create_response()
 {
-    if(request_.target() == "/search")
+    std::string requestTarget = request_.target();
+    if(requestTarget.starts_with("/search"))
     {
-        std::vector<std::string> docIds = searchEngine.search("access");
+        std::string word = requestTarget.substr(requestTarget.find("=") + 1);
+        std::vector<std::string> docIds = searchEngine.search(word);
         std::stringstream jsonStream;
         response_.set( http::field::content_type, "application/json" );
         response_.prepare_payload();
@@ -71,7 +73,7 @@ void WebSearch::create_response()
         beast::ostream(response_.body())
             << jsonStream.str();
     }
-    else if(request_.target() == "/count")
+    else if(requestTarget == "/count")
     {
         response_.set(http::field::content_type, "text/html");
         beast::ostream(response_.body())
@@ -85,7 +87,7 @@ void WebSearch::create_response()
             <<  "</body>\n"
             <<  "</html>\n";
     }
-    else if(request_.target() == "/time")
+    else if(requestTarget == "/time")
     {
         response_.set(http::field::content_type, "text/html");
         beast::ostream(response_.body())
