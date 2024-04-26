@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WikiSearch</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-4">WikiSearch</h1>
+        <div class="flex items-center">
+            <input id="searchInput" type="text" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+            <button id="searchButton" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Search</button>
+        </div>
+        <div id="searchResults" class="mt-4"></div>
+    </div>
+
+    <script>
+        function performSearch() {
+            var searchInput = document.getElementById('searchInput').value;
+            var searchResultsDiv = document.getElementById('searchResults');
+            searchResultsDiv.innerHTML = '';
+            fetch(`http://127.0.0.1:8080/search=${searchInput}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.results) {
+                        var noResultsMessage = document.createElement('div');
+                        noResultsMessage.textContent = 'No results found';
+                        searchResultsDiv.appendChild(noResultsMessage);
+                    } else {
+                        searchResultsDiv.appendChild(document.createElement('h1')).textContent = 'Search Results';
+                        data.results.forEach(docId => {
+                            var resultItem = document.createElement('div');
+                            resultItem.textContent = docId;
+                            searchResultsDiv.appendChild(resultItem);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching search results:', error);
+                });
+        }
+
+        document.getElementById('searchButton').addEventListener('click', performSearch);
+
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            // Check if Enter key is pressed (key code 13)
+            if (event.keyCode === 13) {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+
+</html>

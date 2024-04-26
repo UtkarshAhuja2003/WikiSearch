@@ -28,6 +28,7 @@ void WebSearch::process_request()
         case http::verb::get:
             response_.result(http::status::ok);
             response_.set(http::field::server, "WikiSearch");
+            response_.set(http::field::access_control_allow_origin, "*");
             create_response();
             break;
 
