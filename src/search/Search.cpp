@@ -1,8 +1,8 @@
 #include "Search.h"
 
-std::vector<std::string> Search::getPostingListForSingleTerm(std::string word)
+std::vector<std::pair<std::string,int>> Search::getPostingListForSingleTerm(std::string word)
 {
-    std::vector<std::string> postingList;
+    std::vector<std::pair<std::string,int>> postingList;
     if(invertedIndex.find(word) == invertedIndex.end()) return postingList;
     int offset = invertedIndex[word];
     int startChar = word[0] - 'a';
@@ -14,16 +14,31 @@ std::vector<std::string> Search::getPostingListForSingleTerm(std::string word)
         posting.push_back(c);
     }
 
-    std::string index;
+    std::pair<std::string,int> docId_freq;
+    std::string freq;
+    std::string docId;
+    bool startFreq = false;
     for(char c : posting)
     {
         if(c == ';')
         {
-            postingList.emplace_back(index);
-            index.clear();
+            docId_freq.first = docId;
+            docId_freq.second = stoi(freq);
+            postingList.emplace_back(docId_freq);
+            docId_freq.first.clear();
+            startFreq = false;
         }
-        else{
-            index.push_back(c);
+        else if(c == '-')
+        {
+            startFreq = true;
+        }
+        else if(startFreq)
+        {
+            freq.push_back(c);
+        }
+        else
+        {
+            docId.push_back(c);
         }
     }
 
@@ -34,14 +49,13 @@ void Search::getPostingList(std::unordered_map<std::string, int> &searchTerms, s
 {
     for(auto currentTerm : searchTerms)
     {
-        std::vector<std::string> currentPosting = getPostingListForSingleTerm(currentTerm.first);
-        for(std::string docId : currentPosting)
+        std::vector<std::pair<std::string,int>> currentPosting = getPostingListForSingleTerm(currentTerm.first);
+        for(std::pair<std::string,int> docId_freq : currentPosting)
         {
-            // TODO: Take original termfrequency
-            int termFrequency = 1;
-            double prevTfidf = (docTfidfMap.find(docId) == docTfidfMap.end()) ? 0 : docTfidfMap[docId];
+            int termFrequency = docId_freq.second;
+            double prevTfidf = (docTfidfMap.find(docId_freq.first) == docTfidfMap.end()) ? 0 : docTfidfMap[docId_freq.first];
             double currTfidf = tfidf(termFrequency, currentPosting.size());
-            docTfidfMap[docId] = (prevTfidf + currTfidf);
+            docTfidfMap[docId_freq.first] = (prevTfidf + currTfidf);
         }
     }
 }

@@ -57,7 +57,7 @@ void ParseIndex::parseWikiPage()
             std::string data(word);
             if(data.size() > 1 && !this->classifiers.isStopWord(data))
             {
-                invertedIndex[data].insert(currentWikiPage.getPageId());
+                invertedIndex[data][currentWikiPage.getPageId()]++;
             }
             word[0] = '\0';
         }
@@ -74,13 +74,15 @@ void ParseIndex::parseWikiPage()
 
 void ParseIndex::dumpInvertedIndexToDisk()
 {
-    std::map<std::string, std::unordered_set<std::string>> &invertedIndex = getInvertedIndex();
+    std::map<std::string, std::map<std::string,int>> &invertedIndex = getInvertedIndex();
     for(auto &index : invertedIndex)
     {
         std::string data = index.first + ':';
-        for(std::string docID : index.second)
+        for(auto docId_freq : index.second)
         {
-            data.append(docID);
+            data.append(docId_freq.first);
+            data.append("-");
+            data.append(std::to_string(docId_freq.second));
             data.append(";");
         }
         data.append("\n");
@@ -163,7 +165,7 @@ void ParseIndex::setWikiDump(const std::string& wikiDump) {
     this->wikiDump = wikiDump;
 }
 
-std::map<std::string,std::unordered_set<std::string>>& ParseIndex::getInvertedIndex()
+std::map<std::string,std::map<std::string,int>>& ParseIndex::getInvertedIndex()
 {
     return this->invertedIndex;
 }

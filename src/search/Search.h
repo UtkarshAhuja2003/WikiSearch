@@ -25,7 +25,7 @@ class Search
     public:
         void search();
         std::vector<std::string> search(std::string searchQuery);
-        std::vector<std::string> getPostingListForSingleTerm(std::string word);
+        std::vector<std::pair<std::string,int>> getPostingListForSingleTerm(std::string word);
         void getPostingList(std::unordered_map<std::string, int> &searchTerms, std::unordered_map<std::string, double> &docTfidfMap);
         void processSearchQuery(std::string query, std::unordered_map<std::string, int> &searchTerms);
         void calculateTopKDocs(std::unordered_map<std::string, double> &docTfidfMap, std::vector<std::string> &topKDocIds);
