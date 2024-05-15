@@ -90,6 +90,10 @@
         "syncstream": "cpp",
         "thread": "cpp",
         "typeindex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "strstream": "cpp",
+        "rope": "cpp",
+        "slist": "cpp",
+        "*.ipp": "cpp"
     }
 }

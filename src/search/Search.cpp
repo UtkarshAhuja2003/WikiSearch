@@ -6,6 +6,8 @@ std::vector<std::pair<std::string,int>> Search::getPostingListForSingleTerm(std:
     if(invertedIndex.find(word) == invertedIndex.end()) return postingList;
     int offset = invertedIndex[word];
     int startChar = word[0] - 'a';
+    if(startChar < 0 || startChar >= 26) throw std::out_of_range("Invalid start character");
+    if(postingListsBuffer[startChar] == nullptr) throw std::runtime_error("Posting list buffer is null");
     postingListsBuffer[startChar]->pubseekpos(offset);
     std::string posting;
     char c;
@@ -14,33 +16,40 @@ std::vector<std::pair<std::string,int>> Search::getPostingListForSingleTerm(std:
         posting.push_back(c);
     }
 
-    std::pair<std::string,int> docId_freq;
-    std::string freq;
-    std::string docId;
-    bool startFreq = false;
-    for(char c : posting)
+    try
     {
-        if(c == ';')
+        std::pair<std::string,int> docId_freq;
+        std::string freq;
+        std::string docId;
+        bool startFreq = false;
+        for(char c : posting)
         {
-            docId_freq.first = docId;
-            docId_freq.second = stoi(freq);
-            postingList.emplace_back(docId_freq);
-            docId_freq.first.clear();
-            docId.clear();
-            startFreq = false;
+            if(c == ';')
+            {
+                docId_freq.first = docId;
+                docId_freq.second = std::stoi(freq);
+                postingList.emplace_back(docId_freq);
+                docId.clear();
+                freq.clear();
+                startFreq = false;
+            }
+            else if(c == '-')
+            {
+                startFreq = true;
+            }
+            else if(startFreq)
+            {
+                freq.push_back(c);
+            }
+            else
+            {
+                docId.push_back(c);
+            }
         }
-        else if(c == '-')
-        {
-            startFreq = true;
-        }
-        else if(startFreq)
-        {
-            freq.push_back(c);
-        }
-        else
-        {
-            docId.push_back(c);
-        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Exception occurred in converting file content to posting list: " << e.what() << std::endl;
     }
 
     return postingList;
