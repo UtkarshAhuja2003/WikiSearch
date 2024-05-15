@@ -26,6 +26,7 @@ std::vector<std::pair<std::string,int>> Search::getPostingListForSingleTerm(std:
             docId_freq.second = stoi(freq);
             postingList.emplace_back(docId_freq);
             docId_freq.first.clear();
+            docId.clear();
             startFreq = false;
         }
         else if(c == '-')
