@@ -5,11 +5,13 @@ FileIO::FileIO(std::string indexFolderPath)
     this->indexFolderPath = indexFolderPath;
 }
 
-void FileIO::initialise()
+std::pair<std::pair<std::filebuf *, std::filebuf *>, std::string> FileIO::initialise()
 {
     try
     {
         FileBuffer = stream.rdbuf();
+        MetadataFileBuffer = metadataStream.rdbuf();
+        return {{FileBuffer, MetadataFileBuffer}, indexFolderPath};
     }
     catch(const std::exception& e)
     {
@@ -22,6 +24,7 @@ void FileIO::close()
     try
     {
         FileBuffer->close();
+        MetadataFileBuffer->close();
     }
     catch(const std::exception& e)
     {
@@ -52,6 +55,32 @@ void FileIO::dumpTemporaryFileToDisk()
     catch(const std::exception& e)
     {
         throw std::runtime_error(std::string("Error in Dumping Temporary file to Disk : ") + e.what());
+    }
+}
+
+void FileIO::writeMetadata(std::string &data)
+{
+    try
+    {
+        std::string filePath = indexFolderPath + "/meta/id_title" + ".txt";
+        MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
+        MetadataFileBuffer->sputn(data.c_str(), data.length());
+    }
+    catch(const std::exception& e)
+    {
+        throw std::runtime_error(e.what());
+    }
+}
+
+void FileIO::dumpMetadataToDisk()
+{
+    try
+    {
+        MetadataFileBuffer->close();
+    }
+    catch(const std::exception& e)
+    {
+        throw std::runtime_error(std::string("Error in Dumping Metadata file to Disk : ") + e.what());
     }
 }
 
@@ -181,4 +210,9 @@ std::vector<std::filebuf *> FileIO::getDictBuffer()
 std::vector<std::filebuf *> FileIO::getPostingListBuffer()
 {
     return postingListsBuffer;
+}
+
+std::filebuf * FileIO::getMetadataBuffer()
+{
+    return MetadataFileBuffer;
 }

@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
+#include <map>
 #include <math.h>
 #include "../utils/Classifiers.h"
 #include "../utils/FileIO.h"
@@ -22,14 +23,18 @@ class Search
         std::vector<std::filebuf *> postingListsBuffer;
         std::vector<std::filebuf *> dictBuffer;
         std::unordered_map<std::string, int> invertedIndex;
+        std::map<std::string,std::string> docIdTitleMap;
+        
     public:
         void search();
-        std::vector<std::string> search(std::string searchQuery);
+        std::vector<std::pair<std::string, std::string>> search(std::string searchQuery);
         std::vector<std::pair<std::string,int>> getPostingListForSingleTerm(std::string word);
         void getPostingList(std::unordered_map<std::string, int> &searchTerms, std::unordered_map<std::string, double> &docTfidfMap);
         void processSearchQuery(std::string query, std::unordered_map<std::string, int> &searchTerms);
-        void calculateTopKDocs(std::unordered_map<std::string, double> &docTfidfMap, std::vector<std::string> &topKDocIds);
+        void calculateTopKDocs(std::unordered_map<std::string, double> &docTfidfMap, std::vector<std::pair<std::string, std::string>> &topKDocIds);
         void loadInvertedIndex(FileIO &file);
+        std::string& getTitleFromDocId(std::string docId);
+        void loadMetadata(FileIO &file);
         double tfidf(int tf, int df);
         void initializeStemmer();
         void stemWord(char word[]);

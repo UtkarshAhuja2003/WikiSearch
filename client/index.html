@@ -31,11 +31,34 @@
                         noResultsMessage.textContent = 'No results found';
                         searchResultsDiv.appendChild(noResultsMessage);
                     } else {
-                        searchResultsDiv.appendChild(document.createElement('h1')).textContent = 'Search Results';
-                        data.results.forEach(docId => {
-                            var resultItem = document.createElement('div');
-                            resultItem.textContent = docId;
-                            searchResultsDiv.appendChild(resultItem);
+                        data.results.forEach(doc => {
+                            var resultCard = document.createElement('div');
+                            resultCard.className = 'bg-white p-4 rounded-lg shadow-md mb-4';
+
+                            var cardContent = document.createElement('div');
+                            cardContent.className = 'flex justify-between items-center';
+
+                            var titleDiv = document.createElement('div');
+                            titleDiv.className = 'text-lg font-semibold';
+                            titleDiv.textContent = doc.title;
+                            cardContent.appendChild(titleDiv);
+
+                            var docIdDiv = document.createElement('div');
+                            docIdDiv.className = 'text-sm text-gray-500';
+                            docIdDiv.textContent = `ID: ${doc.docid}`;
+                            cardContent.appendChild(docIdDiv);
+
+                            resultCard.appendChild(cardContent);
+
+                            var visitButton = document.createElement('button');
+                            visitButton.className = 'mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg';
+                            visitButton.textContent = 'Visit';
+                            visitButton.onclick = function() {
+                                window.open('https://wikipedia.org/wiki/' + doc.title, '_blank');
+                            };
+                            resultCard.appendChild(visitButton);
+
+                            searchResultsDiv.appendChild(resultCard);
                         });
                     }
                 })
@@ -47,7 +70,6 @@
         document.getElementById('searchButton').addEventListener('click', performSearch);
 
         document.getElementById('searchInput').addEventListener('keypress', function(event) {
-            // Check if Enter key is pressed (key code 13)
             if (event.keyCode === 13) {
                 performSearch();
             }

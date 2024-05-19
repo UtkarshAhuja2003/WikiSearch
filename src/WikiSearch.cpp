@@ -30,7 +30,7 @@ int main()
         {
             auto start = std::chrono::high_resolution_clock::now();
         
-            std::string wikiDump = "../res/wiki.xml";
+            std::string wikiDump = "../res/wiki_dump.xml";
             ParseIndex parseIndex(wikiDump);
             std::cout << "Starting Indexing\n";
             parseIndex.buildIndex();
@@ -56,6 +56,7 @@ int main()
     try
     {
         searchEngine.loadInvertedIndex(file);
+        searchEngine.loadMetadata(file);
     }
     catch(const std::exception& e)
     {

@@ -70,7 +70,7 @@ void Search::getPostingList(std::unordered_map<std::string, int> &searchTerms, s
     }
 }
 
-void Search::calculateTopKDocs(std::unordered_map<std::string, double> &docTfidfMap, std::vector<std::string> &topKDocIds)
+void Search::calculateTopKDocs(std::unordered_map<std::string, double> &docTfidfMap, std::vector<std::pair<std::string, std::string>> &topKDocIds)
 {
 
     std::priority_queue<std::pair<double, std::string>> tempQueue;
@@ -79,9 +79,15 @@ void Search::calculateTopKDocs(std::unordered_map<std::string, double> &docTfidf
     {
         tempQueue.push({currDocTfidf.second, currDocTfidf.first});
     }
+
+    std::string docId;
+    std::string title;
+    
     for(int i = 0; (!tempQueue.empty() && i < maxDocsLimit); i++)
     {
-        topKDocIds.push_back(tempQueue.top().second);
+        docId = tempQueue.top().second;
+        title = getTitleFromDocId(docId);
+        topKDocIds.push_back({docId, title});
         tempQueue.pop();
     }
 }
@@ -126,7 +132,7 @@ void Search::search()
     std::string searchQuery;
     std::unordered_map<std::string, int> searchTerms;
     std::unordered_map<std::string, double> docTfidfMap;
-    std::vector<std::string> topKDocIds;
+    std::vector<std::pair<std::string, std::string>> topKDocs;
     while(searchQuery != "q" || searchQuery != "exit")
     {
         std::cout << "\n\nEnter the query to search: ";
@@ -143,36 +149,41 @@ void Search::search()
             std::cout << "\nNo results found\n";
             continue;
         }
-        calculateTopKDocs(docTfidfMap, topKDocIds);
-        for(const std::string& docId : topKDocIds)
+        calculateTopKDocs(docTfidfMap, topKDocs);
+        for(auto docId : topKDocs)
         {
-            std::cout << docId << " ";
+            std::cout << "id: "<<  docId.first << " Title: " << docId.second << "\n" ;
         }
 
         searchTerms.clear();
         docTfidfMap.clear();
-        topKDocIds.clear();
+        topKDocs.clear();
         
     }
 
     this->freeStemmer();
 }
 
-std::vector<std::string> Search::search(std::string searchQuery)
+std::vector<std::pair<std::string, std::string>> Search::search(std::string searchQuery)
 {
     std::unordered_map<std::string, int> searchTerms;
     std::unordered_map<std::string, double> docTfidfMap;
-    std::vector<std::string> topKDocIds;
+    std::vector<std::pair<std::string, std::string>> topKDocs;
 
     processSearchQuery(searchQuery, searchTerms);
     getPostingList(searchTerms, docTfidfMap);
 
     if(!docTfidfMap.empty())
     {
-       calculateTopKDocs(docTfidfMap, topKDocIds);
+       calculateTopKDocs(docTfidfMap, topKDocs);
     }
 
-    return topKDocIds;
+    return topKDocs;
+}
+
+std::string& Search::getTitleFromDocId(std::string docId)
+{
+    return docIdTitleMap[docId];
 }
 
 void Search::loadInvertedIndex(FileIO &file)
@@ -206,6 +217,33 @@ void Search::loadInvertedIndex(FileIO &file)
             }
             lineNumber++;
         }
+    }
+}
+
+void Search::loadMetadata(FileIO &file)
+{
+    auto initialised = file.initialise();
+    std::string indexFolderPath = initialised.second;
+    std::filebuf *MetadataBuffer = initialised.first.second;
+
+    std::string metaPath = indexFolderPath + "/meta/id_title.txt";
+    MetadataBuffer->open(metaPath, std::ios::in);
+    if(!MetadataBuffer->is_open()) throw std::runtime_error("Unable to open Metadata file");
+
+    std::string docId;
+    std::string title;
+
+    while(MetadataBuffer->sgetc() != EOF)
+    {
+        std::string line;
+        char c;
+        while((c = MetadataBuffer->sbumpc()) != '\n')
+        {
+            line.push_back(c);
+        }
+        docId = line.substr(0, line.find(":"));
+        title = line.substr(line.find(":") + 1);
+        docIdTitleMap[docId] = title;
     }
 }
 

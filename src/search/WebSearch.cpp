@@ -53,21 +53,21 @@ void WebSearch::create_response()
     if(requestTarget.starts_with("/search"))
     {
         std::string word = requestTarget.substr(requestTarget.find("=") + 1);
-        std::vector<std::string> docIds = searchEngine.search(word);
+        std::vector<std::pair<std::string, std::string>> topKDocs = searchEngine.search(word);
         std::stringstream jsonStream;
         response_.set( http::field::content_type, "application/json" );
         response_.prepare_payload();
-        if (docIds.empty()) {
+        if (topKDocs.empty()) {
             jsonStream << "[]";
         } else {
             jsonStream << "{ \"results\": [";
             bool isFirst = true;
-            for (const std::string& docId : docIds) {
-            if (!isFirst) {
-                jsonStream << ",";
-            }
-            jsonStream << "\"" << docId << "\"";
-            isFirst = false;
+            for (const auto& doc : topKDocs) {
+                if (!isFirst) {
+                    jsonStream << ",";
+                }
+                jsonStream << "{ \"docid\": \"" << doc.first << "\", \"title\": \"" << doc.second << "\" }";
+                isFirst = false;
             }
             jsonStream << "] }";
         }
