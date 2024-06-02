@@ -5,13 +5,17 @@ FileIO::FileIO(std::string indexFolderPath)
     this->indexFolderPath = indexFolderPath;
 }
 
-std::pair<std::pair<std::filebuf *, std::filebuf *>, std::string> FileIO::initialise()
+std::pair<std::pair<std::filebuf *, std::vector<std::filebuf *>>, std::string> FileIO::initialise()
 {
     try
     {
         FileBuffer = stream.rdbuf();
         MetadataFileBuffer = metadataStream.rdbuf();
-        return {{FileBuffer, MetadataFileBuffer}, indexFolderPath};
+        l1MetadataFileBuffer = l1MetadataStream.rdbuf();
+        l2MetadataFileBuffer = l2MetadataStream.rdbuf();
+        l3MetadataFileBuffer = l3MetadataStream.rdbuf();
+
+        return {{FileBuffer, {MetadataFileBuffer, l1MetadataFileBuffer, l2MetadataFileBuffer, l3MetadataFileBuffer}}, indexFolderPath};
     }
     catch(const std::exception& e)
     {
@@ -25,6 +29,9 @@ void FileIO::close()
     {
         FileBuffer->close();
         MetadataFileBuffer->close();
+        l1MetadataFileBuffer->close();
+        l2MetadataFileBuffer->close();
+        l3MetadataFileBuffer->close();
     }
     catch(const std::exception& e)
     {
@@ -58,16 +65,93 @@ void FileIO::dumpTemporaryFileToDisk()
     }
 }
 
-void FileIO::writeMetadata(std::string &data)
+void FileIO::writeL1Metadata(std::map<int, std::string> &docIdTitleMap)
 {
     try
     {
-        std::string filePath = indexFolderPath + "/meta/id_title" + ".txt";
-        MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
-        MetadataFileBuffer->sputn(data.c_str(), data.length());
+        std::string filePath = indexFolderPath + "/meta/l1Metadata" + ".txt";
+        l1MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
+        std::string data = std::to_string(docIdTitleMap.begin()->first) + ":" + writeL2Metadata(docIdTitleMap) + "\n";
+        l1MetadataFileBuffer->sputn(data.c_str(), data.length());
     }
     catch(const std::exception& e)
     {
+        std::cout << "Unable to write l1 metadata\n";
+        throw std::runtime_error(e.what());
+    }
+}
+
+std::string FileIO::writeL2Metadata(std::map<int, std::string> &docIdTitleMap)
+{
+    try
+    {
+        std::string filePath = indexFolderPath + "/meta/l2Metadata" + ".txt";
+        l2MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
+        int offset = l2MetadataStream.tellp();
+
+        auto it = docIdTitleMap.begin();
+        for (int i = 0; i < 1000; i++)
+        {
+            if(it == docIdTitleMap.end())break;
+            std::pair<std::string, std::map<int, std::string>::iterator> offsetIteratorPair = writeL3Metadata(docIdTitleMap, it);
+            std::string data = std::to_string(it->first) + ":" + offsetIteratorPair.first + "\n";
+            l2MetadataFileBuffer->sputn(data.c_str(), data.length());
+            it = offsetIteratorPair.second;
+        }
+        return std::to_string(offset);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << "Unable to write l2 metadata\n";
+        throw std::runtime_error(e.what());
+    }
+}
+
+std::pair<std::string, std::map<int, std::string>::iterator> FileIO::writeL3Metadata(std::map<int, std::string> &docIdTitleMap, auto it)
+{
+    try
+    {
+        std::string filePath = indexFolderPath + "/meta/l3Metadata" + ".txt";
+        l3MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
+        int offset = l3MetadataStream.tellp();
+
+        for (int i = 0; i < 50; i++)
+        {
+            if(it == docIdTitleMap.end())break;
+            std::pair<std::string, std::map<int, std::string>::iterator> offsetIteratorPair = writeDocIdTitle(docIdTitleMap, it);
+            std::string data = std::to_string(it->first) + ":" + offsetIteratorPair.first + "\n";
+            l3MetadataFileBuffer->sputn(data.c_str(), data.length());
+            it = offsetIteratorPair.second;
+        }
+        return {std::to_string(offset), it};
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << "Unable to write l3 metadata\n";
+        throw std::runtime_error(e.what());
+    }
+}
+
+std::pair<std::string, std::map<int, std::string>::iterator> FileIO::writeDocIdTitle(std::map<int, std::string> &docIdTitleMap, auto it)
+{
+    try
+    {
+        std::string filePath = indexFolderPath + "/meta/id_title_map" + ".txt";
+        MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
+        int offset = metadataStream.tellp();
+
+        for (int i = 0; i < 10; i++)
+        {
+            if(it == docIdTitleMap.end())break;
+            std::string data = std::to_string(it->first) + ":" + it->second + "\n";
+            MetadataFileBuffer->sputn(data.c_str(), data.length());
+            it++;
+        }
+        return {std::to_string(offset), it};
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << "Unable to write DocId Title metadata\n";
         throw std::runtime_error(e.what());
     }
 }
@@ -77,6 +161,9 @@ void FileIO::dumpMetadataToDisk()
     try
     {
         MetadataFileBuffer->close();
+        l1MetadataFileBuffer->close();
+        l2MetadataFileBuffer->close();
+        l3MetadataFileBuffer->close();
     }
     catch(const std::exception& e)
     {

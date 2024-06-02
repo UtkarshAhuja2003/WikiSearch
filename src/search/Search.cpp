@@ -224,7 +224,7 @@ void Search::loadMetadata(FileIO &file)
 {
     auto initialised = file.initialise();
     std::string indexFolderPath = initialised.second;
-    std::filebuf *MetadataBuffer = initialised.first.second;
+    std::filebuf *MetadataBuffer = initialised.first.second[0];
 
     std::string metaPath = indexFolderPath + "/meta/id_title.txt";
     MetadataBuffer->open(metaPath, std::ios::in);

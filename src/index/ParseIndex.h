@@ -26,7 +26,7 @@ class ParseIndex
         int tempFileNumber = 0;
         int numberOfPages = 0;
         std::map<std::string,std::map<std::string,int>> invertedIndex;
-        std::map<std::string,std::string> docIdTitleMap;
+        std::map<int,std::string> docIdTitleMap;
         std::stack<std::string> tagStack;
         WikiPage currentWikiPage;
         Classifiers classifiers;
@@ -37,7 +37,6 @@ class ParseIndex
         void buildIndex();
         void parseWikiPage();
         void dumpInvertedIndexToDisk();
-        void dumpMetadata();
         std::map<std::string,std::map<std::string,int>>& getInvertedIndex();
         ParseIndex(const std::string& wikiFilePath);
         const std::string& getWikiDump() const;
