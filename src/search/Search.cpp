@@ -181,9 +181,142 @@ std::vector<std::pair<std::string, std::string>> Search::search(std::string sear
     return topKDocs;
 }
 
-std::string& Search::getTitleFromDocId(std::string docId)
+std::string Search::getTitleFromDocId(std::string docId)
 {
-    return docIdTitleMap[docId];
+    try
+    {
+        int id = std::stoi(docId);
+        int prevOffset = 0;
+
+        for(auto it = l1MetadataMap.begin(); it != l1MetadataMap.end(); ++it)
+        {
+            if(it->first > id)
+            {
+                break;
+            }
+            prevOffset = it->second;
+        }
+
+        return searchL2Metadata(id, prevOffset);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error searching L1 Metadata" << e.what() << '\n';
+    }
+
+    return "Error Finding Title for the DocID\n";
+}
+
+std::string Search::searchL2Metadata(int docId, int offset)
+{
+    try{
+        std::filebuf *l2MetadataBuffer = metadataFileBuffers[2];
+        l2MetadataBuffer->pubseekpos(offset);
+        int i = 0, prevOffset = 0;
+        std::string line, id, off;
+
+        while(l2MetadataBuffer->sgetc() != EOF && i < L2MetadataLimit)
+        {
+            char c;
+            while((c = l2MetadataBuffer->sbumpc()) != '\n')
+            {
+                line.push_back(c);
+            }
+            id = line.substr(0, line.find(":"));
+            off = line.substr(line.find(":") + 1);
+
+            if(std::stoi(id) > docId)
+            {
+                break;
+            }
+            prevOffset = std::stoi(off);
+            i++;
+            line.clear();
+        }
+
+        return searchL3Metadata(docId, prevOffset);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error searching L2 Metadata" << e.what() << '\n';
+    }
+    
+    return "Error Finding Title for the DocID\n";
+}
+
+std::string Search::searchL3Metadata(int docId, int offset)
+{
+    try{
+        std::filebuf *l3MetadataBuffer = metadataFileBuffers[3];
+        l3MetadataBuffer->pubseekpos(offset);
+        int i = 0, prevOffset = 0;
+        std::string line, id, off;
+
+        while(l3MetadataBuffer->sgetc() != EOF && i < L3MetadataLimit)
+        {
+            char c;
+            while((c = l3MetadataBuffer->sbumpc()) != '\n')
+            {
+                line.push_back(c);
+            }
+            id = line.substr(0, line.find(":"));
+            off = line.substr(line.find(":") + 1);
+
+            if(std::stoi(id) > docId)
+            {
+                break;
+            }
+            prevOffset = std::stoi(off);
+            i++;
+            line.clear();
+        }
+
+        return searchMetadata(docId, prevOffset);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error searching L3 Metadata" << e.what() << '\n';
+    }
+    
+    return "Error Finding Title for the DocID\n";
+}
+
+std::string Search::searchMetadata(int docId, int offset)
+{
+    try{
+        std::filebuf *metadataBuffer = metadataFileBuffers[0];
+        metadataBuffer->pubseekpos(offset);
+        std::cout << offset << "\n";
+        int i = 0;
+        std::string line, id, title;
+
+        while(metadataBuffer->sgetc() != EOF && i < MetadataLimit)
+        {
+            char c;
+            while((c = metadataBuffer->sbumpc()) != '\n')
+            {
+                line.push_back(c);
+            }
+            id = line.substr(0, line.find(":"));
+            title = line.substr(line.find(":") + 1);
+            std::cout << line << "\n";
+
+            // if(std::stoi(id) == docId)
+            // {
+            //     return title;
+            // }
+            i++;
+            line.clear();
+        }
+
+        return "Not Found";
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error searching ID Title Map" << e.what() << '\n';
+    }
+    
+    return "Error Finding Title for the DocID\n";
 }
 
 void Search::loadInvertedIndex(FileIO &file)
@@ -220,30 +353,46 @@ void Search::loadInvertedIndex(FileIO &file)
     }
 }
 
-void Search::loadMetadata(FileIO &file)
+void Search::loadL1Metadata(FileIO &file)
 {
-    auto initialised = file.initialise();
+    std::pair<std::pair<std::filebuf *, std::vector<std::filebuf *>>, std::string> initialised;
+    try {
+        initialised = file.initialise();
+    } catch (const std::exception& e) {
+        std::cerr << "Error: Unable to initialise FileIO" << e.what() << std::endl;
+    }
     std::string indexFolderPath = initialised.second;
-    std::filebuf *MetadataBuffer = initialised.first.second[0];
+    metadataFileBuffers = initialised.first.second;
 
-    std::string metaPath = indexFolderPath + "/meta/id_title.txt";
-    MetadataBuffer->open(metaPath, std::ios::in);
-    if(!MetadataBuffer->is_open()) throw std::runtime_error("Unable to open Metadata file");
+    std::string l1MetadataPath = indexFolderPath + "/meta/l1metadata.txt";
+    std::string l2MetadataPath = indexFolderPath + "/meta/l2metadata.txt";
+    std::string l3MetadataPath = indexFolderPath + "/meta/l3metadata.txt";
+    std::string MetadataPath = indexFolderPath + "/meta/id_title_map.txt";
 
-    std::string docId;
-    std::string title;
+    std::filebuf *l1MetadataBuffer = metadataFileBuffers[1];
+    l1MetadataBuffer->open(l1MetadataPath, std::ios::in);
+    if(!l1MetadataBuffer->is_open()) throw std::runtime_error("Unable to open L1 Metadata file");
 
-    while(MetadataBuffer->sgetc() != EOF)
+    metadataFileBuffers[2]->open(l2MetadataPath, std::ios::in);
+    if(!metadataFileBuffers[2]->is_open()) throw std::runtime_error("Unable to open L2 Metadata file");
+    metadataFileBuffers[3]->open(l3MetadataPath, std::ios::in);
+    if(!metadataFileBuffers[3]->is_open()) throw std::runtime_error("Unable to open L3 Metadata file");
+    metadataFileBuffers[0]->open(MetadataPath, std::ios::in);
+    if(!metadataFileBuffers[0]->is_open()) throw std::runtime_error("Unable to open Metadata file");
+
+    std::string docId, offset, line;
+
+    while(l1MetadataBuffer->sgetc() != EOF)
     {
-        std::string line;
         char c;
-        while((c = MetadataBuffer->sbumpc()) != '\n')
+        while((c = l1MetadataBuffer->sbumpc()) != '\n')
         {
             line.push_back(c);
         }
         docId = line.substr(0, line.find(":"));
-        title = line.substr(line.find(":") + 1);
-        docIdTitleMap[docId] = title;
+        offset = line.substr(line.find(":") + 1);
+        l1MetadataMap[std::stoi(docId)] = std::stoi(offset);
+        line.clear();
     }
 }
 

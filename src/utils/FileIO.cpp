@@ -65,14 +65,18 @@ void FileIO::dumpTemporaryFileToDisk()
     }
 }
 
-void FileIO::writeL1Metadata(std::map<int, std::string> &docIdTitleMap)
+void FileIO::writeL1Metadata(std::vector<std::pair<std::string, std::string>> &docIdTitle)
 {
     try
     {
         std::string filePath = indexFolderPath + "/meta/l1Metadata" + ".txt";
-        l1MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
-        std::string data = std::to_string(docIdTitleMap.begin()->first) + ":" + writeL2Metadata(docIdTitleMap) + "\n";
-        l1MetadataFileBuffer->sputn(data.c_str(), data.length());
+        std::ofstream l1MetadataFile(filePath, std::ios::out | std::ios::app);
+        if (!l1MetadataFile.is_open()) {
+            throw std::runtime_error("Unable to open L1 metadata file.");
+        }
+        std::string data = docIdTitle.begin()->first + ":" + writeL2Metadata(docIdTitle) + "\n";
+        l1MetadataFile << data;
+        l1MetadataFile.close();
     }
     catch(const std::exception& e)
     {
@@ -81,23 +85,28 @@ void FileIO::writeL1Metadata(std::map<int, std::string> &docIdTitleMap)
     }
 }
 
-std::string FileIO::writeL2Metadata(std::map<int, std::string> &docIdTitleMap)
+std::string FileIO::writeL2Metadata(std::vector<std::pair<std::string, std::string>> &docIdTitle)
 {
     try
     {
         std::string filePath = indexFolderPath + "/meta/l2Metadata" + ".txt";
-        l2MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
-        int offset = l2MetadataStream.tellp();
+        std::ofstream l2MetadataFile(filePath, std::ios::out | std::ios::app);
+        if (!l2MetadataFile.is_open()) {
+            throw std::runtime_error("Unable to open L2 metadata file.");
+        }
+        l2MetadataFile.seekp(0, std::ios::end);
+        int offset = l2MetadataFile.tellp();
 
-        auto it = docIdTitleMap.begin();
-        for (int i = 0; i < 1000; i++)
+        auto it = docIdTitle.begin();
+        for (int i = 0; i < L2MetadataLimit; i++)
         {
-            if(it == docIdTitleMap.end())break;
-            std::pair<std::string, std::map<int, std::string>::iterator> offsetIteratorPair = writeL3Metadata(docIdTitleMap, it);
-            std::string data = std::to_string(it->first) + ":" + offsetIteratorPair.first + "\n";
-            l2MetadataFileBuffer->sputn(data.c_str(), data.length());
+            if(it == docIdTitle.end()) break;
+            std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> offsetIteratorPair = writeL3Metadata(docIdTitle, it);
+            std::string data = it->first + ":" + offsetIteratorPair.first + "\n";
+            l2MetadataFile << data;
             it = offsetIteratorPair.second;
         }
+        l2MetadataFile.close();
         return std::to_string(offset);
     }
     catch(const std::exception& e)
@@ -107,22 +116,27 @@ std::string FileIO::writeL2Metadata(std::map<int, std::string> &docIdTitleMap)
     }
 }
 
-std::pair<std::string, std::map<int, std::string>::iterator> FileIO::writeL3Metadata(std::map<int, std::string> &docIdTitleMap, auto it)
+std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> FileIO::writeL3Metadata(std::vector<std::pair<std::string, std::string>> &docIdTitle, auto it)
 {
     try
     {
         std::string filePath = indexFolderPath + "/meta/l3Metadata" + ".txt";
-        l3MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
-        int offset = l3MetadataStream.tellp();
+        std::ofstream l3MetadataFile(filePath, std::ios::out | std::ios::app);
+        if (!l3MetadataFile.is_open()) {
+            throw std::runtime_error("Unable to open L3 metadata file.");
+        }
+        l3MetadataFile.seekp(0, std::ios::end);
+        int offset = l3MetadataFile.tellp();
 
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < L3MetadataLimit; i++)
         {
-            if(it == docIdTitleMap.end())break;
-            std::pair<std::string, std::map<int, std::string>::iterator> offsetIteratorPair = writeDocIdTitle(docIdTitleMap, it);
-            std::string data = std::to_string(it->first) + ":" + offsetIteratorPair.first + "\n";
-            l3MetadataFileBuffer->sputn(data.c_str(), data.length());
+            if(it == docIdTitle.end()) break;
+            std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> offsetIteratorPair = writeDocIdTitle(docIdTitle, it);
+            std::string data = it->first + ":" + offsetIteratorPair.first + "\n";
+            l3MetadataFile << data;
             it = offsetIteratorPair.second;
         }
+        l3MetadataFile.close();
         return {std::to_string(offset), it};
     }
     catch(const std::exception& e)
@@ -132,21 +146,26 @@ std::pair<std::string, std::map<int, std::string>::iterator> FileIO::writeL3Meta
     }
 }
 
-std::pair<std::string, std::map<int, std::string>::iterator> FileIO::writeDocIdTitle(std::map<int, std::string> &docIdTitleMap, auto it)
+std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> FileIO::writeDocIdTitle(std::vector<std::pair<std::string, std::string>> &docIdTitle, auto it)
 {
     try
     {
         std::string filePath = indexFolderPath + "/meta/id_title_map" + ".txt";
-        MetadataFileBuffer->open(filePath, std::ios::out | std::ios::app);
-        int offset = metadataStream.tellp();
+        std::ofstream metadataFile(filePath, std::ios::out | std::ios::app);
+        if (!metadataFile.is_open()) {
+            throw std::runtime_error("Unable to open DocId Title metadata file.");
+        }
+        metadataFile.seekp(0, std::ios::end);
+        int offset = metadataFile.tellp();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < MetadataLimit; i++)
         {
-            if(it == docIdTitleMap.end())break;
-            std::string data = std::to_string(it->first) + ":" + it->second + "\n";
-            MetadataFileBuffer->sputn(data.c_str(), data.length());
+            if(it == docIdTitle.end()) break;
+            std::string data = it->first + ":" + it->second + "\n";
+            metadataFile << data;
             it++;
         }
+        metadataFile.close();
         return {std::to_string(offset), it};
     }
     catch(const std::exception& e)

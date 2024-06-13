@@ -56,7 +56,7 @@ int main()
     try
     {
         searchEngine.loadInvertedIndex(file);
-        searchEngine.loadMetadata(file);
+        searchEngine.loadL1Metadata(file);
     }
     catch(const std::exception& e)
     {
@@ -95,6 +95,6 @@ int main()
             std::cerr << "Error Search Engine:" << e.what() << '\n';
         }
     }
-    
+
     return 0;
 }

@@ -41,7 +41,7 @@ void ParseIndex::end(void *userData, const char *name)
 
 void ParseIndex::parseWikiPage()
 {
-    docIdTitleMap[std::stoi(this->currentWikiPage.getPageId())] = this->currentWikiPage.getPageTitle();
+    docIdTitle.push_back({this->currentWikiPage.getPageId(), this->currentWikiPage.getPageTitle()});
     const std::string& text = this->currentWikiPage.getPageText();
     char word[1000] = "";
     
@@ -71,9 +71,9 @@ void ParseIndex::parseWikiPage()
     }
     if(numberOfPages == 50000)
     {
-        file.writeL1Metadata(docIdTitleMap);
+        file.writeL1Metadata(docIdTitle);
         numberOfPages = 0;
-        docIdTitleMap.clear();
+        docIdTitle.clear();
     }
     numberOfPages++;
 }
@@ -150,7 +150,7 @@ void ParseIndex::buildIndex()
 
     this->dumpInvertedIndexToDisk();
 
-    file.writeL1Metadata(docIdTitleMap);
+    file.writeL1Metadata(docIdTitle);
 
     this->freeStemmer();
 

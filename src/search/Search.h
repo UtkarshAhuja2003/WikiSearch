@@ -23,7 +23,8 @@ class Search
         std::vector<std::filebuf *> postingListsBuffer;
         std::vector<std::filebuf *> dictBuffer;
         std::unordered_map<std::string, int> invertedIndex;
-        std::map<std::string,std::string> docIdTitleMap;
+        std::map<int, int> l1MetadataMap;
+        std::vector<std::filebuf *> metadataFileBuffers;
         
     public:
         void search();
@@ -33,8 +34,11 @@ class Search
         void processSearchQuery(std::string query, std::unordered_map<std::string, int> &searchTerms);
         void calculateTopKDocs(std::unordered_map<std::string, double> &docTfidfMap, std::vector<std::pair<std::string, std::string>> &topKDocIds);
         void loadInvertedIndex(FileIO &file);
-        std::string& getTitleFromDocId(std::string docId);
-        void loadMetadata(FileIO &file);
+        std::string getTitleFromDocId(std::string docId);
+        std::string searchL2Metadata(int docId, int offset);
+        std::string searchL3Metadata(int docId, int offset);
+        std::string searchMetadata(int docId, int offset);
+        void loadL1Metadata(FileIO &file);
         double tfidf(int tf, int df);
         void initializeStemmer();
         void stemWord(char word[]);

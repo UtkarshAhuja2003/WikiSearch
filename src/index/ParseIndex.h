@@ -9,6 +9,7 @@
 #include <stack>
 #include <map>
 #include <unordered_set>
+#include <unordered_map>
 #include "WikiPage.h"
 #include "../utils/FileIO.h"
 #include "../utils/Classifiers.h"
@@ -26,7 +27,7 @@ class ParseIndex
         int tempFileNumber = 0;
         int numberOfPages = 0;
         std::map<std::string,std::map<std::string,int>> invertedIndex;
-        std::map<int,std::string> docIdTitleMap;
+        std::vector<std::pair<std::string, std::string>> docIdTitle;
         std::stack<std::string> tagStack;
         WikiPage currentWikiPage;
         Classifiers classifiers;

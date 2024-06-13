@@ -5,7 +5,11 @@
 #include <queue>
 #include <iostream>
 #include <map>
+#include <vector>
 #define FilesCount 26
+#define L2MetadataLimit 1000
+#define L3MetadataLimit 50
+#define MetadataLimit 10
 
 class FileIO
 {
@@ -29,10 +33,10 @@ class FileIO
         void close();
         void writeDataToTemporaryFile(std::string &data, int tempFileNumber);
         void dumpTemporaryFileToDisk();
-        void writeL1Metadata(std::map<int, std::string> &docIdTitleMap);
-        std::string writeL2Metadata(std::map<int, std::string> &docIdTitleMap);
-        std::pair<std::string, std::map<int, std::string>::iterator> writeL3Metadata(std::map<int, std::string> &docIdTitleMap, auto it);
-        std::pair<std::string, std::map<int, std::string>::iterator> writeDocIdTitle(std::map<int, std::string> &docIdTitleMap, auto it);
+        void writeL1Metadata(std::vector<std::pair<std::string, std::string>> &docIdTitle);
+        std::string writeL2Metadata(std::vector<std::pair<std::string, std::string>> &docIdTitle);
+        std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> writeL3Metadata(std::vector<std::pair<std::string, std::string>> &docIdTitle, auto it);
+        std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> writeDocIdTitle(std::vector<std::pair<std::string, std::string>> &docIdTitle, auto it);
         void dumpMetadataToDisk();
         void mergeTemporaryFiles(int tempFileCount);
         std::pair<std::string, std::string> getPostingList(std::priority_queue<std::string, std::vector<std::string>, std::greater<std::string>> &invertedIndexList);
