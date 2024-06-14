@@ -7,32 +7,31 @@ void ParseIndex::start(void *userData, const char *name, const char **args)
 
 void ParseIndex::value(void *userData, const char *val, int len)
 {
-    std::string currentTag = this->tagStack.top();
+    const std::string& currentTag = this->tagStack.top();
     
     WikiPage& currentPage = this->currentWikiPage;
-    if(currentTag == "id" && currentPage.getPageId() == "")
+    if(currentTag == "id" && currentPage.getPageId().empty())
     {
-        currentPage.setPageId(std::string(val,len));
+        currentPage.setPageId(std::string(val, len));
     }
     else if(currentTag == "title")
     {
-        currentPage.setPageTitle(std::string(val,len));
+        currentPage.setPageTitle(std::string(val, len));
     }
     else if(currentTag == "text")
     {
-        currentPage.getPageText().append(std::string(val,len));
+        currentPage.getPageText().append(val, len);
     }
 }
 
 void ParseIndex::end(void *userData, const char *name)
 {
-    std::string endTag = this->tagStack.top();
     this->tagStack.pop();
-    if(endTag == "page")
+    if(strcmp(name, "page") == 0)
     {
         this->currentWikiPage.clear();
     }
-    if(endTag == "text")
+    else if(strcmp(name, "text") == 0)
     {
         this->parseWikiPage();
     }
@@ -65,7 +64,7 @@ void ParseIndex::parseWikiPage()
     }
     if(numberOfPages%1000 == 0)
     {
-        dumpInvertedIndexToDisk();
+        // dumpInvertedIndexToDisk();
         tempFileNumber++;
         invertedIndex.clear();
     }
@@ -105,48 +104,41 @@ void ParseIndex::buildIndex()
         throw std::runtime_error("Error creating XML parser");
     }
 
-    XMLCall(parser, XML_SetElementHandler(parser, 
-        [](void* userData, const char* name, const char** args) 
-        {
+    XMLCall(parser, XML_SetElementHandler(parser,
+        [](void* userData, const char* name, const char** args) {
             static_cast<ParseIndex*>(userData)->start(userData, name, args);
         },
-        [](void* userData, const char* name) 
-        {
+        [](void* userData, const char* name) {
             static_cast<ParseIndex*>(userData)->end(userData, name);
         }
     ));
 
-    XMLCall(parser, XML_SetCharacterDataHandler(parser, 
-        [](void* userData, const char* val, int len) 
-        {
+    XMLCall(parser, XML_SetCharacterDataHandler(parser,
+        [](void* userData, const char* val, int len) {
             static_cast<ParseIndex*>(userData)->value(userData, val, len);
         }
     ));
 
     XMLCall(parser, XML_SetUserData(parser, this));
 
-    std::ifstream stream;
-    std::filebuf *wikiData = stream.rdbuf();
-    wikiData->open(this->wikiDump, std::ios::in);
-    
-    if(!wikiData) throw std::runtime_error("Error Opening Wiki Dump");
+    std::ifstream stream(this->wikiDump, std::ios::in | std::ios::binary);
+    if (!stream) throw std::runtime_error("Error Opening Wiki Dump");
 
-    this->initializeStemmer();
     file.initialise();
+    this->initializeStemmer();
 
     int done;
     do {
-        void *buff = XMLCall(parser, XML_GetBuffer(parser, BUFFER_SIZE));
-        if(buff == NULL) throw std::runtime_error("Error: Empty Buffer");
+        void* buff = XMLCall(parser, XML_GetBuffer(parser, BUFFER_SIZE));
+        if (buff == NULL) throw std::runtime_error("Error: Empty Buffer");
 
-        int len = (int)wikiData->sgetn((char*)buff, BUFFER_SIZE);
-        if(len < 0) throw std::runtime_error("Error Reading Wiki Dump");
+        stream.read((char*)buff, BUFFER_SIZE);
+        std::streamsize len = stream.gcount();
+        if (len < 0) throw std::runtime_error("Error Reading Wiki Dump");
         done = len < BUFFER_SIZE;
 
-        XMLCall(parser, XML_ParseBuffer(parser, len, done));
+        XMLCall(parser, XML_ParseBuffer(parser, (int)len, done));
     } while (!done);
-
-    wikiData->close();
 
     this->dumpInvertedIndexToDisk();
 
@@ -155,7 +147,6 @@ void ParseIndex::buildIndex()
     this->freeStemmer();
 
     XMLCall(parser, XML_ParserFree(parser));
-
 }
 
 

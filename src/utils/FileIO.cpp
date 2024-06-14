@@ -96,16 +96,21 @@ std::string FileIO::writeL2Metadata(std::vector<std::pair<std::string, std::stri
         }
         l2MetadataFile.seekp(0, std::ios::end);
         int offset = l2MetadataFile.tellp();
+        std::string dataToWrite = "";
 
         auto it = docIdTitle.begin();
         for (int i = 0; i < L2MetadataLimit; i++)
         {
             if(it == docIdTitle.end()) break;
             std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> offsetIteratorPair = writeL3Metadata(docIdTitle, it);
-            std::string data = it->first + ":" + offsetIteratorPair.first + "\n";
-            l2MetadataFile << data;
+            dataToWrite.append(it->first);
+            dataToWrite.append(":");
+            dataToWrite.append(offsetIteratorPair.first);
+            dataToWrite.append("\n");
             it = offsetIteratorPair.second;
         }
+        l2MetadataFile << dataToWrite;
+        dataToWrite.clear();
         l2MetadataFile.close();
         return std::to_string(offset);
     }
@@ -127,15 +132,20 @@ std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterato
         }
         l3MetadataFile.seekp(0, std::ios::end);
         int offset = l3MetadataFile.tellp();
+        std::string dataToWrite = "";
 
         for (int i = 0; i < L3MetadataLimit; i++)
         {
             if(it == docIdTitle.end()) break;
             std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> offsetIteratorPair = writeDocIdTitle(docIdTitle, it);
-            std::string data = it->first + ":" + offsetIteratorPair.first + "\n";
-            l3MetadataFile << data;
+            dataToWrite.append(it->first);
+            dataToWrite.append(":");
+            dataToWrite.append(offsetIteratorPair.first);
+            dataToWrite.append("\n");
             it = offsetIteratorPair.second;
         }
+        l3MetadataFile << dataToWrite;
+        dataToWrite.clear();
         l3MetadataFile.close();
         return {std::to_string(offset), it};
     }
@@ -157,14 +167,19 @@ std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterato
         }
         metadataFile.seekp(0, std::ios::end);
         int offset = metadataFile.tellp();
+        std::string dataToWrite = "";
 
         for (int i = 0; i < MetadataLimit; i++)
         {
             if(it == docIdTitle.end()) break;
-            std::string data = it->first + ":" + it->second + "\n";
-            metadataFile << data;
+            dataToWrite.append(it->first);
+            dataToWrite.append(":");
+            dataToWrite.append(it->second);
+            dataToWrite.append("\n");
             it++;
         }
+        metadataFile << dataToWrite;
+        dataToWrite.clear();
         metadataFile.close();
         return {std::to_string(offset), it};
     }
