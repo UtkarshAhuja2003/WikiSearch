@@ -118,3 +118,9 @@
 - **Time Taken**: 343 seconds
 - **CPU Usage**: 25%
 - **Index File Size**: 162 MB
+
+
+
+
+
+Time to Write DocId and Title Level-Wise : 45 mins

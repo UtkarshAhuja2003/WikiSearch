@@ -212,7 +212,8 @@ std::string Search::searchL2Metadata(int docId, int offset)
     try{
         std::filebuf *l2MetadataBuffer = metadataFileBuffers[2];
         l2MetadataBuffer->pubseekpos(offset);
-        int i = 0, prevOffset = 0;
+        int i = 0;
+        std::string prevOffset = "0";
         std::string line, id, off;
 
         while(l2MetadataBuffer->sgetc() != EOF && i < L2MetadataLimit)
@@ -229,12 +230,12 @@ std::string Search::searchL2Metadata(int docId, int offset)
             {
                 break;
             }
-            prevOffset = std::stoi(off);
+            prevOffset = off;
             i++;
             line.clear();
         }
 
-        return searchL3Metadata(docId, prevOffset);
+        return searchL3Metadata(docId, std::stoi(prevOffset));
     }
     catch(const std::exception& e)
     {
@@ -249,7 +250,8 @@ std::string Search::searchL3Metadata(int docId, int offset)
     try{
         std::filebuf *l3MetadataBuffer = metadataFileBuffers[3];
         l3MetadataBuffer->pubseekpos(offset);
-        int i = 0, prevOffset = 0;
+        int i = 0;
+        std::string prevOffset = "0";
         std::string line, id, off;
 
         while(l3MetadataBuffer->sgetc() != EOF && i < L3MetadataLimit)
@@ -266,12 +268,12 @@ std::string Search::searchL3Metadata(int docId, int offset)
             {
                 break;
             }
-            prevOffset = std::stoi(off);
+            prevOffset = off;
             i++;
             line.clear();
         }
 
-        return searchMetadata(docId, prevOffset);
+        return searchMetadata(docId, std::stoi(prevOffset));
     }
     catch(const std::exception& e)
     {
@@ -286,7 +288,6 @@ std::string Search::searchMetadata(int docId, int offset)
     try{
         std::filebuf *metadataBuffer = metadataFileBuffers[0];
         metadataBuffer->pubseekpos(offset);
-        std::cout << offset << "\n";
         int i = 0;
         std::string line, id, title;
 
@@ -299,12 +300,11 @@ std::string Search::searchMetadata(int docId, int offset)
             }
             id = line.substr(0, line.find(":"));
             title = line.substr(line.find(":") + 1);
-            std::cout << line << "\n";
 
-            // if(std::stoi(id) == docId)
-            // {
-            //     return title;
-            // }
+            if(std::stoi(id) == docId)
+            {
+                return title;
+            }
             i++;
             line.clear();
         }
