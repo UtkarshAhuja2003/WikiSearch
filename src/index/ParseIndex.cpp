@@ -7,21 +7,30 @@ void ParseIndex::start(void *userData, const char *name, const char **args)
 
 void ParseIndex::value(void *userData, const char *val, int len)
 {
-    const std::string& currentTag = this->tagStack.top();
+    try
+    {
+        const std::string& currentTag = this->tagStack.top();
     
-    WikiPage& currentPage = this->currentWikiPage;
-    if(currentTag == "id" && currentPage.getPageId().empty())
-    {
-        currentPage.setPageId(std::string(val, len));
+        WikiPage& currentPage = this->currentWikiPage;
+        if(currentTag == "id" && currentPage.getPageId().empty())
+        {
+            currentPage.setPageId(std::string(val, len));
+        }
+        else if(currentTag == "title")
+        {
+            currentPage.setPageTitle(std::string(val, len));
+        }
+        else if(currentTag == "text")
+        {
+            currentPage.getPageText().append(val, len);
+        }
     }
-    else if(currentTag == "title")
+    catch(const std::exception& e)
     {
-        currentPage.setPageTitle(std::string(val, len));
+        std::cerr << "Error Traversing Wikipedia Dump, WikiPage: " << this->currentWikiPage.getPageId() << "\n";
+        std::cerr << e.what();
     }
-    else if(currentTag == "text")
-    {
-        currentPage.getPageText().append(val, len);
-    }
+    
 }
 
 void ParseIndex::end(void *userData, const char *name)
@@ -40,46 +49,98 @@ void ParseIndex::end(void *userData, const char *name)
 
 void ParseIndex::parseWikiPage()
 {
-    docIdTitle.push_back({this->currentWikiPage.getPageId(), this->currentWikiPage.getPageTitle()});
-    const std::string& text = this->currentWikiPage.getPageText();
-    char word[1000] = "";
-    
-    for(char c : text)
+    try
     {
-        if (isalpha(c))
+        docIdTitle.push_back({this->currentWikiPage.getPageId(), this->currentWikiPage.getPageTitle()});
+        const std::string& text = this->currentWikiPage.getPageText();
+        const int textLength = text.length();
+        char word[1000] = "";
+        
+        for(int i = 0; i < textLength; ++i)
         {
-            c = tolower(c);
-            strncat(word, &c, 1);
-        }
-        else
-        {
-            this->stemWord(word);
-            std::string data(word);
-            if(data.size() > 1 && !this->classifiers.isStopWord(data))
+            if(strlen(word) > 500)
             {
-                invertedIndex[data][currentWikiPage.getPageId()]++;
+                word[0] = '\0';
             }
-            word[0] = '\0';
+            char currentChar = text[i];
+            if (isalpha(currentChar))
+            {
+                currentChar = tolower(currentChar);
+                strncat(word, &currentChar, 1);
+            }
+            else if(currentChar == '{' && text[i+1] =='{')
+            {
+                int count = 2;
+                i += 2;
+                while(i < textLength)
+                {
+                    if(text[i] == '{')++count;
+                    else if(text[i] == '}')--count;
+                    if(count == 0)break;
+                    ++i;
+                }
+            }
+            else if(currentChar == '[' && text[i+1] ==']')
+            {
+                int count = 2;
+                i += 2;
+                while(i < textLength)
+                {
+                    if(text[i] == '[')++count;
+                    else if(text[i] == ']')--count;
+                    if(count == 0)break;
+                    ++i;
+                }
+            }
+            else if(currentChar == '=' && text[i+1] =='=')
+            {
+                i += 2;
+                while(i < textLength)
+                {
+                    if(text[i] == '=' && text[i+1] == '=')break;
+                    ++i;
+                }
+            }
+            else
+            {
+                processWord(word);
+                word[0] = '\0';
+            }
         }
+        if(numberOfPages%2000 == 0)
+        {
+            dumpInvertedIndexToDisk();
+            tempFileNumber++;
+            invertedIndex.clear();
+        }
+        if(numberOfPages == 50000)
+        {
+            file.writeL1Metadata(docIdTitle);
+            numberOfPages = 0;
+            docIdTitle.clear();
+        }
+        numberOfPages++;
     }
-    if(numberOfPages%1000 == 0)
+    catch(const std::exception& e)
     {
-        // dumpInvertedIndexToDisk();
-        tempFileNumber++;
-        invertedIndex.clear();
+        std::cerr << "Error Parsing WikiPage: " << this->currentWikiPage.getPageId() << "\n";
+        std::cerr << e.what();
     }
-    if(numberOfPages == 50000)
+    
+}
+
+void ParseIndex::processWord(char word[])
+{
+    this->stemWord(word);
+    if(strlen(word) > 2 && !this->classifiers.isStopWord(word))
     {
-        file.writeL1Metadata(docIdTitle);
-        numberOfPages = 0;
-        docIdTitle.clear();
+        invertedIndex[word][currentWikiPage.getPageId()]++;
     }
-    numberOfPages++;
 }
 
 void ParseIndex::dumpInvertedIndexToDisk()
 {
-    std::map<std::string, std::map<std::string,int>> &invertedIndex = getInvertedIndex();
+    std::unordered_map<std::string,std::unordered_map<std::string,int>> &invertedIndex = getInvertedIndex();
     for(auto &index : invertedIndex)
     {
         std::string data = index.first + ':';
@@ -163,7 +224,7 @@ void ParseIndex::setWikiDump(const std::string& wikiDump) {
     this->wikiDump = wikiDump;
 }
 
-std::map<std::string,std::map<std::string,int>>& ParseIndex::getInvertedIndex()
+std::unordered_map<std::string,std::unordered_map<std::string,int>>& ParseIndex::getInvertedIndex()
 {
     return this->invertedIndex;
 }
