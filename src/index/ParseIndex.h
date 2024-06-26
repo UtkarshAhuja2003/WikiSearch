@@ -26,7 +26,7 @@ class ParseIndex
         std::string wikiDump;
         int tempFileNumber = 0;
         int numberOfPages = 0;
-        std::unordered_map<std::string,std::unordered_map<std::string,int>> invertedIndex;
+        std::map<std::string,std::unordered_map<std::string,char>> invertedIndex;
         std::vector<std::pair<std::string, std::string>> docIdTitle;
         std::stack<std::string> tagStack;
         WikiPage currentWikiPage;
@@ -38,14 +38,14 @@ class ParseIndex
         void buildIndex();
         void parseWikiPage();
         void dumpInvertedIndexToDisk();
-        std::unordered_map<std::string,std::unordered_map<std::string,int>>& getInvertedIndex();
+        std::map<std::string,std::unordered_map<std::string,char>>& getInvertedIndex();
         ParseIndex(const std::string& wikiFilePath);
         const std::string& getWikiDump() const;
         void setWikiDump(const std::string& wikiDump);
         void start(void *userData, const char *name, const char **args);
         void value(void *userData, const char *val, int len);
         void end(void *userData, const char *name);
-        void processWord(char word[]);
+        void processWord(char word[], const std::string& id);
         void initializeStemmer();
         void stemWord(char word[]);
         void freeStemmer();

@@ -16,10 +16,10 @@ void ParseIndex::value(void *userData, const char *val, int len)
         {
             currentPage.setPageId(std::string(val, len));
         }
-        else if(currentTag == "title")
-        {
-            currentPage.setPageTitle(std::string(val, len));
-        }
+        // else if(currentTag == "title")
+        // {
+        //     currentPage.setPageTitle(std::string(val, len));
+        // }
         else if(currentTag == "text")
         {
             currentPage.getPageText().append(val, len);
@@ -51,14 +51,15 @@ void ParseIndex::parseWikiPage()
 {
     try
     {
-        docIdTitle.push_back({this->currentWikiPage.getPageId(), this->currentWikiPage.getPageTitle()});
+        // docIdTitle.push_back({this->currentWikiPage.getPageId(), this->currentWikiPage.getPageTitle()});
         const std::string& text = this->currentWikiPage.getPageText();
+        const std::string& id = this->currentWikiPage.getPageId();
         const int textLength = text.length();
-        char word[1000] = "";
-        
+        char word[] = "";
+
         for(int i = 0; i < textLength; ++i)
         {
-            if(strlen(word) > 500)
+            if(strlen(word) > 100)
             {
                 word[0] = '\0';
             }
@@ -103,12 +104,15 @@ void ParseIndex::parseWikiPage()
             }
             else
             {
-                processWord(word);
+                if(strlen(word) > 2){
+                    processWord(word,id);
+                }
                 word[0] = '\0';
             }
         }
-        if(numberOfPages%2000 == 0)
+        if(numberOfPages%5000 == 0)
         {
+            std::cout << "Docid: " << id << "\n";
             dumpInvertedIndexToDisk();
             tempFileNumber++;
             invertedIndex.clear();
@@ -126,21 +130,21 @@ void ParseIndex::parseWikiPage()
         std::cerr << "Error Parsing WikiPage: " << this->currentWikiPage.getPageId() << "\n";
         std::cerr << e.what();
     }
-    
 }
 
-void ParseIndex::processWord(char word[])
+void ParseIndex::processWord(char word[], const std::string &id)
 {
     this->stemWord(word);
-    if(strlen(word) > 2 && !this->classifiers.isStopWord(word))
+    if(!this->classifiers.isStopWord(word))
     {
-        invertedIndex[word][currentWikiPage.getPageId()]++;
+        ++invertedIndex[word][id];
     }
 }
 
 void ParseIndex::dumpInvertedIndexToDisk()
 {
-    std::unordered_map<std::string,std::unordered_map<std::string,int>> &invertedIndex = getInvertedIndex();
+    std::map<std::string,std::unordered_map<std::string,char>> &invertedIndex = getInvertedIndex();
+    file.openFile(tempFileNumber);
     for(auto &index : invertedIndex)
     {
         std::string data = index.first + ':';
@@ -148,11 +152,11 @@ void ParseIndex::dumpInvertedIndexToDisk()
         {
             data.append(docId_freq.first);
             data.append("-");
-            data.append(std::to_string(docId_freq.second));
+            data.append(std::to_string(int(docId_freq.second)));
             data.append(";");
         }
         data.append("\n");
-        file.writeDataToTemporaryFile(data, tempFileNumber);
+        file.writeDataToTemporaryFile(data);
     }
     file.dumpTemporaryFileToDisk();
 }
@@ -203,7 +207,7 @@ void ParseIndex::buildIndex()
 
     this->dumpInvertedIndexToDisk();
 
-    file.writeL1Metadata(docIdTitle);
+    // file.writeL1Metadata(docIdTitle);
 
     this->freeStemmer();
 
@@ -224,7 +228,7 @@ void ParseIndex::setWikiDump(const std::string& wikiDump) {
     this->wikiDump = wikiDump;
 }
 
-std::unordered_map<std::string,std::unordered_map<std::string,int>>& ParseIndex::getInvertedIndex()
+std::map<std::string,std::unordered_map<std::string,char>>& ParseIndex::getInvertedIndex()
 {
     return this->invertedIndex;
 }

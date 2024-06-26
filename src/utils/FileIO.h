@@ -31,7 +31,8 @@ class FileIO
         void initialisePostingLists(std::_Ios_Openmode openMode);
         void initialiseDictFiles(std::_Ios_Openmode openMode);
         void close();
-        void writeDataToTemporaryFile(std::string &data, int tempFileNumber);
+        void openFile(int tempFileNumber);
+        void writeDataToTemporaryFile(std::string &data);
         void dumpTemporaryFileToDisk();
         void writeL1Metadata(std::vector<std::pair<std::string, std::string>> &docIdTitle);
         std::string writeL2Metadata(std::vector<std::pair<std::string, std::string>> &docIdTitle);

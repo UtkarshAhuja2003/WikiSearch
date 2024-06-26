@@ -39,13 +39,28 @@ void FileIO::close()
     }
 }
 
-void FileIO::writeDataToTemporaryFile(std::string &data, int tempFileNumber)
+void FileIO::writeDataToTemporaryFile(std::string &data)
+{
+    try
+    {
+        FileBuffer->sputn(data.c_str(), data.length());
+    }
+    catch(const std::exception& e)
+    {
+        throw std::runtime_error(e.what());
+    }
+}
+
+void FileIO::openFile(int tempFileNumber)
 {
     try
     {
         std::string filePath = indexFolderPath + "/temp/index" + std::to_string(tempFileNumber) + ".txt";
         FileBuffer->open(filePath, std::ios::out | std::ios::app);
-        FileBuffer->sputn(data.c_str(), data.length());
+        if(!FileBuffer->is_open())
+        {
+            std::cout << "Unable to open TempFile";
+        }
     }
     catch(const std::exception& e)
     {
