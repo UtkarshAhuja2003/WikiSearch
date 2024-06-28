@@ -40,7 +40,7 @@ class FileIO
         std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> writeDocIdTitle(std::vector<std::pair<std::string, std::string>> &docIdTitle, auto it);
         void dumpMetadataToDisk();
         void mergeTemporaryFiles(int tempFileCount);
-        std::pair<std::string, std::string> getPostingList(std::priority_queue<std::string, std::vector<std::string>, std::greater<std::string>> &invertedIndexList);
+        std::pair<std::pair<std::string, std::string>, std::vector<int>> getPostingList(std::priority_queue<std::pair<std::string, int>, std::vector<std::pair<std::string, int>>, std::greater<std::pair<std::string, int>>> &invertedIndexList);
         std::vector<std::filebuf *> getPostingListBuffer();
         std::vector<std::filebuf *> getDictBuffer();
         std::filebuf * getMetadataBuffer();

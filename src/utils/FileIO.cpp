@@ -222,80 +222,99 @@ void FileIO::dumpMetadataToDisk()
 
 void FileIO::mergeTemporaryFiles(int tempFileCount)
 {
-    std::priority_queue<std::string, std::vector<std::string>, std::greater<std::string>> invertedIndexList;
-    std::vector<std::fstream> tempFileStreams(tempFileCount);
-    std::vector<std::filebuf *> tempFileReader(tempFileCount);
-    std::string tempFilePath = indexFolderPath + "/temp/index0.txt";
-
-    initialiseDictFiles(std::ios::out | std::ios::app);
-    initialisePostingLists(std::ios::out | std::ios::app);
-    
-    for(int i = 0; i < tempFileCount; i++)
+    try
     {
-        tempFileReader[i] = tempFileStreams[i].rdbuf();
-        tempFilePath[tempFilePath.length() - 5] = '0' + i;
-        tempFileReader[i]->open(tempFilePath, std::ios::in);
-    }
+        std::priority_queue<std::pair<std::string, int>, std::vector<std::pair<std::string, int>>, std::greater<std::pair<std::string, int>>> invertedIndexList;
+        std::vector<std::ifstream> tempFileStreams(tempFileCount);
+        std::string tempFilePath = "C:/Users/hp/res/temp/index";
 
-    while(!tempFileReader.empty())
-    {
-        for(int i = 0; i < tempFileReader.size(); i++)
+        initialiseDictFiles(std::ios::out | std::ios::app);
+        initialisePostingLists(std::ios::out | std::ios::app);
+
+        for (int i = 0; i < tempFileCount; i++)
         {
-            if(tempFileReader[i]->sgetc() == EOF)
+            std::string path = tempFilePath + std::to_string(i) + ".txt";
+            tempFileStreams[i].open(path);
+            if (!tempFileStreams[i].is_open())
             {
-                tempFileReader.erase(tempFileReader.begin() + i);
-                continue;
+                std::cerr << "Unable to open temp file: " << path << "\n";
+                return;
             }
-            std::string index;
-            char c;
-            while((c = tempFileReader[i]->sbumpc()) != '\n')
-            {
-                index.push_back(c);
-            }
-            invertedIndexList.push(index);
         }
-        if(tempFileReader.empty()) break;
-        std::pair<std::string, std::string> dict = getPostingList(invertedIndexList);
-        std::string word = dict.first;
-        std::string postingList = dict.second;
-        std::string invertedIndex = word + ":" + std::to_string(postingListsStreams[word[0] - 'a'].tellp()) + "\n";
-        dictBuffer[word[0] - 'a']->sputn(invertedIndex.c_str(), invertedIndex.length());
-        postingListsBuffer[word[0] - 'a']->sputn(postingList.c_str(), postingList.length());
-    }
 
-    while(!invertedIndexList.empty())
-    {
-        std::pair<std::string, std::string> dict = getPostingList(invertedIndexList);
-        std::string word = dict.first;
-        std::string postingList = dict.second;
-        std::string invertedIndex = word + ":" + std::to_string(postingListsStreams[word[0] - 'a'].tellp()) + "\n";
-        dictBuffer[word[0] - 'a']->sputn(invertedIndex.c_str(), invertedIndex.length());
-        postingListsBuffer[word[0] - 'a']->sputn(postingList.c_str(), postingList.length());
+        for (int i = 0; i < tempFileCount; i++)
+        {
+            std::string index;
+            std::getline(tempFileStreams[i], index);
+            if (!index.empty()) {
+                invertedIndexList.push({index, i});
+            }
+        }
+
+        while (!invertedIndexList.empty())
+        {
+            std::pair<std::pair<std::string, std::string>, std::vector<int>> dict = getPostingList(invertedIndexList);
+            std::string word = dict.first.first;
+            std::string postingList = dict.first.second;
+            std::string invertedIndex = word + ":" + std::to_string(postingListsStreams[word[0] - 'a'].tellp()) + "\n";
+            dictBuffer[word[0] - 'a']->sputn(invertedIndex.c_str(), invertedIndex.length());
+            postingListsBuffer[word[0] - 'a']->sputn(postingList.c_str(), postingList.length());
+
+            std::vector<int> files = dict.second;
+            for(int i : files)
+            {
+                if (tempFileStreams[i].peek() != EOF)
+                {
+                    std::string index;
+                    std::getline(tempFileStreams[i], index);
+                    if (!index.empty())
+                    {
+                        invertedIndexList.push({index, i});
+                    }
+                }
+            }
+        }
     }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Exception in mergeTemporaryFiles: " << e.what() << '\n';
+    } 
 }
 
-std::pair<std::string, std::string> FileIO::getPostingList(std::priority_queue<std::string, std::vector<std::string>, std::greater<std::string>> &invertedIndexList)
+std::pair<std::pair<std::string, std::string>, std::vector<int>> FileIO::getPostingList(std::priority_queue<std::pair<std::string, int>, std::vector<std::pair<std::string, int>>, std::greater<std::pair<std::string, int>>> &invertedIndexList)
 {
-    std::string invertedIndex = invertedIndexList.top();
-    invertedIndexList.pop();
-    std::string word = invertedIndex.substr(0, invertedIndex.find(':'));
-    std::string currentIndex;
-    std::string currentWord;
-    while(!invertedIndexList.empty())
+    try
     {
-        currentIndex = invertedIndexList.top();
-        currentWord = currentIndex.substr(0, currentIndex.find(':'));
-        if(currentWord == word)
+        std::pair<std::string, int> invertedIndex = invertedIndexList.top();
+        invertedIndexList.pop();
+        std::string word = invertedIndex.first.substr(0, invertedIndex.first.find(':'));
+        std::string postingList = invertedIndex.first.substr(invertedIndex.first.find(':') + 1);
+        std::vector<int> files;
+        files.push_back(invertedIndex.second);
+
+        while (!invertedIndexList.empty())
         {
-            invertedIndex.append(currentIndex.substr(currentIndex.find(':') + 1));
-            invertedIndexList.pop();
+            std::pair<std::string, int> currentIndex = invertedIndexList.top();
+            std::string currentWord = currentIndex.first.substr(0, currentIndex.first.find(':'));
+            if (currentWord == word)
+            {
+                postingList.append(currentIndex.first.substr(currentIndex.first.find(':') + 1));
+                files.push_back(currentIndex.second);
+                invertedIndexList.pop();
+            }
+            else
+            {
+                break;
+            }
         }
-        else{
-            break;
-        }
+        postingList.append("\n");
+        return {{word, postingList}, files};
     }
-    invertedIndex.append("\n");
-    return {word, invertedIndex.substr(invertedIndex.find(':') + 1)};
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error getting posting list: " << e.what() << '\n';
+        throw std::runtime_error("Error getting posting list");
+    }
 }
 
 void FileIO::initialisePostingLists(std::_Ios_Openmode openMode)

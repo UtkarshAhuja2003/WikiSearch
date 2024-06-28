@@ -16,10 +16,10 @@ void ParseIndex::value(void *userData, const char *val, int len)
         {
             currentPage.setPageId(std::string(val, len));
         }
-        // else if(currentTag == "title")
-        // {
-        //     currentPage.setPageTitle(std::string(val, len));
-        // }
+        else if(currentTag == "title")
+        {
+            currentPage.setPageTitle(std::string(val, len));
+        }
         else if(currentTag == "text")
         {
             currentPage.getPageText().append(val, len);
@@ -51,11 +51,11 @@ void ParseIndex::parseWikiPage()
 {
     try
     {
-        // docIdTitle.push_back({this->currentWikiPage.getPageId(), this->currentWikiPage.getPageTitle()});
+        docIdTitle.push_back({this->currentWikiPage.getPageId(), this->currentWikiPage.getPageTitle()});
         const std::string& text = this->currentWikiPage.getPageText();
         const std::string& id = this->currentWikiPage.getPageId();
         const int textLength = text.length();
-        char word[] = "";
+        char word[1000] = "";
 
         for(int i = 0; i < textLength; ++i)
         {
@@ -207,7 +207,7 @@ void ParseIndex::buildIndex()
 
     this->dumpInvertedIndexToDisk();
 
-    // file.writeL1Metadata(docIdTitle);
+    file.writeL1Metadata(docIdTitle);
 
     this->freeStemmer();
 
