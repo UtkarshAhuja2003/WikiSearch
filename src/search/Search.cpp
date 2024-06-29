@@ -7,14 +7,9 @@ std::vector<std::pair<std::string,int>> Search::getPostingListForSingleTerm(std:
     int offset = invertedIndex[word];
     int startChar = word[0] - 'a';
     if(startChar < 0 || startChar >= 26) throw std::out_of_range("Invalid start character");
-    if(postingListsBuffer[startChar] == nullptr) throw std::runtime_error("Posting list buffer is null");
-    postingListsBuffer[startChar]->pubseekpos(offset);
+    postingListStreams[startChar].seekg(offset);
     std::string posting;
-    char c;
-    while((c = postingListsBuffer[startChar]->sbumpc()) != '\n')
-    {
-        posting.push_back(c);
-    }
+    std::getline(postingListStreams[startChar], posting);
 
     try
     {
@@ -326,29 +321,23 @@ void Search::loadInvertedIndex(FileIO &file)
 
     file.initialiseDictFiles(std::ios::in);
     file.initialisePostingLists(std::ios::in);
-    dictBuffer = file.getDictBuffer();
-    postingListsBuffer = file.getPostingListBuffer();
+    dictStreams = file.getDictStreams();
+    postingListStreams = file.getPostingListStreams();
 
     this->initializeStemmer();
 
     for(int i = 0; i < 26; i++)
     {
-        int lineNumber = 0;
-        while(dictBuffer[i]->sgetc() != EOF)
+        std::string line;
+        while(std::getline(dictStreams[i], line))
         {
-            std::string line;
-            char c;
-            while((c = dictBuffer[i]->sbumpc()) != '\n')
-            {
-                line.push_back(c);
-            }
             std::string word = line.substr(0, line.find(":"));
             if(word != "")
             {
-                int offset = std::stoi(line.substr(line.find(":") + 1)) + lineNumber;
+                int offset = std::stoi(line.substr(line.find(":") + 1));
                 invertedIndex[word] = offset;
             }
-            lineNumber++;
+            line.clear();
         }
     }
 }

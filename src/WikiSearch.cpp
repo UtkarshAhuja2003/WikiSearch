@@ -26,6 +26,14 @@ int main()
 {
     if(BuildIndex)
     {
+        int newLimit = 5000; 
+
+        int result = _setmaxstdio(newLimit);
+        
+        if (result == -1) {
+            std::cerr << "Error setting max stdio limit." << std::endl;
+            return EXIT_FAILURE;
+        }
         try
         {
             auto start = std::chrono::high_resolution_clock::now();
@@ -95,6 +103,8 @@ int main()
             std::cerr << "Error Search Engine:" << e.what() << '\n';
         }
     }
+
+    system("pause");
 
     return 0;
 }

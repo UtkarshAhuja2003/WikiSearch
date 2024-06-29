@@ -22,9 +22,7 @@ class FileIO
         std::filebuf *l1MetadataFileBuffer = NULL,*l2MetadataFileBuffer = NULL,*l3MetadataFileBuffer = NULL;
         std::string indexFolderPath;
         std::vector<std::fstream> postingListsStreams;
-        std::vector<std::filebuf *> postingListsBuffer;
         std::vector<std::fstream> dictStreams;
-        std::vector<std::filebuf *> dictBuffer;
     public:
         FileIO(std::string indexFolderPath);
         std::pair<std::pair<std::filebuf *, std::vector<std::filebuf *>>, std::string> initialise();
@@ -41,8 +39,8 @@ class FileIO
         void dumpMetadataToDisk();
         void mergeTemporaryFiles(int tempFileCount);
         std::pair<std::pair<std::string, std::string>, std::vector<int>> getPostingList(std::priority_queue<std::pair<std::string, int>, std::vector<std::pair<std::string, int>>, std::greater<std::pair<std::string, int>>> &invertedIndexList);
-        std::vector<std::filebuf *> getPostingListBuffer();
-        std::vector<std::filebuf *> getDictBuffer();
+        std::vector<std::fstream> getPostingListStreams();
+        std::vector<std::fstream> getDictStreams();
         std::filebuf * getMetadataBuffer();
 };
 

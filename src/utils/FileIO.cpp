@@ -256,9 +256,12 @@ void FileIO::mergeTemporaryFiles(int tempFileCount)
             std::pair<std::pair<std::string, std::string>, std::vector<int>> dict = getPostingList(invertedIndexList);
             std::string word = dict.first.first;
             std::string postingList = dict.first.second;
-            std::string invertedIndex = word + ":" + std::to_string(postingListsStreams[word[0] - 'a'].tellp()) + "\n";
-            dictBuffer[word[0] - 'a']->sputn(invertedIndex.c_str(), invertedIndex.length());
-            postingListsBuffer[word[0] - 'a']->sputn(postingList.c_str(), postingList.length());
+            int ind = word[0] - 'a';
+            postingListsStreams[ind].seekp(0, std::ios::end);
+            int offset = postingListsStreams[ind].tellp();
+            std::string invertedIndex = word + ":" + std::to_string(offset) + "\n";
+            postingListsStreams[ind] << invertedIndex;
+            postingListsStreams[ind] << postingList;
 
             std::vector<int> files = dict.second;
             for(int i : files)
@@ -328,12 +331,17 @@ void FileIO::initialisePostingLists(std::_Ios_Openmode openMode)
         "indexz.txt"
     };
     postingListsStreams.resize(FilesCount);
-    postingListsBuffer.resize(FilesCount);
     std::string postingListsPath = indexFolderPath + "/posting_lists/";
     for(int i = 0; i < FilesCount; i++)
     {
-        postingListsBuffer[i] = postingListsStreams[i].rdbuf();
-        postingListsBuffer[i]->open((postingListsPath + postingLists[i]), openMode);
+        postingListsStreams[i].open((postingListsPath + postingLists[i]), openMode);
+        if(!postingListsStreams[i].is_open())
+        {
+            if(!dictStreams[i].is_open())
+            {
+                std::cerr << "Error: Opening file " << postingLists[i];
+            }
+        }
     }
 }
 
@@ -349,22 +357,24 @@ void FileIO::initialiseDictFiles(std::_Ios_Openmode openMode)
     };
     std::string dictFilesPath = indexFolderPath + "/dict/";
     dictStreams.resize(FilesCount);
-    dictBuffer.resize(FilesCount);
     for(int i = 0; i < FilesCount; i++)
     {
-        dictBuffer[i] = dictStreams[i].rdbuf();
-        dictBuffer[i]->open((dictFilesPath + dictFiles[i]), openMode);
+        dictStreams[i].open((dictFilesPath + dictFiles[i]), openMode);
+        if(!dictStreams[i].is_open())
+        {
+            std::cerr << "Error: Opening file " << dictFiles[i];
+        }
     }
 }
 
-std::vector<std::filebuf *> FileIO::getDictBuffer()
+std::vector<std::fstream> FileIO::getDictStreams()
 {
-    return dictBuffer;
+    return dictStreams;
 }
 
-std::vector<std::filebuf *> FileIO::getPostingListBuffer()
+std::vector<std::fstream> FileIO::getPostingListStreams()
 {
-    return postingListsBuffer;
+    return postingListsStreams;
 }
 
 std::filebuf * FileIO::getMetadataBuffer()

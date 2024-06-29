@@ -13,15 +13,15 @@ extern "C" {
     #include "../utils/Stemmer.h"
 }
 
-#define maxDocsLimit 4
+#define maxDocsLimit 15
 
 class Search
 {
     private:
         struct stemmer *stemmer;
         Classifiers classifiers;
-        std::vector<std::filebuf *> postingListsBuffer;
-        std::vector<std::filebuf *> dictBuffer;
+        std::vector<std::fstream> postingListStreams;
+        std::vector<std::fstream> dictStreams;
         std::unordered_map<std::string, int> invertedIndex;
         std::map<int, int> l1MetadataMap;
         std::vector<std::filebuf *> metadataFileBuffers;
