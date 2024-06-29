@@ -20,8 +20,8 @@ class Search
     private:
         struct stemmer *stemmer;
         Classifiers classifiers;
-        std::vector<std::fstream> postingListStreams;
-        std::vector<std::fstream> dictStreams;
+        std::vector<std::fstream*> postingListStreams;
+        std::vector<std::fstream*> dictStreams;
         std::unordered_map<std::string, int> invertedIndex;
         std::map<int, int> l1MetadataMap;
         std::vector<std::filebuf *> metadataFileBuffers;

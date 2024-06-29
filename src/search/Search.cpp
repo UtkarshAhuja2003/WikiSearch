@@ -7,9 +7,9 @@ std::vector<std::pair<std::string,int>> Search::getPostingListForSingleTerm(std:
     int offset = invertedIndex[word];
     int startChar = word[0] - 'a';
     if(startChar < 0 || startChar >= 26) throw std::out_of_range("Invalid start character");
-    postingListStreams[startChar].seekg(offset);
+    postingListStreams[startChar]->seekg(offset);
     std::string posting;
-    std::getline(postingListStreams[startChar], posting);
+    std::getline(*postingListStreams[startChar], posting);
 
     try
     {
@@ -328,8 +328,8 @@ void Search::loadInvertedIndex(FileIO &file)
 
     for(int i = 0; i < 26; i++)
     {
-        std::string line;
-        while(std::getline(dictStreams[i], line))
+        std::string line; 
+        while(std::getline(*dictStreams[i], line))
         {
             std::string word = line.substr(0, line.find(":"));
             if(word != "")

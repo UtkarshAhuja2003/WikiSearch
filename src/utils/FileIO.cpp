@@ -257,11 +257,11 @@ void FileIO::mergeTemporaryFiles(int tempFileCount)
             std::string word = dict.first.first;
             std::string postingList = dict.first.second;
             int ind = word[0] - 'a';
-            postingListsStreams[ind].seekp(0, std::ios::end);
-            int offset = postingListsStreams[ind].tellp();
+            postingListsStreams[ind]->seekp(0, std::ios::end);
+            int offset = postingListsStreams[ind]->tellp();
             std::string invertedIndex = word + ":" + std::to_string(offset) + "\n";
-            postingListsStreams[ind] << invertedIndex;
-            postingListsStreams[ind] << postingList;
+            *postingListsStreams[ind] << invertedIndex;
+            *postingListsStreams[ind] << postingList;
 
             std::vector<int> files = dict.second;
             for(int i : files)
@@ -334,10 +334,10 @@ void FileIO::initialisePostingLists(std::_Ios_Openmode openMode)
     std::string postingListsPath = indexFolderPath + "/posting_lists/";
     for(int i = 0; i < FilesCount; i++)
     {
-        postingListsStreams[i].open((postingListsPath + postingLists[i]), openMode);
-        if(!postingListsStreams[i].is_open())
+        postingListsStreams[i] = new std::fstream((postingListsPath + postingLists[i]), openMode);
+        if(!postingListsStreams[i]->is_open())
         {
-            if(!dictStreams[i].is_open())
+            if(!dictStreams[i]->is_open())
             {
                 std::cerr << "Error: Opening file " << postingLists[i];
             }
@@ -359,20 +359,20 @@ void FileIO::initialiseDictFiles(std::_Ios_Openmode openMode)
     dictStreams.resize(FilesCount);
     for(int i = 0; i < FilesCount; i++)
     {
-        dictStreams[i].open((dictFilesPath + dictFiles[i]), openMode);
-        if(!dictStreams[i].is_open())
+        dictStreams[i] = new std::fstream((dictFilesPath + dictFiles[i]), openMode);
+        if(!dictStreams[i]->is_open())
         {
             std::cerr << "Error: Opening file " << dictFiles[i];
         }
     }
 }
 
-std::vector<std::fstream> FileIO::getDictStreams()
+std::vector<std::fstream*> FileIO::getDictStreams()
 {
     return dictStreams;
 }
 
-std::vector<std::fstream> FileIO::getPostingListStreams()
+std::vector<std::fstream*> FileIO::getPostingListStreams()
 {
     return postingListsStreams;
 }
