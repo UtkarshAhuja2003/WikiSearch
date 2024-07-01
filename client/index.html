@@ -58,7 +58,10 @@
                             };
                             resultCard.appendChild(visitButton);
 
-                            searchResultsDiv.appendChild(resultCard);
+                            if(doc.title != "Not Found")
+                            {
+                                searchResultsDiv.appendChild(resultCard);
+                            }
                         });
                     }
                 })

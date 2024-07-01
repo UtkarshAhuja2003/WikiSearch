@@ -1,126 +1,66 @@
+
 # WikiSearch
 
-## Stats
+A fast and efficient search engine built with C++ using Wikipedia Dump data. Optimized for quick and accurate information retrieval.
 
-### Configuration 1
+Wikipedia Dump (90 GB) - : http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2
 
-- **Indexing Method**: In memory indexing with set and map
-- **Word Filtering**: Only a-z and A-Z in words
-- **Lowercasing**: No
-- **Stopwords Removal**: Yes
+## Statistics
 
-#### Stats
+- For 90 GB of data Wiki XML Dump :
+   + Size of index ( primary+secondary ) : 6 GB
+   + Size of Metadata : 850 MB
+   + Time to index : 3hr 30min (average)
+   + Time to search : 0.34 sec (average on 100 searches)
+## Features
 
-- **Wiki Dump**: 1 GB
-- **Time Taken**: 642 seconds
-- **CPU Usage**: 25%
-- **Memory Usage**: 2.5 GB
+ - User search system for faster information retrieval
+ - Web-based interface
+ - Direct links to actual Wikipedia pages
+ - Stemming for improved search accuracy
+## Installation
 
-### Configuration 2
+To install and run this project, follow these steps:
 
-- **Indexing Method**: In memory indexing with set and map
-- **Word Filtering**: Only a-z and A-Z in words
-- **Lowercasing**: No
-- **Stopwords Removal**: No
+1. **Clone the repository:**
 
-#### Stats
+   ```sh
+   git clone https://github.com/UtkarshAhuja2003/WikiSearch.git
+   cd WikiSearch
+   ```
+2. **Create a build directory:**
 
-- **Wiki Dump**: 1 GB
-- **Time Taken**: 786 seconds
-- **CPU Usage**: 25%
-- **Memory Usage**: 2.8 GB
+    ```sh
+   mkdir build
+   cd build
+   ```
+3. **Generate the build files with CMake:**
 
-### Configuration 3
+    ```sh
+    cmake ..
+   ```
+4. **Build the project:**
 
-- **Indexing Method**: In memory indexing with set and map
-- **Word Filtering**: Only a-z and A-Z in words
-- **Lowercasing**: Yes
-- **Stopwords Removal**: Yes
+    ```sh
+    make
+   ```
+5. **Run the application:**
 
-#### Stats
-
-- **Wiki Dump**: 1 GB
-- **Time Taken**: 555 seconds
-- **CPU Usage**: 25%
-- **Memory Usage**: 2.2 GB
-
-### Configuration 4
-
-- **Indexing Method**: In memory indexing with set and map
-- **Word Filtering**: Only a-z and A-Z in words
-- **Lowercasing**: Yes
-- **Stopwords Removal**: Yes
-- **Stemmed Words**: Yes
-
-#### Stats
-
-- **Wiki Dump**: 1 GB
-- **Time Taken**: 500 seconds
-- **CPU Usage**: 25%
-- **Memory Usage**: 2 GB
-
-### Configuration 5
-
-- **Indexing Method**: File Buffer, all indexes in single file
-- **Word Filtering**: Only a-z and A-Z in words
-- **Lowercasing**: Yes
-- **Stopwords Removal**: Yes
-- **Stemmed Words**: Yes
-
-#### Stats
-
-- **Wiki Dump**: 1 GB
-- **Time Taken**: 119 seconds
-- **CPU Usage**: 25%
-- **Index File Size**: 1 GB
-
-### Configuration 6
-
-- **Indexing Method**: File Buffer, 1000 pages per index file
-- **Word Filtering**: Only a-z and A-Z in words
-- **Lowercasing**: Yes
-- **Stopwords Removal**: Yes
-- **Stemmed Words**: Yes
-
-#### Stats
-
-- **Wiki Dump**: 1 GB
-- **Time Taken**: 414 seconds
-- **CPU Usage**: 25%
-- **Index File Size**: 1 GB
-
-### Configuration 7
-
-- **Indexing Method**: SPMI using map and set with 1000 pages per file 
-- **Word Filtering**: Only a-z and A-Z in words
-- **Lowercasing**: Yes
-- **Stopwords Removal**: Yes
-- **Stemmed Words**: Yes
-
-#### Stats
-
-- **Wiki Dump**: 1 GB
-- **Time Taken**: 465 seconds
-- **CPU Usage**: 25%
-- **Index File Size**: 162 MB
-
-### Configuration 8
-
-- **Indexing Method**: SPMI using map and unordered set with 1000 pages per file 
-- **Word Filtering**: Only a-z and A-Z in words
-- **Lowercasing**: Yes
-- **Stopwords Removal**: Yes
-- **Stemmed Words**: Yes
-
-#### Stats
-
-- **Wiki Dump**: 1 GB
-- **Time Taken**: 343 seconds
-- **CPU Usage**: 25%
-- **Index File Size**: 162 MB
+    ```sh
+    ./WikiSearch
+   ```
 
 
+## File Structure
 
-
-
-Time to Write DocId and Title Level-Wise : 45 mins
+```bash
+├──.github # Github actions workflow
+├──build # Build files for the project
+├──client # Web frontend
+├──dependencies
+├──res # Posting List, Metadata, WikiDump
+└──src # Source code
+    ├── index # Parse Wikipedia Data
+    ├── search
+    └──utils # File Management, Stemming and Classifiers
+```
