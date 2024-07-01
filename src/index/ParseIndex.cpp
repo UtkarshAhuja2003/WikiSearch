@@ -52,6 +52,7 @@ void ParseIndex::parseWikiPage()
     try
     {
         docIdTitle.push_back({this->currentWikiPage.getPageId(), this->currentWikiPage.getPageTitle()});
+
         const std::string& text = this->currentWikiPage.getPageText();
         const std::string& id = this->currentWikiPage.getPageId();
         const int textLength = text.length();
@@ -64,11 +65,14 @@ void ParseIndex::parseWikiPage()
                 word[0] = '\0';
             }
             char currentChar = text[i];
+
             if (isalpha(currentChar))
             {
                 currentChar = tolower(currentChar);
                 strncat(word, &currentChar, 1);
             }
+
+            // remove content in references between {{}} 
             else if(currentChar == '{' && text[i+1] =='{')
             {
                 int count = 2;
@@ -81,6 +85,8 @@ void ParseIndex::parseWikiPage()
                     ++i;
                 }
             }
+
+            // remove content like images between [[]]
             else if(currentChar == '[' && text[i+1] ==']')
             {
                 int count = 2;
@@ -93,6 +99,8 @@ void ParseIndex::parseWikiPage()
                     ++i;
                 }
             }
+
+            // remove content between == ==
             else if(currentChar == '=' && text[i+1] =='=')
             {
                 i += 2;
@@ -110,6 +118,9 @@ void ParseIndex::parseWikiPage()
                 word[0] = '\0';
             }
         }
+
+        // If the number of processed pages reaches a certain threshold, the inverted index is dumped
+        // to disk and the temporary file number is incremented.
         if(numberOfPages%5000 == 0)
         {
             std::cout << "Docid: " << id << "\n";
@@ -117,6 +128,9 @@ void ParseIndex::parseWikiPage()
             tempFileNumber++;
             invertedIndex.clear();
         }
+
+        // If the total number of processed pages
+        //  reaches 50,000, the Metadata is written to the file and the page count is reset.
         if(numberOfPages == 50000)
         {
             file.writeL1Metadata(docIdTitle);
@@ -137,6 +151,7 @@ void ParseIndex::processWord(char word[], const std::string &id)
     this->stemWord(word);
     if(!this->classifiers.isStopWord(word))
     {
+        // Insert word with id and freq(0) or increase the frequency of id
         ++invertedIndex[word][id];
     }
 }
@@ -145,6 +160,8 @@ void ParseIndex::dumpInvertedIndexToDisk()
 {
     std::map<std::string,std::unordered_map<std::string,char>> &invertedIndex = getInvertedIndex();
     file.openFile(tempFileNumber);
+     
+    // term:docId1-freq1;docId2-freq2;
     for(auto &index : invertedIndex)
     {
         std::string data = index.first + ':';
@@ -205,8 +222,8 @@ void ParseIndex::buildIndex()
         XMLCall(parser, XML_ParseBuffer(parser, (int)len, done));
     } while (!done);
 
+    // Dump remaining inverted index and metadata
     this->dumpInvertedIndexToDisk();
-
     file.writeL1Metadata(docIdTitle);
 
     this->freeStemmer();

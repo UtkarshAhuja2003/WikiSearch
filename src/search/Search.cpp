@@ -7,10 +7,13 @@ std::vector<std::pair<std::string,int>> Search::getPostingListForSingleTerm(std:
     int offset = invertedIndex[word];
     int startChar = word[0] - 'a';
     if(startChar < 0 || startChar >= 26) throw std::out_of_range("Invalid start character");
+
+    // Get the posting line in format ID-freq;Id-freq;Id-freq;
     postingListStreams[startChar]->seekg(offset);
     std::string posting;
     std::getline(*postingListStreams[startChar], posting);
 
+    // Convert the posting line into vector of pairs, where each pair contains a document ID and it's frequency
     try
     {
         std::pair<std::string,int> docId_freq;
@@ -52,9 +55,11 @@ std::vector<std::pair<std::string,int>> Search::getPostingListForSingleTerm(std:
 
 void Search::getPostingList(std::unordered_map<std::string, int> &searchTerms, std::unordered_map<std::string, double> &docTfidfMap)
 {
-    for(auto currentTerm : searchTerms)
+    for(std::pair<const std::string, int> &currentTerm : searchTerms)
     {
         std::vector<std::pair<std::string,int>> currentPosting = getPostingListForSingleTerm(currentTerm.first);
+        
+        // For all ID-freq pairs, calculate current tf-idf and add to previous tf-idf of that word
         for(std::pair<std::string,int> docId_freq : currentPosting)
         {
             int termFrequency = docId_freq.second;
@@ -69,16 +74,16 @@ void Search::calculateTopKDocs(std::unordered_map<std::string, double> &docTfidf
 {
 
     std::priority_queue<std::pair<double, std::string>> tempQueue;
+    std::string docId;
+    std::string title;
 
-    for(auto currDocTfidf : docTfidfMap)
+    // Add all tfidf-DocID pairs to priority queue(Max-Heap), and get top k ID-Title based on Tf-Idf decreasing order
+    for(std::pair<const std::string, double> currDocTfidf : docTfidfMap)
     {
         tempQueue.push({currDocTfidf.second, currDocTfidf.first});
     }
-
-    std::string docId;
-    std::string title;
     
-    for(int i = 0; (!tempQueue.empty() && i < maxDocsLimit); i++)
+    for(int i = 0; (!tempQueue.empty() && i < MAX_DOCS_LIMIT); i++)
     {
         docId = tempQueue.top().second;
         title = getTitleFromDocId(docId);
@@ -100,6 +105,7 @@ void Search::processSearchQuery(std::string query, std::unordered_map<std::strin
         }
         else
         {
+            // After tokenisation, stem and remove stop words.
             this->stemWord(word);
             std::string data(word);
             if(data.size() > 2 && !this->classifiers.isStopWord(data))
@@ -110,6 +116,7 @@ void Search::processSearchQuery(std::string query, std::unordered_map<std::strin
         }
     }
 
+    // If the word is not traversed
     if(word[0] != '\0')
     {
         this->stemWord(word);
@@ -124,10 +131,12 @@ void Search::processSearchQuery(std::string query, std::unordered_map<std::strin
 
 void Search::search()
 {
-    std::string searchQuery;
-    std::unordered_map<std::string, int> searchTerms;
-    std::unordered_map<std::string, double> docTfidfMap;
-    std::vector<std::pair<std::string, std::string>> topKDocs;
+    std::string searchQuery; // Input query by user
+    std::unordered_map<std::string, int> searchTerms; // Tokenised Word-Freq pairs
+    std::unordered_map<std::string, double> docTfidfMap; // docID-tfIdf pairs
+    std::vector<std::pair<std::string, std::string>> topKDocs; // Top k ID-Title pairs based on Tf-Idf
+
+    // Prompts user to enter word or "q"/"exit" to terminate
     while(searchQuery != "q" || searchQuery != "exit")
     {
         std::cout << "\n\nEnter the query to search: ";
@@ -137,6 +146,7 @@ void Search::search()
         
         std::cout << "Search results for query: " << searchQuery << "\n";
 
+        // Tokenise -> Convert to DocID-tfidf -> Calculate Top K results
         processSearchQuery(searchQuery, searchTerms);
         getPostingList(searchTerms, docTfidfMap);
         if(docTfidfMap.empty())
@@ -183,6 +193,7 @@ std::string Search::getTitleFromDocId(std::string docId)
         int id = std::stoi(docId);
         int prevOffset = 0;
 
+        // Fetch the previous smaller DocID and offset
         for(auto it = l1MetadataMap.begin(); it != l1MetadataMap.end(); ++it)
         {
             if(it->first > id)
@@ -211,7 +222,8 @@ std::string Search::searchL2Metadata(int docId, int offset)
         std::string prevOffset = "0";
         std::string line, id, off;
 
-        while(l2MetadataBuffer->sgetc() != EOF && i < L2MetadataLimit)
+        // Search from given offset upto L2_METADATA_LIMIT, and fetch previous smaller ID and offset
+        while(l2MetadataBuffer->sgetc() != EOF && i < L2_METADATA_LIMIT)
         {
             char c;
             while((c = l2MetadataBuffer->sbumpc()) != '\n')
@@ -249,7 +261,8 @@ std::string Search::searchL3Metadata(int docId, int offset)
         std::string prevOffset = "0";
         std::string line, id, off;
 
-        while(l3MetadataBuffer->sgetc() != EOF && i < L3MetadataLimit)
+        // Search from given offset upto L4METADATA_LIMIT, and fetch previous smaller ID and offset
+        while(l3MetadataBuffer->sgetc() != EOF && i < L3_METADATA_LIMIT)
         {
             char c;
             while((c = l3MetadataBuffer->sbumpc()) != '\n')
@@ -286,7 +299,8 @@ std::string Search::searchMetadata(int docId, int offset)
         int i = 0;
         std::string line, id, title;
 
-        while(metadataBuffer->sgetc() != EOF && i < MetadataLimit)
+        // Search from given offset upto METADATA_LIMIT, and finds the given ID in the Metadata file.
+        while(metadataBuffer->sgetc() != EOF && i < METADATA_LIMIT)
         {
             char c;
             while((c = metadataBuffer->sbumpc()) != '\n')
@@ -326,6 +340,7 @@ void Search::loadInvertedIndex(FileIO &file)
 
     this->initializeStemmer();
 
+    // Search from A-Z Dict files and add ID-offset pairs to Inverted Index map.
     for(int i = 0; i < 26; i++)
     {
         std::string line; 
@@ -350,18 +365,18 @@ void Search::loadL1Metadata(FileIO &file)
     } catch (const std::exception& e) {
         std::cerr << "Error: Unable to initialise FileIO" << e.what() << std::endl;
     }
-    std::string indexFolderPath = initialised.second;
+    std::string resourcesFolderPath = initialised.second;
     metadataFileBuffers = initialised.first.second;
 
-    std::string l1MetadataPath = indexFolderPath + "/meta/l1metadata.txt";
-    std::string l2MetadataPath = indexFolderPath + "/meta/l2metadata.txt";
-    std::string l3MetadataPath = indexFolderPath + "/meta/l3metadata.txt";
-    std::string MetadataPath = indexFolderPath + "/meta/id_title_map.txt";
+    // Open all Metadata buffers
+    std::string l1MetadataPath = resourcesFolderPath + "/meta/l1metadata.txt";
+    std::string l2MetadataPath = resourcesFolderPath + "/meta/l2metadata.txt";
+    std::string l3MetadataPath = resourcesFolderPath + "/meta/l3metadata.txt";
+    std::string MetadataPath = resourcesFolderPath + "/meta/id_title_map.txt";
 
     std::filebuf *l1MetadataBuffer = metadataFileBuffers[1];
     l1MetadataBuffer->open(l1MetadataPath, std::ios::in);
     if(!l1MetadataBuffer->is_open()) throw std::runtime_error("Unable to open L1 Metadata file");
-
     metadataFileBuffers[2]->open(l2MetadataPath, std::ios::in);
     if(!metadataFileBuffers[2]->is_open()) throw std::runtime_error("Unable to open L2 Metadata file");
     metadataFileBuffers[3]->open(l3MetadataPath, std::ios::in);
@@ -371,6 +386,7 @@ void Search::loadL1Metadata(FileIO &file)
 
     std::string docId, offset, line;
 
+    // Insert ID-offset from L1 metadata into L1 Metadata Map
     while(l1MetadataBuffer->sgetc() != EOF)
     {
         char c;
@@ -397,6 +413,7 @@ void Search::initializeStemmer()
 
 void Search::stemWord(char word[])
 {
+    // Stems the word and replace given word with stemmed word.
     word[stem(this->stemmer, word, strlen(word) - 1) + 1] = '\0';
 }
 

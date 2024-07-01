@@ -11,8 +11,7 @@
 class Classifiers
 {
     private:
-        // Contains stop words in unordered_set
-        // Search in unordered set - O(1), set - O(logn)
+        // Contains stemmarised stop words to remove common words
         std::unordered_set<std::string> stopWords = {
         "yourself", "your", "you'll", "you", "word", "won't", "wont", "without", "within", "with",
         "wish", "will", "will", "why", "whose", "whomev", "who'll", "whole", "whoever", "whim", "your",

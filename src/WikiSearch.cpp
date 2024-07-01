@@ -5,12 +5,20 @@
 #include "search/Search.h"
 #include "search/WebSearch.h"
 
-#define BuildIndex 0
-#define SearchWeb 1
+constexpr bool BUILD_INDEX = false;
+constexpr bool SEARCH_WEB = true;
+constexpr int FILE_LIMIT = 5000;
 
 Search searchEngine;
 
-// "Loop" forever accepting new connections.
+
+/**
+ * @brief Starts an HTTP server that accepts incoming connections and handles them asynchronously.
+ * 
+ * @param acceptor TCP acceptor object to accept incoming connections.
+ * @param socket TCP socket object to handle the accepted connections.
+ * @note Accepts the connections forever
+ */
 void http_server(tcp::acceptor& acceptor, tcp::socket& socket)
 {
     acceptor.async_accept(socket,
@@ -24,16 +32,15 @@ void http_server(tcp::acceptor& acceptor, tcp::socket& socket)
 
 int main()
 {
-    if(BuildIndex)
+    if(BUILD_INDEX)
     {
-        int newLimit = 5000; 
-
-        int result = _setmaxstdio(newLimit);
-        
-        if (result == -1) {
-            std::cerr << "Error setting max stdio limit." << std::endl;
+        // Increase the file descriptor limit to allow opening temporary index files.
+        int setFileLimitResult = _setmaxstdio(FILE_LIMIT);
+        if (setFileLimitResult == -1) {
+            std::cerr << "Error setting max stdio limit: " << strerror(errno) << std::endl;
             return EXIT_FAILURE;
         }
+
         try
         {
             auto start = std::chrono::high_resolution_clock::now();
@@ -71,7 +78,7 @@ int main()
         std::cerr << "Error Loading Search Engine:" << e.what() << '\n';
     }
 
-    if(SearchWeb)
+    if(SEARCH_WEB)
     {
         try
         {
@@ -103,8 +110,6 @@ int main()
             std::cerr << "Error Search Engine:" << e.what() << '\n';
         }
     }
-
-    system("pause");
 
     return 0;
 }

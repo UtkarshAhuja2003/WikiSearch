@@ -1,8 +1,8 @@
 #include "FileIO.h"
 
-FileIO::FileIO(std::string indexFolderPath)
+FileIO::FileIO(std::string resourcesFolderPath)
 {
-    this->indexFolderPath = indexFolderPath;
+    this->resourcesFolderPath = resourcesFolderPath;
 }
 
 std::pair<std::pair<std::filebuf *, std::vector<std::filebuf *>>, std::string> FileIO::initialise()
@@ -15,7 +15,7 @@ std::pair<std::pair<std::filebuf *, std::vector<std::filebuf *>>, std::string> F
         l2MetadataFileBuffer = l2MetadataStream.rdbuf();
         l3MetadataFileBuffer = l3MetadataStream.rdbuf();
 
-        return {{FileBuffer, {MetadataFileBuffer, l1MetadataFileBuffer, l2MetadataFileBuffer, l3MetadataFileBuffer}}, indexFolderPath};
+        return {{FileBuffer, {MetadataFileBuffer, l1MetadataFileBuffer, l2MetadataFileBuffer, l3MetadataFileBuffer}}, resourcesFolderPath};
     }
     catch(const std::exception& e)
     {
@@ -55,7 +55,7 @@ void FileIO::openFile(int tempFileNumber)
 {
     try
     {
-        std::string filePath = indexFolderPath + "/temp/index" + std::to_string(tempFileNumber) + ".txt";
+        std::string filePath = resourcesFolderPath + "/temp/index" + std::to_string(tempFileNumber) + ".txt";
         FileBuffer->open(filePath, std::ios::out | std::ios::app);
         if(!FileBuffer->is_open())
         {
@@ -84,7 +84,7 @@ void FileIO::writeL1Metadata(std::vector<std::pair<std::string, std::string>> &d
 {
     try
     {
-        std::string filePath = indexFolderPath + "/meta/l1Metadata" + ".txt";
+        std::string filePath = resourcesFolderPath + "/meta/l1Metadata" + ".txt";
         std::ofstream l1MetadataFile(filePath, std::ios::out | std::ios::app);
         if (!l1MetadataFile.is_open()) {
             throw std::runtime_error("Unable to open L1 metadata file.");
@@ -95,8 +95,8 @@ void FileIO::writeL1Metadata(std::vector<std::pair<std::string, std::string>> &d
     }
     catch(const std::exception& e)
     {
-        std::cout << "Unable to write l1 metadata\n";
-        throw std::runtime_error(e.what());
+        std::cerr << "Error in writing L1 Metadata: " << e.what() << std::endl;
+        throw;
     }
 }
 
@@ -104,7 +104,7 @@ std::string FileIO::writeL2Metadata(std::vector<std::pair<std::string, std::stri
 {
     try
     {
-        std::string filePath = indexFolderPath + "/meta/l2Metadata" + ".txt";
+        std::string filePath = resourcesFolderPath + "/meta/l2Metadata" + ".txt";
         std::ofstream l2MetadataFile(filePath, std::ios::out | std::ios::app);
         if (!l2MetadataFile.is_open()) {
             throw std::runtime_error("Unable to open L2 metadata file.");
@@ -114,7 +114,7 @@ std::string FileIO::writeL2Metadata(std::vector<std::pair<std::string, std::stri
         std::string dataToWrite = "";
 
         auto it = docIdTitle.begin();
-        for (int i = 0; i < L2MetadataLimit; i++)
+        for (int i = 0; i < L2_METADATA_LIMIT; i++)
         {
             if(it == docIdTitle.end()) break;
             std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> offsetIteratorPair = writeL3Metadata(docIdTitle, it);
@@ -131,8 +131,8 @@ std::string FileIO::writeL2Metadata(std::vector<std::pair<std::string, std::stri
     }
     catch(const std::exception& e)
     {
-        std::cout << "Unable to write l2 metadata\n";
-        throw std::runtime_error(e.what());
+        std::cerr << "Error in writing L2 Metadata: " << e.what() << std::endl;
+        throw;
     }
 }
 
@@ -140,7 +140,7 @@ std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterato
 {
     try
     {
-        std::string filePath = indexFolderPath + "/meta/l3Metadata" + ".txt";
+        std::string filePath = resourcesFolderPath + "/meta/l3Metadata" + ".txt";
         std::ofstream l3MetadataFile(filePath, std::ios::out | std::ios::app);
         if (!l3MetadataFile.is_open()) {
             throw std::runtime_error("Unable to open L3 metadata file.");
@@ -149,7 +149,7 @@ std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterato
         int offset = l3MetadataFile.tellp();
         std::string dataToWrite = "";
 
-        for (int i = 0; i < L3MetadataLimit; i++)
+        for (int i = 0; i < L3_METADATA_LIMIT; i++)
         {
             if(it == docIdTitle.end()) break;
             std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterator> offsetIteratorPair = writeDocIdTitle(docIdTitle, it);
@@ -166,8 +166,8 @@ std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterato
     }
     catch(const std::exception& e)
     {
-        std::cout << "Unable to write l3 metadata\n";
-        throw std::runtime_error(e.what());
+        std::cerr << "Error in writing L3 Metadata: " << e.what() << std::endl;
+        throw;
     }
 }
 
@@ -175,7 +175,7 @@ std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterato
 {
     try
     {
-        std::string filePath = indexFolderPath + "/meta/id_title_map" + ".txt";
+        std::string filePath = resourcesFolderPath + "/meta/id_title_map" + ".txt";
         std::ofstream metadataFile(filePath, std::ios::out | std::ios::app);
         if (!metadataFile.is_open()) {
             throw std::runtime_error("Unable to open DocId Title metadata file.");
@@ -184,7 +184,7 @@ std::pair<std::string, std::vector<std::pair<std::string, std::string>>::iterato
         int offset = metadataFile.tellp();
         std::string dataToWrite = "";
 
-        for (int i = 0; i < MetadataLimit; i++)
+        for (int i = 0; i < METADATA_LIMIT; i++)
         {
             if(it == docIdTitle.end()) break;
             dataToWrite.append(it->first);
@@ -226,11 +226,12 @@ void FileIO::mergeTemporaryFiles(int tempFileCount)
     {
         std::priority_queue<std::pair<std::string, int>, std::vector<std::pair<std::string, int>>, std::greater<std::pair<std::string, int>>> invertedIndexList;
         std::vector<std::ifstream> tempFileStreams(tempFileCount);
-        std::string tempFilePath = "C:/Users/hp/res/temp/index";
+        std::string tempFilePath = resourcesFolderPath + "/temp/index";
 
         initialiseDictFiles(std::ios::out | std::ios::app);
         initialisePostingLists(std::ios::out | std::ios::app);
 
+        // Open all the tempFiles.
         for (int i = 0; i < tempFileCount; i++)
         {
             std::string path = tempFilePath + std::to_string(i) + ".txt";
@@ -242,6 +243,7 @@ void FileIO::mergeTemporaryFiles(int tempFileCount)
             }
         }
 
+        // Add the first invertedIndex from all files
         for (int i = 0; i < tempFileCount; i++)
         {
             std::string index;
@@ -251,20 +253,29 @@ void FileIO::mergeTemporaryFiles(int tempFileCount)
             }
         }
 
+        std::string word, postingList, invertedIndex;
+        int index, offset;
+        std::vector<int> fileIndexes; // files indexes from which inverted indexes are removed
         while (!invertedIndexList.empty())
         {
             std::pair<std::pair<std::string, std::string>, std::vector<int>> dict = getPostingList(invertedIndexList);
-            std::string word = dict.first.first;
-            std::string postingList = dict.first.second;
-            int ind = word[0] - 'a';
-            postingListsStreams[ind]->seekp(0, std::ios::end);
-            int offset = postingListsStreams[ind]->tellp();
-            std::string invertedIndex = word + ":" + std::to_string(offset) + "\n";
-            *postingListsStreams[ind] << invertedIndex;
-            *postingListsStreams[ind] << postingList;
+            word = dict.first.first;
+            postingList = dict.first.second;
+            index = word[0] - 'a';
 
-            std::vector<int> files = dict.second;
-            for(int i : files)
+            // Take the offset of posting list and add to inverted index
+            postingListsStreams[index]->seekp(0, std::ios::end);
+            offset = postingListsStreams[index]->tellp();
+
+            // Inverted Index - word:offset
+            invertedIndex = word + ":" + std::to_string(offset) + "\n";
+
+            *postingListsStreams[index] << invertedIndex;
+            *postingListsStreams[index] << postingList;
+
+            // Get the next inverted index from all the files where index was removed
+            std::vector<int> fileIndexes = dict.second;
+            for(int i : fileIndexes)
             {
                 if (tempFileStreams[i].peek() != EOF)
                 {
@@ -292,9 +303,10 @@ std::pair<std::pair<std::string, std::string>, std::vector<int>> FileIO::getPost
         invertedIndexList.pop();
         std::string word = invertedIndex.first.substr(0, invertedIndex.first.find(':'));
         std::string postingList = invertedIndex.first.substr(invertedIndex.first.find(':') + 1);
-        std::vector<int> files;
-        files.push_back(invertedIndex.second);
+        std::vector<int> fileIndexes;// files indexes from which inverted indexes are removed
+        fileIndexes.push_back(invertedIndex.second);
 
+        // Add all posting list from the queue containing same word
         while (!invertedIndexList.empty())
         {
             std::pair<std::string, int> currentIndex = invertedIndexList.top();
@@ -302,7 +314,7 @@ std::pair<std::pair<std::string, std::string>, std::vector<int>> FileIO::getPost
             if (currentWord == word)
             {
                 postingList.append(currentIndex.first.substr(currentIndex.first.find(':') + 1));
-                files.push_back(currentIndex.second);
+                fileIndexes.push_back(currentIndex.second);
                 invertedIndexList.pop();
             }
             else
@@ -311,7 +323,7 @@ std::pair<std::pair<std::string, std::string>, std::vector<int>> FileIO::getPost
             }
         }
         postingList.append("\n");
-        return {{word, postingList}, files};
+        return {{word, postingList}, fileIndexes};
     }
     catch (const std::exception& e)
     {
@@ -330,9 +342,9 @@ void FileIO::initialisePostingLists(std::_Ios_Openmode openMode)
         "indexu.txt", "indexv.txt", "indexw.txt", "indexx.txt", "indexy.txt",
         "indexz.txt"
     };
-    postingListsStreams.resize(FilesCount);
-    std::string postingListsPath = indexFolderPath + "/posting_lists/";
-    for(int i = 0; i < FilesCount; i++)
+    postingListsStreams.resize(FILES_COUNT);
+    std::string postingListsPath = resourcesFolderPath + "/posting_lists/";
+    for(int i = 0; i < FILES_COUNT; i++)
     {
         postingListsStreams[i] = new std::fstream((postingListsPath + postingLists[i]), openMode);
         if(!postingListsStreams[i]->is_open())
@@ -355,9 +367,9 @@ void FileIO::initialiseDictFiles(std::_Ios_Openmode openMode)
         "dindexu.txt","dindexv.txt","dindexw.txt","dindexx.txt","dindexy.txt",
         "dindexz.txt"
     };
-    std::string dictFilesPath = indexFolderPath + "/dict/";
-    dictStreams.resize(FilesCount);
-    for(int i = 0; i < FilesCount; i++)
+    std::string dictFilesPath = resourcesFolderPath + "/dict/";
+    dictStreams.resize(FILES_COUNT);
+    for(int i = 0; i < FILES_COUNT; i++)
     {
         dictStreams[i] = new std::fstream((dictFilesPath + dictFiles[i]), openMode);
         if(!dictStreams[i]->is_open())
