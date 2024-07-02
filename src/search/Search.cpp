@@ -216,20 +216,16 @@ std::string Search::getTitleFromDocId(std::string docId)
 std::string Search::searchL2Metadata(int docId, int offset)
 {
     try{
-        std::filebuf *l2MetadataBuffer = metadataFileBuffers[2];
-        l2MetadataBuffer->pubseekpos(offset);
+        std::fstream *l2MetadataStream = metadataFileStreams[2];
+        l2MetadataStream->seekg(offset);
         int i = 0;
         std::string prevOffset = "0";
         std::string line, id, off;
 
         // Search from given offset upto L2_METADATA_LIMIT, and fetch previous smaller ID and offset
-        while(l2MetadataBuffer->sgetc() != EOF && i < L2_METADATA_LIMIT)
+        while(l2MetadataStream->peek() != EOF && i < L2_METADATA_LIMIT)
         {
-            char c;
-            while((c = l2MetadataBuffer->sbumpc()) != '\n')
-            {
-                line.push_back(c);
-            }
+            std::getline(*l2MetadataStream, line);
             id = line.substr(0, line.find(":"));
             off = line.substr(line.find(":") + 1);
 
@@ -255,20 +251,16 @@ std::string Search::searchL2Metadata(int docId, int offset)
 std::string Search::searchL3Metadata(int docId, int offset)
 {
     try{
-        std::filebuf *l3MetadataBuffer = metadataFileBuffers[3];
-        l3MetadataBuffer->pubseekpos(offset);
+        std::fstream *l3MetadataStream = metadataFileStreams[3];
+        l3MetadataStream->seekg(offset);
         int i = 0;
         std::string prevOffset = "0";
         std::string line, id, off;
 
         // Search from given offset upto L4METADATA_LIMIT, and fetch previous smaller ID and offset
-        while(l3MetadataBuffer->sgetc() != EOF && i < L3_METADATA_LIMIT)
+        while(l3MetadataStream->peek() != EOF && i < L3_METADATA_LIMIT)
         {
-            char c;
-            while((c = l3MetadataBuffer->sbumpc()) != '\n')
-            {
-                line.push_back(c);
-            }
+            std::getline(*l3MetadataStream, line);
             id = line.substr(0, line.find(":"));
             off = line.substr(line.find(":") + 1);
 
@@ -294,19 +286,15 @@ std::string Search::searchL3Metadata(int docId, int offset)
 std::string Search::searchMetadata(int docId, int offset)
 {
     try{
-        std::filebuf *metadataBuffer = metadataFileBuffers[0];
-        metadataBuffer->pubseekpos(offset);
+        std::fstream *metadataStream = metadataFileStreams[0];
+        metadataStream->seekg(offset);
         int i = 0;
         std::string line, id, title;
 
         // Search from given offset upto METADATA_LIMIT, and finds the given ID in the Metadata file.
-        while(metadataBuffer->sgetc() != EOF && i < METADATA_LIMIT)
+        while(metadataStream->peek() != EOF && i < METADATA_LIMIT)
         {
-            char c;
-            while((c = metadataBuffer->sbumpc()) != '\n')
-            {
-                line.push_back(c);
-            }
+            std::getline(*metadataStream, line);
             id = line.substr(0, line.find(":"));
             title = line.substr(line.find(":") + 1);
 
@@ -366,34 +354,40 @@ void Search::loadL1Metadata(FileIO &file)
         std::cerr << "Error: Unable to initialise FileIO" << e.what() << std::endl;
     }
     std::string resourcesFolderPath = initialised.second;
-    metadataFileBuffers = initialised.first.second;
 
-    // Open all Metadata buffers
+    // Open all Metadata Streams
     std::string l1MetadataPath = resourcesFolderPath + "/meta/l1metadata.txt";
     std::string l2MetadataPath = resourcesFolderPath + "/meta/l2metadata.txt";
     std::string l3MetadataPath = resourcesFolderPath + "/meta/l3metadata.txt";
     std::string MetadataPath = resourcesFolderPath + "/meta/id_title_map.txt";
 
-    std::filebuf *l1MetadataBuffer = metadataFileBuffers[1];
-    l1MetadataBuffer->open(l1MetadataPath, std::ios::in);
-    if(!l1MetadataBuffer->is_open()) throw std::runtime_error("Unable to open L1 Metadata file");
-    metadataFileBuffers[2]->open(l2MetadataPath, std::ios::in);
-    if(!metadataFileBuffers[2]->is_open()) throw std::runtime_error("Unable to open L2 Metadata file");
-    metadataFileBuffers[3]->open(l3MetadataPath, std::ios::in);
-    if(!metadataFileBuffers[3]->is_open()) throw std::runtime_error("Unable to open L3 Metadata file");
-    metadataFileBuffers[0]->open(MetadataPath, std::ios::in);
-    if(!metadataFileBuffers[0]->is_open()) throw std::runtime_error("Unable to open Metadata file");
+    std::fstream *l1MetadataFile = new std::fstream(l1MetadataPath, std::ios::in);
+    if (!l1MetadataFile->is_open()) {
+        throw std::runtime_error("Unable to open L1 metadata file.");
+    }
+    std::fstream *l2MetadataFile = new std::fstream(l2MetadataPath, std::ios::in);
+    if (!l2MetadataFile->is_open()) {
+        throw std::runtime_error("Unable to open L2 metadata file.");
+    }
+    std::fstream *l3MetadataFile = new std::fstream(l3MetadataPath, std::ios::in);
+    if (!l3MetadataFile->is_open()) {
+        throw std::runtime_error("Unable to open L3 metadata file.");
+    }
+    std::fstream *MetadataFile = new std::fstream(MetadataPath, std::ios::in);
+    if (!MetadataFile->is_open()) {
+        throw std::runtime_error("Unable to open metadata file.");
+    }
+    this->metadataFileStreams.push_back(MetadataFile);
+    this->metadataFileStreams.push_back(l1MetadataFile);
+    this->metadataFileStreams.push_back(l2MetadataFile);
+    this->metadataFileStreams.push_back(l3MetadataFile);
 
     std::string docId, offset, line;
 
     // Insert ID-offset from L1 metadata into L1 Metadata Map
-    while(l1MetadataBuffer->sgetc() != EOF)
+    while(l1MetadataFile->peek() != EOF)
     {
-        char c;
-        while((c = l1MetadataBuffer->sbumpc()) != '\n')
-        {
-            line.push_back(c);
-        }
+        std::getline(*l1MetadataFile, line);
         docId = line.substr(0, line.find(":"));
         offset = line.substr(line.find(":") + 1);
         l1MetadataMap[std::stoi(docId)] = std::stoi(offset);

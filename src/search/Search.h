@@ -31,7 +31,7 @@ class Search
         std::vector<std::fstream*> dictStreams;
         std::unordered_map<std::string, int> invertedIndex; // `DocID - Offset`(Posting List)
         std::map<int, int> l1MetadataMap;
-        std::vector<std::filebuf *> metadataFileBuffers;
+        std::vector<std::fstream *> metadataFileStreams;
         
     public:
         /**
