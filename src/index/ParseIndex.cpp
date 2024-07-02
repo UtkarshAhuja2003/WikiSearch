@@ -12,13 +12,13 @@ void ParseIndex::value(void *userData, const char *val, int len)
         const std::string& currentTag = this->tagStack.top();
     
         WikiPage& currentPage = this->currentWikiPage;
-        if(currentTag == "id" && currentPage.getPageId().empty())
+        if(currentTag == "id" && !currentPage.isIDParsed())
         {
-            currentPage.setPageId(std::string(val, len));
+            currentPage.getPageId().append(val, len);
         }
         else if(currentTag == "title")
         {
-            currentPage.setPageTitle(std::string(val, len));
+            currentPage.getPageTitle().append(val, len);
         }
         else if(currentTag == "text")
         {
@@ -39,6 +39,10 @@ void ParseIndex::end(void *userData, const char *name)
     if(strcmp(name, "page") == 0)
     {
         this->currentWikiPage.clear();
+    }
+    else if(strcmp(name, "id") == 0)
+    {
+        this->currentWikiPage.setIDParsed(true);
     }
     else if(strcmp(name, "text") == 0)
     {

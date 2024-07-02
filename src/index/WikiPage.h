@@ -12,6 +12,7 @@ class WikiPage
         std::string pageId = ""; // The unique identifier of the wiki page.
         std::string pageTitle = ""; // The title of the wiki page.
         std::string pageText = ""; // The content of the wiki page.
+        bool idParsed = false; // If the DocID is parsed in wikiPage
 
     public:
         /**
@@ -24,7 +25,7 @@ class WikiPage
          * 
          * @return The page ID.
          */
-        std::string getPageId() const;
+        std::string& getPageId();
 
         /**
          * Sets the page ID of the wiki page.
@@ -38,7 +39,7 @@ class WikiPage
          * 
          * @return The page title.
          */
-        std::string getPageTitle() const;
+        std::string& getPageTitle();
 
         /**
          * Sets the page title of the wiki page.
@@ -60,6 +61,20 @@ class WikiPage
          * @param text The page text to set.
          */
         void setPageText(const std::string& text);
+
+        /**
+         * Retrieves boolean, if parsed ID->true.
+         * 
+         * @return A reference to the parsedID.
+         */
+        bool& isIDParsed();
+
+        /**
+         * Sets the parsed ID boolean.
+         * 
+         * @param idParsed Boolean, if parsed ID->true
+         */
+        void setIDParsed(bool idParsed);
 };
 
 inline void WikiPage::clear()
@@ -67,9 +82,10 @@ inline void WikiPage::clear()
     pageId = "";
     pageTitle = "";
     pageText = "";
+    idParsed = false;
 }
 
-inline std::string WikiPage::getPageId() const {
+inline std::string& WikiPage::getPageId() {
     return pageId;
 }
 
@@ -77,7 +93,7 @@ inline void WikiPage::setPageId(const std::string& id) {
     this->pageId = id;
 }
 
-inline std::string WikiPage::getPageTitle() const {
+inline std::string& WikiPage::getPageTitle() {
     return pageTitle;
 }
 
@@ -93,5 +109,12 @@ inline void WikiPage::setPageText(const std::string& text) {
     this->pageText = text;
 }
 
+inline bool& WikiPage::isIDParsed() {
+    return idParsed;
+}
+
+inline void WikiPage::setIDParsed(bool idParsed) {
+    this->idParsed = idParsed;
+}
 
 #endif
