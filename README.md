@@ -8,8 +8,8 @@ Wikipedia Dump (90 GB) - : http://dumps.wikimedia.org/enwiki/latest/enwiki-lates
 ## Statistics
 
 - For 90 GB of data Wiki XML Dump :
-   + Size of index ( primary+secondary ) : 6 GB
-   + Size of Metadata : 850 MB
+   + Size of index ( primary+secondary ) : 9.12 GB
+   + Size of Metadata : 863 MB
    + Time to index : 3hr 30min (average)
    + Time to search : 0.34 sec (average on 100 searches)
 ## Features
@@ -18,6 +18,13 @@ Wikipedia Dump (90 GB) - : http://dumps.wikimedia.org/enwiki/latest/enwiki-lates
  - Web-based interface
  - Direct links to actual Wikipedia pages
  - Stemming for improved search accuracy
+
+## Screenshots
+![image](https://github.com/UtkarshAhuja2003/WikiSearch/assets/70762626/b4cd5f00-9cb4-4512-b156-dc8942e44a8e)
+
+![image](https://github.com/UtkarshAhuja2003/WikiSearch/assets/70762626/cfe4b65f-4e8f-418c-bfcf-65a120a9b1ea)
+
+
 ## Installation
 
 To install and run this project, follow these steps:
