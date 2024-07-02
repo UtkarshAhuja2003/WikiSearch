@@ -270,7 +270,7 @@ void FileIO::mergeTemporaryFiles(int tempFileCount)
             // Inverted Index - word:offset
             invertedIndex = word + ":" + std::to_string(offset) + "\n";
 
-            *postingListsStreams[index] << invertedIndex;
+            *dictStreams[index] << invertedIndex;
             *postingListsStreams[index] << postingList;
 
             // Get the next inverted index from all the files where index was removed
