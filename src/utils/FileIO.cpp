@@ -288,6 +288,11 @@ void FileIO::mergeTemporaryFiles(int tempFileCount)
                 }
             }
         }
+        for(int i = 0;i<FILES_COUNT;i++)
+        {
+            dictStreams[i]->close();
+            postingListsStreams[i]->close();
+        }
     }
     catch(const std::exception& e)
     {

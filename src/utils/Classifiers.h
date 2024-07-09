@@ -13,8 +13,9 @@ class Classifiers
     private:
         // Contains stemmarised stop words to remove common words
         std::unordered_set<std::string> stopWords = {
+        "redirect", "referenc", "reference","url",
         "yourself", "your", "you'll", "you", "word", "won't", "wont", "without", "within", "with",
-        "wish", "will", "will", "why", "whose", "whomev", "who'll", "whole", "whoever", "whim", "your",
+        "will", "why", "whose", "whomev", "who'll", "whole", "whoever", "whim", "your",
         "while", "whether", "whereupon", "where'", "wherein", "wherea", "whereaft", "when'", "whenev",
         "what'", "what'll", "what", "we'v", "we'll", "welcom", "we'd", "we", "wai", "wa", "want", "via",
         "veri", "which", "variou", "usual", "us", "us", "usefulli", "us", "up", "up", "until", "unto",

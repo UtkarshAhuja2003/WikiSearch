@@ -70,6 +70,33 @@ void ParseIndex::parseWikiPage()
             }
             char currentChar = text[i];
 
+            if(currentChar == 'h')
+            {
+                if(i+5 < textLength && (text.substr(i, 5) == "https" || text.substr(i, 4) == "http"))
+                {
+                    while(text[i] != ' '){
+                        ++i;
+                    }
+                }
+            }
+            else if(currentChar == 's')
+            {
+                if(i+5 < textLength && (text.substr(i, 5) == "style"))
+                {
+                    int count = 0;
+                    while(i < textLength)
+                    {
+                        if(text[i] == '&' && text.substr(i, 5) == "&quot")count++;
+                        if(count == 2){
+                            i+=5;
+                            break;
+                        }
+                        ++i;
+                    }
+                }
+            }
+            currentChar = text[i];
+
             if (isalpha(currentChar))
             {
                 currentChar = tolower(currentChar);
@@ -91,7 +118,7 @@ void ParseIndex::parseWikiPage()
             }
 
             // remove content like images between [[]]
-            else if(currentChar == '[' && text[i+1] ==']')
+            else if(currentChar == '[' && text[i+1] =='[')
             {
                 int count = 2;
                 i += 2;
@@ -104,6 +131,27 @@ void ParseIndex::parseWikiPage()
                 }
             }
 
+            else if(currentChar == '{')
+            {
+                i++;
+                while(i < textLength)
+                {
+                    if(text[i] == '}')break;
+                    ++i;
+                }
+            }
+
+            // remove content like images between [[]]
+            else if(currentChar == '[')
+            {
+                i++;
+                while(i < textLength)
+                {
+                    if(text[i] == ']')break;
+                    ++i;
+                }
+            }
+
             // remove content between == ==
             else if(currentChar == '=' && text[i+1] =='=')
             {
@@ -112,6 +160,39 @@ void ParseIndex::parseWikiPage()
                 {
                     if(text[i] == '=' && text[i+1] == '=')break;
                     ++i;
+                }
+            }
+            else if ( currentChar == '<') {
+
+                if ( i+4 < textLength && (text.substr(i+1,3) == "!--")) {
+
+                    int locationClose = text.find("-->" , i+1);
+                    if ( locationClose == -1 || locationClose+2 > textLength ) {
+                        i = textLength-1;
+                    }
+                    else {
+                        i = locationClose+2;
+                    }
+
+                }
+                else if ( i+5 < textLength && (text.substr(i+1,4) == "ref>")) {
+                    int locationClose = text.find("</ref>" , i+1);
+                    if ( locationClose == -1 || locationClose+5 > textLength ) {
+                        i = textLength-1;
+                    }
+                    else {
+                        i = locationClose+6;
+                    }
+
+                }
+                else if ( i+8 < textLength && (text.substr(i+1,7) == "gallery")) {
+                    int locationClose = text.find("</gallery>" , i+1);
+                    if ( locationClose == -1 || locationClose+9 > textLength) {
+                        i = textLength-1;
+                    }
+                    else {
+                        i = locationClose+9;
+                    }
                 }
             }
             else
@@ -153,7 +234,7 @@ void ParseIndex::parseWikiPage()
 void ParseIndex::processWord(char word[], const std::string &id)
 {
     this->stemWord(word);
-    if(!this->classifiers.isStopWord(word))
+    if(strlen(word) > 2 && !this->classifiers.isStopWord(word))
     {
         // Insert word with id and freq(0) or increase the frequency of id
         ++invertedIndex[word][id];
